@@ -1,36 +1,64 @@
 <?php
-include("./includes/layout.php");
+session_start();
+include("config/config.php");
+include("config/dbconnection.php");
+include("includes/layout.php");
 ?>
+        <title>SeedWeb | Connexion</title>
+    </head>
+    <body class="text-center w-50 m-auto">
+        <main class="form-signin w-50 m-auto mt-3">
+        <form method="POST">
+            <img class="mb-4" style="max-width: 100px;"src="https://seedweb.fr/wp-content/uploads/2022/12/Logo-seedweb-rectangle.png.webp" alt="logo_seed_web" >
+            <h1 class="h3 mb-3 fw-normal">Veuillez vous connectez</h1>
 
-        <form>
-            <h1 class="text-center">Ajout d'un client.</h1>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Nom</label>
-                <input type="text" class="form-control nomCliAdd" placeholder="Exemple">
+            <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="email">
+            <label for="floatingInput">Login</label>
             </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Prenom</label>
-                <input type="text" class="form-control prenomCliAdd" placeholder="Exemple">
+            <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">Mot de passe</label>
             </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Adresse</label>
-                <input type="text" class="form-control adresseCliAdd" placeholder="8 rue de Paris 62000 Arras">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Societe</label>
-                <input type="text" class="form-control societeCliAdd" placeholder="Exemple">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Mail</label>
-                <input type="mail" class="form-control mailCliAdd" placeholder="exemple@exemple.fr">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Mot de passe</label>
-                <input type="password" class="form-control pwdCliAdd">
-            </div>
-            <p class="btn btn-primary add_Client" >Ajouter</p>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" name="connexion">Connexion</button>
+            <div class="alert-div"></div>
+            <p class="mt-5 mb-3 text-muted">© SeedWeb 2023</p>
         </form>
+        </main>
 
 <?php
-include("./includes/layout_bottom.php");
+if (isset($_POST['connexion'])){
+    $email = htmlspecialchars($_POST['email']);
+    $pass = htmlspecialchars($_POST['password']);
+
+    $sql_client = "SELECT * FROM client WHERE mail = '$email' "; 
+    
+    $result_client = $db->prepare($sql_client);
+   
+    $result_client->execute();
+
+    // C'est un client
+    if ($result_client->rowCount() > 0){
+        $data_client = $result_client-> fetchAll(); 
+        if (password_verify($pass, $data_client[0]['pwd'])){
+            
+            $admin = false ;
+            $_SESSION['id_client'] = $data_client[0]['id'];
+            $id = $_SESSION["id_client"];
+            $sql = $db->prepare("UPDATE clients set lastConnection = NOW() where id = '$id'");
+            $sql->execute();
+            if ($data_client[0]["role"] == "client"){
+                $_SESSION['role'] = "client";
+            } else {
+                $_SESSION['role'] = "admin";
+                
+            }
+            header("Location: /accueil/");
+        }else {
+            echo '<script>', 'alert_para("Login ou mot de passe incorrect.");', '</script>';
+        }
+    }
+}
+
+include("includes/layout_bottom.php");
 ?>
