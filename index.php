@@ -41,21 +41,18 @@ if (isset($_POST['connexion'])){
     if ($result_client->rowCount() > 0){
         $data_client = $result_client-> fetchAll(); 
         if (password_verify($pass, $data_client[0]['pwd'])){
-            
-            $admin = false ;
             $_SESSION['id_client'] = $data_client[0]['id'];
             $id = $_SESSION["id_client"];
-            $sql = $db->prepare("UPDATE clients set lastConnection = NOW() where id = '$id'");
+            $sql = $db->prepare("UPDATE client set lastConnection = NOW() where id = '$id'");
             $sql->execute();
             if ($data_client[0]["role"] == "client"){
                 $_SESSION['role'] = "client";
             } else {
                 $_SESSION['role'] = "admin";
-                
             }
-            header("Location: /accueil/");
+            header("Location: accueil/index.php");
         }else {
-            echo '<script>', 'alert_para("Login ou mot de passe incorrect.");', '</script>';
+            echo "Identifiant ou mot de passe incorrect.";
         }
     }
 }
