@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.7
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : mer. 11 jan. 2023 à 13:53
--- Version du serveur :  10.6.11-MariaDB
--- Version de PHP : 7.4.33
+-- Hôte : 127.0.0.1
+-- Généré le : mer. 11 jan. 2023 à 14:57
+-- Version du serveur : 10.4.24-MariaDB
+-- Version de PHP : 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `hclt9295_appliweb`
+-- Base de données : `appliseed`
 --
 
 -- --------------------------------------------------------
@@ -30,21 +29,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `role` varchar(32) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `prenom` varchar(255) NOT NULL,
-  `adresse` varchar(255) NOT NULL,
-  `societe` varchar(255) NOT NULL,
-  `mail` varchar(255) NOT NULL,
-  `pwd` varchar(255) NOT NULL
+  `role` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prenom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `adresse` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `societe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pwd` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastConnection` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `client`
 --
 
-INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`) VALUES
-(1, '', 'Test', 'test', 'test', 'test', 'test@gmail.com', 'test');
+INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
+(1, '', 'Test', 'test', 'test', 'test', 'test@gmail.com', 'test', NULL);
 
 -- --------------------------------------------------------
 
@@ -56,8 +56,8 @@ CREATE TABLE `image` (
   `id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -68,8 +68,8 @@ CREATE TABLE `image` (
 
 CREATE TABLE `modele` (
   `id` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `prix` varchar(255) NOT NULL,
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prix` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nb_image` int(11) NOT NULL,
   `nb_texte` int(11) NOT NULL,
   `pages_comprises` int(11) NOT NULL
@@ -84,7 +84,7 @@ CREATE TABLE `modele` (
 CREATE TABLE `page` (
   `id` int(11) NOT NULL,
   `site_id` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -106,7 +106,7 @@ CREATE TABLE `page_section` (
 
 CREATE TABLE `section` (
   `id` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -119,8 +119,8 @@ CREATE TABLE `site` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `modele_id` int(11) DEFAULT NULL,
-  `nom` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -133,8 +133,8 @@ CREATE TABLE `texte` (
   `id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `contenu` varchar(255) NOT NULL
+  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
