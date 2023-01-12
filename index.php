@@ -1,9 +1,3 @@
-<?php
-
-session_start();
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-?>
 <!DOCTYPE HTML>
 <html lang="fr">
     <head>
@@ -35,6 +29,11 @@ ini_set("display_errors", 1);
 
 <?php
 include("includes/layout_bottom.php");
+include("./config/config.php");
+include("./config/dbconnection.php");
+session_start();
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 if (isset($_POST['connexion'])){
     $email = htmlspecialchars($_POST['email']);
     $pass = htmlspecialchars($_POST['password']);
