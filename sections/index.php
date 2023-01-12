@@ -9,17 +9,17 @@ include("../includes/layout.php");
     <body class="text-center w-100 m-auto">
 <?php
 include("../includes/header.php");
-var_dump($_SESSION["role"]);
-if($_SESSION["role"] == "admin"){
+if(isset($_SESSION["role"])){
+    if($_SESSION["role"] == "admin"){
 ?>
 
-<h1>Dans Sections (admin uniquement)</h1>
+<h1>Dans sections (admin uniquement)</h1>
 
 <?php
 }else{
 ?>
 <h1>Pas d'autorisation pour accéder à cette page.</h1>
 <?php
-}
+}}
     include("../includes/layout_bottom.php");
 ?>

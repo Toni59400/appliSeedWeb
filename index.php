@@ -1,7 +1,7 @@
 <?php
-include("config/config.php");
-include("config/dbconnection.php");
-include("includes/layout.php");
+include("./config/config.php");
+include("./config/dbconnection.php");
+include("./includes/layout.php");
 ?>
         <link rel="stylesheet" href="./css/style.css">
         <title>SeedWeb | Connexion</title>
@@ -9,7 +9,7 @@ include("includes/layout.php");
     <body class="text-center w-50 m-auto">
         <main class="form-signin w-50 m-auto mt-3">
         <form method="POST">
-            <img class="mb-4" style="max-width: 100px;"src="https://seedweb.fr/wp-content/uploads/2022/12/Logo-seedweb-rectangle.png.webp" alt="logo_seed_web" >
+            <img class="mb-4" style="max-width: 150px;"src="https://seedweb.fr/wp-content/uploads/2022/12/Logo-seedweb-rectangle.png.webp" alt="logo_seed_web" >
             <h1 class="h3 mb-3 fw-normal">Veuillez vous connecter</h1>
 
             <div class="form-floating mb-3">
