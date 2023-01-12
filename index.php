@@ -26,6 +26,7 @@ include("includes/layout.php");
         </main>
 
 <?php
+include("includes/layout_bottom.php");
 if (isset($_POST['connexion'])){
     $email = htmlspecialchars($_POST['email']);
     $pass = htmlspecialchars($_POST['password']);
@@ -56,5 +57,5 @@ if (isset($_POST['connexion'])){
     }
 }
 
-include("includes/layout_bottom.php");
+
 ?>

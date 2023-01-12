@@ -9,7 +9,6 @@ include("../includes/layout.php");
     <body class="text-center w-100 m-auto">
 <?php
 include("../includes/header.php");
-session_start();
 var_dump($_SESSION["role"]);
 if($_SESSION["role"] == "admin"){
 ?>

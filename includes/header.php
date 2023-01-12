@@ -9,7 +9,7 @@ if($_SESSION["role"] == "admin"){
                 <span class="fs-4">SeedWeb - Application</span>
             </a>
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="../accueil/" class="nav-link active" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="./accueil/" class="nav-link active" aria-current="page">Accueil</a></li>
                 <li class="nav-item color_seedWeb"><a href="../clients/" class="nav-link">Clients</a></li>
                 <li class="nav-item color_seedWeb"><a href="../modeles/" class="nav-link">Modèles</a></li>
                 <li class="nav-item color_seedWeb"><a href="../sites/" class="nav-link">Sites</a></li>
