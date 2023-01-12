@@ -1,3 +1,10 @@
+<?php
+include("./config/config.php");
+include("./config/dbconnection.php");
+session_start();
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+?>
 <!DOCTYPE HTML>
 <html lang="fr">
     <head>
@@ -21,7 +28,7 @@
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
             <label for="floatingPassword">Mot de passe</label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="connexion">Connexion</button>
+            <button class="w-100 btnPerso bgSeed rounded-pill" type="submit" name="connexion">Connexion</button>
             <div class="alert-div"></div>
             <p class="mt-5 mb-3 text-muted">© SeedWeb 2023</p>
         </form>
@@ -29,11 +36,7 @@
 
 <?php
 include("includes/layout_bottom.php");
-include("./config/config.php");
-include("./config/dbconnection.php");
-session_start();
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+
 if (isset($_POST['connexion'])){
     $email = htmlspecialchars($_POST['email']);
     $pass = htmlspecialchars($_POST['password']);
