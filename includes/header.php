@@ -1,5 +1,4 @@
 <?php
-session_start();
 var_dump($_SESSION["role"]);
 if($_SESSION["role"] == "admin"){
 ?>  

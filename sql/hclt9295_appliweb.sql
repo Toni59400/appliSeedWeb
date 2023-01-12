@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 11 jan. 2023 à 15:33
+-- Généré le : mer. 11 jan. 2023 à 17:13
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,8 +44,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', NULL),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', NULL);
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-11'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-11');
 
 -- --------------------------------------------------------
 
@@ -60,6 +60,19 @@ CREATE TABLE `image` (
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `image_modele`
+--
+
+CREATE TABLE `image_modele` (
+  `id_imageM` int(11) NOT NULL,
+  `nom` varchar(30) NOT NULL,
+  `id_section` int(11) NOT NULL,
+  `id_pageM` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -87,6 +100,18 @@ CREATE TABLE `page` (
   `site_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `page_modele`
+--
+
+CREATE TABLE `page_modele` (
+  `id_pageM` int(11) NOT NULL,
+  `nom` varchar(30) NOT NULL,
+  `id_modele` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -138,6 +163,19 @@ CREATE TABLE `texte` (
   `contenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `texte_modele`
+--
+
+CREATE TABLE `texte_modele` (
+  `id_texteM` int(11) NOT NULL,
+  `nom` varchar(30) NOT NULL,
+  `id_section` int(11) NOT NULL,
+  `id_pageM` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Index pour les tables déchargées
 --
@@ -157,6 +195,14 @@ ALTER TABLE `image`
   ADD KEY `IDX_C53D045FC4663E4` (`page_id`);
 
 --
+-- Index pour la table `image_modele`
+--
+ALTER TABLE `image_modele`
+  ADD PRIMARY KEY (`id_imageM`),
+  ADD KEY `fk_2` (`id_section`),
+  ADD KEY `fk_3` (`id_pageM`);
+
+--
 -- Index pour la table `modele`
 --
 ALTER TABLE `modele`
@@ -168,6 +214,13 @@ ALTER TABLE `modele`
 ALTER TABLE `page`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_140AB620F6BD1646` (`site_id`);
+
+--
+-- Index pour la table `page_modele`
+--
+ALTER TABLE `page_modele`
+  ADD PRIMARY KEY (`id_pageM`),
+  ADD KEY `fk_1` (`id_modele`);
 
 --
 -- Index pour la table `page_section`
@@ -200,6 +253,14 @@ ALTER TABLE `texte`
   ADD KEY `IDX_EAE1A6EEC4663E4` (`page_id`);
 
 --
+-- Index pour la table `texte_modele`
+--
+ALTER TABLE `texte_modele`
+  ADD PRIMARY KEY (`id_texteM`),
+  ADD KEY `fk_33` (`id_section`),
+  ADD KEY `fk_44` (`id_pageM`);
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -216,6 +277,12 @@ ALTER TABLE `image`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `image_modele`
+--
+ALTER TABLE `image_modele`
+  MODIFY `id_imageM` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `modele`
 --
 ALTER TABLE `modele`
@@ -226,6 +293,12 @@ ALTER TABLE `modele`
 --
 ALTER TABLE `page`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `page_modele`
+--
+ALTER TABLE `page_modele`
+  MODIFY `id_pageM` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `section`
@@ -246,6 +319,12 @@ ALTER TABLE `texte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `texte_modele`
+--
+ALTER TABLE `texte_modele`
+  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Contraintes pour les tables déchargées
 --
 
@@ -257,10 +336,23 @@ ALTER TABLE `image`
   ADD CONSTRAINT `FK_C53D045FD823E37A` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`);
 
 --
+-- Contraintes pour la table `image_modele`
+--
+ALTER TABLE `image_modele`
+  ADD CONSTRAINT `fk_2` FOREIGN KEY (`id_section`) REFERENCES `section` (`id`),
+  ADD CONSTRAINT `fk_3` FOREIGN KEY (`id_pageM`) REFERENCES `page_modele` (`id_pageM`);
+
+--
 -- Contraintes pour la table `page`
 --
 ALTER TABLE `page`
   ADD CONSTRAINT `FK_140AB620F6BD1646` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`);
+
+--
+-- Contraintes pour la table `page_modele`
+--
+ALTER TABLE `page_modele`
+  ADD CONSTRAINT `fk_1` FOREIGN KEY (`id_modele`) REFERENCES `modele` (`id`);
 
 --
 -- Contraintes pour la table `page_section`
@@ -282,6 +374,13 @@ ALTER TABLE `site`
 ALTER TABLE `texte`
   ADD CONSTRAINT `FK_EAE1A6EEC4663E4` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`),
   ADD CONSTRAINT `FK_EAE1A6EED823E37A` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`);
+
+--
+-- Contraintes pour la table `texte_modele`
+--
+ALTER TABLE `texte_modele`
+  ADD CONSTRAINT `fk_33` FOREIGN KEY (`id_section`) REFERENCES `section` (`id`),
+  ADD CONSTRAINT `fk_44` FOREIGN KEY (`id_pageM`) REFERENCES `page_modele` (`id_pageM`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
