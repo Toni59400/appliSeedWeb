@@ -3,7 +3,7 @@ include("../config/config.php");
 include("../config/dbconnection.php");
 include("../includes/layout.php");
 ?>
-
+        <link rel="stylesheet" href="../css/style.css">
         <title>SeedWeb | Accueil</title>
     </head>
     <body class="text-center w-100 m-auto">
