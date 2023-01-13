@@ -19,15 +19,146 @@ ini_set("display_errors", 1);
 include("../includes/header.php");
 if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "admin"){
+        $req_site = $db->query("SELECT * FROM site");
+        if(isset($_POST["search_site"])){
+            if(isset($_POST['terme_site'])){
+                $val = $_POST['terme_site'];
+                $req_site = $db->query("SELECT * FROM site where nom like '%$val%' or url like '%$val%' or client_id in (SELECT id from client where nom like '%$val%');");    
+            }
+        }
+        $data_site = $req_site->fetchAll();
+        $req_client_add = $db->query("SELECT * FROM client where role = 'client'");
+        $req_modele_add = $db->query("SELECT * FROM modele");
+        $data_cli = $req_client_add->fetchAll();
+        $data_modele = $req_modele_add->fetchAll();
 ?>
-
-<h1>Dans sites (admin uniquement)</h1>
-
+<div class="container">
+            <h1>Sites clients</h1>
+            <hr>
+            <form method="POST">
+                <div class="d-flex justify-content-end w-50 float-end mb-3 mt-3 ">
+                    <input class="form-control me-1 ms-2" name="terme_site" type="search" placeholder="Rechercher un site" aria-label="Search">
+                    <input type="submit" name="search_site" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
+                </div>
+                <div class="w-50 ">
+                    <form>
+                        <div class="row g-3 justify-content-between">
+                            <div class="col-auto">
+                                <label for="" class="col-form-label">Nom</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" id="" class="form-control" name="nomSiteAjouter" aria-describedby="">
+                            </div>
+                            <div class="col-auto">
+                                <label for="" class="col-form-label">URL</label>
+                            </div>
+                            <div class="col-auto float-end">
+                                <input type="url" id="" class="form-control" name="urlSiteAjouter" aria-describedby="">
+                            </div>
+                            <select class="form-select col-auto" name="clientSiteAjouter" aria-label="Default select example">
+                                <option selected>Clients</option>
+                                <?php
+                                    foreach($data_cli as $cli){
+                                ?>
+                                <option value="<?=$cli['id']?>"><?=$cli["prenom"]?> <?=$cli["nom"]?> (<?=$cli["societe"]?>)</option>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                            <select class="form-select" name="modeleSiteAjouter" aria-label="Default select example">
+                                <option selected>Modèles</option>
+                                <?php
+                                    foreach($data_modele as $mod){
+                                ?>
+                                <option value="<?=$mod["id"]?>"><?=$mod["nom"]?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                            <input type="submit" value="Ajouter le site" name="add_site" class="bgSeed rounded-pill color_white border_white"/>
+                        </div>
+                    </form>
+                </div>
+            </form>
+            <br><br>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Societe(Client)</th>
+                            <th scope="col">Modèle</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach ($data_site as $site) {
+                                $id_cli = $site["client_id"];
+                                $id_modele = $site["modele_id"];
+                                $req_client = $db->query("SELECT * FROM client Where id = '$id_cli'");
+                                $req_modele = $db->query("SELECT * FROM modele where id = '$id_modele'");
+                                $client = $req_client->fetch();
+                                $modele = $req_modele->fetch();
+                        ?>
+                        <tr>
+                            <th scope="row"><?=$site["id"]?></th>
+                            <td><?=$site["nom"]?></td>
+                            <td><?=$site["url"]?></td>
+                            <td><?=$client['societe']?></td>
+                            <td><?=$modele["nom"]?></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item actionAdmin sup_site" data_sup="<?=$site['id']?>">Supprimer</a></li>
+                                        <li><a class="dropdown-item actionAdmin" href="../pages-site/index.php?site_id=<?=$site['id']?>">Voir les pages</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>function redi(){
+                window.location = "index.php";
+            }
+        </script>
 <?php
 }else{
+    header('Location: ../index.php');
 ?>
-<h1>Pas d'autorisation pour accéder à cette page.</h1>
 <?php
 }}
     include("../includes/layout_bottom.php");
+
+    if(isset($_POST["add_site"])){
+        if(isset($_POST["nomSiteAjouter"]) && !empty($_POST["nomSiteAjouter"]) && isset($_POST["urlSiteAjouter"]) && !empty($_POST["urlSiteAjouter"]) ){
+            $nom_site = $_POST["nomSiteAjouter"];
+            $idModele = $_POST["modeleSiteAjouter"];
+            $idClient = $_POST["clientSiteAjouter"];
+            $urlSite = $_POST["urlSiteAjouter"];
+            $req_insert_site = $db->prepare("INSERT INTO site(client_id, modele_id, nom, url) value ('$idClient', '$idModele', '$nom_site', '$urlSite')");
+            $req_insert_site->execute();
+            $lien = "index.php";
+            echo '<meta http-equiv="refresh" content="0">';
+    }
+}
+
+    if(isset($_GET["id_site_supp"])){
+        $id_supp = $_GET["id_site_supp"];
+        $req_supp = $db->prepare("DELETE FROM site where id = '$id_supp'");
+        $req_supp->execute();
+        echo "<script>redi()</script>";
+    }
+
+
 ?>

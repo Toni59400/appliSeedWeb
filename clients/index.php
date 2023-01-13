@@ -117,14 +117,10 @@ if(isset($_SESSION["role"])){
                 </table>
             </div>
         </div>
-
-
-
-
 <?php
 }else{
+    header("Location: ../index.php");
 ?>
-<h1>Pas d'autorisation pour accéder à cette page.</h1>
 <?php
 }}
 

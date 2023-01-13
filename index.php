@@ -14,6 +14,9 @@ ini_set("display_errors", 1);
         <link rel="stylesheet" href="./css/style.css">
         <title>SeedWeb | Connexion</title>
     </head>
+    <?php
+        include('includes/header.php');
+    ?>
     <body class="text-center w-50 m-auto">
         <main class="form-signin w-50 m-auto mt-3">
         <form method="POST">
