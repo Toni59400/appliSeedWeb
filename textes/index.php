@@ -14,7 +14,7 @@ ini_set("display_errors", 1);
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="../css/style.css">
-        <title>SeedWeb | Textes Modèles</title>
+        <title>SeedWeb | Textes </title>
     </head>
     <body class="text-center w-100 m-auto">
 <?php
@@ -50,7 +50,7 @@ include("../includes/header.php");
                 <div class="w-50 ">
                     <div class="row g-3 justify-content-between">
                         <form method="POST">
-                        <div class="col-auto mb-2">
+                        <div class="col-auto mb-2 w-100">
                             <input type="text" id="" class="form-control" name="nomTexteAjouter" placeholder="Nom Texte" required>
                         </div>
                         <select class="form-select mb-2" name="select_page" aria-label="Default select example">
@@ -65,7 +65,15 @@ include("../includes/header.php");
 <?php
                                         }
 ?>
-                                </select>
+                        </select>
+                        <div class="col-auto mb-2 w-100">
+                            <input type="number" id="" max="500" min="0" class="form-control" name="tailleTexteAjouter" placeholder="Nombre Caractere" required>
+                        </div>
+                        <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
+                            <option selected disabled="disabled" value="-1">Facultatif :</option>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
                         <input type="submit" value="Ajouter le texte" name="add_texte" class="bgSeed rounded-pill color_white border_white"/>
                         </form>
                     </div>
@@ -80,6 +88,8 @@ include("../includes/header.php");
                             <th scope="col">Nom</th>
                             <th scope="col">Section</th>
                             <th scope="col">Page</th>
+                            <th scope="col">Taille</th>
+                            <th scope="col">Facultatif</th>
                             <th scope="col">Action</th>
                             
                         </tr>
@@ -93,12 +103,18 @@ include("../includes/header.php");
                                 $req2_page = $db->query("SELECT * FROM page where id = '$id_pag'");
                                 $data_section_texte = $req2_setion->fetch();
                                 $data_page_texte = $req2_page->fetch();
+                                $facultatif = "Oui";
+                                if($texte['facultatif'] == false){
+                                    $facultatif = "Non";
+                                }
                         ?>
                         <tr>
                             <th scope="row"><?=$texte["id"]?></th>
                             <td><?=$texte["nom"]?></td>
                             <td><?=$data_section_texte["nom"]?></td>
                             <td><?=$data_page_texte["nom"]?></td>
+                            <td><?=$texte["taille"]?> caractères</td>
+                            <td><?=$facultatif?></td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -136,7 +152,9 @@ include("../includes/header.php");
             $nom_txt = $_POST["nomTexteAjouter"];
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
-            $req_insert_txt = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu) value ('$idSection', '$idPage', '$nom_txt', '')");
+            $facultatif = $_POST["select_facultatif"];
+            $taille = $_POST["tailleTexteAjouter"];
+            $req_insert_txt = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu, taille, facultatif) value ('$idSection', '$idPage', '$nom_txt', '', '$taille', '$facultatif')");
             $req_insert_txt->execute();
             echo '<meta http-equiv="refresh" content="0">';
     }

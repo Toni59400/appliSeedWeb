@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 13 jan. 2023 à 16:38
+-- Généré le : mar. 17 jan. 2023 à 12:03
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,8 +44,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-12'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-13');
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-17'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-16');
 
 -- --------------------------------------------------------
 
@@ -58,8 +58,19 @@ CREATE TABLE `image` (
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `image`
+--
+
+INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
+(1, 1, 10, 'Image de fond', '', 'Image derrière le texte', 0),
+(2, 2, 10, 'Image Service 1', '', 'Image du service 1', 0),
+(3, 2, 10, 'Image Service 2', '', 'Image du service 2', 0);
 
 -- --------------------------------------------------------
 
@@ -70,9 +81,23 @@ CREATE TABLE `image` (
 CREATE TABLE `image_modele` (
   `id_imageM` int(11) NOT NULL,
   `nom` varchar(30) NOT NULL,
+  `description` varchar(25) DEFAULT NULL,
   `id_section` int(11) NOT NULL,
-  `id_pageM` int(11) NOT NULL
+  `id_pageM` int(11) NOT NULL,
+  `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `image_modele`
+--
+
+INSERT INTO `image_modele` (`id_imageM`, `nom`, `description`, `id_section`, `id_pageM`, `facultatif`) VALUES
+(3, 'Image de fond', 'Image derrière le texte', 1, 37, 0),
+(4, 'Image Service 1', 'Image du service 1', 2, 37, 0),
+(5, 'Image Service 2', 'Image du service 2', 2, 37, 0),
+(7, 'Image 1 caroussel', '', 1, 1, 0),
+(8, 'Image 3 caroussel', '', 1, 1, 1),
+(9, 'Image 2 caroussel', '', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -91,7 +116,8 @@ CREATE TABLE `modele` (
 --
 
 INSERT INTO `modele` (`id`, `nom`, `prix`) VALUES
-(1, 'Photographe', '799');
+(1, 'Photographe', '799'),
+(2, 'Agence', '799');
 
 -- --------------------------------------------------------
 
@@ -104,6 +130,21 @@ CREATE TABLE `page` (
   `site_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `page`
+--
+
+INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
+(1, 2, 'Services'),
+(2, 2, 'Portfolio'),
+(3, 2, 'Accueil'),
+(4, 2, 'Qui sommes-nous'),
+(6, 2, 'Contact'),
+(10, 5, 'Accueil'),
+(11, 5, 'Services'),
+(12, 5, 'Qui sommes-nous'),
+(13, 5, 'Contact');
 
 -- --------------------------------------------------------
 
@@ -124,7 +165,11 @@ CREATE TABLE `page_modele` (
 INSERT INTO `page_modele` (`id_pageM`, `nom`, `id_modele`) VALUES
 (1, 'Accueil', 1),
 (32, 'Portfolio', 1),
-(36, 'Services', 1);
+(36, 'Services', 1),
+(37, 'Accueil', 2),
+(38, 'Services', 2),
+(39, 'Qui sommes-nous', 2),
+(40, 'Contact', 2);
 
 -- --------------------------------------------------------
 
@@ -136,6 +181,17 @@ CREATE TABLE `section` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `section`
+--
+
+INSERT INTO `section` (`id`, `nom`) VALUES
+(1, 'Hero'),
+(2, 'Services'),
+(3, 'Compétences'),
+(4, 'Avis Clients'),
+(5, 'Nos Valeurs');
 
 -- --------------------------------------------------------
 
@@ -156,7 +212,8 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
-(2, 2, 1, 'Test', 'https://urlTest.com');
+(2, 2, 1, 'Test', 'https://urlTest.com'),
+(5, 2, 2, 'Test2', 'https://urlTest.com');
 
 -- --------------------------------------------------------
 
@@ -169,8 +226,17 @@ CREATE TABLE `texte` (
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `contenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `taille` int(4) NOT NULL,
+  `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `texte`
+--
+
+INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, `facultatif`) VALUES
+(1, 1, 10, 'Texte Call-To-Action', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -182,8 +248,17 @@ CREATE TABLE `texte_modele` (
   `id_texteM` int(11) NOT NULL,
   `nom` varchar(30) NOT NULL,
   `id_section` int(11) NOT NULL,
-  `id_pageM` int(11) NOT NULL
+  `id_pageM` int(11) NOT NULL,
+  `taille` int(4) NOT NULL,
+  `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `texte_modele`
+--
+
+INSERT INTO `texte_modele` (`id_texteM`, `nom`, `id_section`, `id_pageM`, `taille`, `facultatif`) VALUES
+(6, 'Texte Call-To-Action', 1, 37, 0, 0);
 
 --
 -- Index pour les tables déchargées
@@ -275,55 +350,55 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
 --
 ALTER TABLE `image_modele`
-  MODIFY `id_imageM` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_imageM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `modele`
 --
 ALTER TABLE `modele`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
 --
 ALTER TABLE `page_modele`
-  MODIFY `id_pageM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_pageM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT pour la table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`
 --
 ALTER TABLE `texte_modele`
-  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Contraintes pour les tables déchargées

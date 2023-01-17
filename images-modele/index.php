@@ -70,6 +70,11 @@ include("../includes/header.php");
                         <div class="col-auto mb-2 w-75">
                             <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (25 caractères max, facultatif)" maxlength="25">
                         </div>
+                        <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
+                            <option selected disabled="disabled" value="-1">Facultatif :</option>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
                         <input type="submit" value="Ajouter l'image" name="add_imageM" class="bgSeed rounded-pill color_white border_white"/>
                         </form>
                     </div>
@@ -84,6 +89,7 @@ include("../includes/header.php");
                             <th scope="col">Nom</th>
                             <th scope="col">Section</th>
                             <th scope="col">Page</th>
+                            <th scope="col">Facultatif</th>
                             <th scope="col">Action</th>
                             
                         </tr>
@@ -97,12 +103,17 @@ include("../includes/header.php");
                                 $req2_page = $db->query("SELECT * FROM page_modele where id_pageM = '$id_pag'");
                                 $data_section_image = $req2_setion->fetch();
                                 $data_page_image = $req2_page->fetch();
+                                $facultatif = "Oui";
+                                if($image['facultatif'] == false){
+                                    $facultatif = "Non";
+                                }
                         ?>
                         <tr>
                             <th scope="row"><?=$image["id_imageM"]?></th>
                             <td><?=$image["nom"]?></td>
                             <td><?=$data_section_image["nom"]?></td>
                             <td><?=$data_page_image["nom"]?></td>
+                            <td><?=$facultatif?></td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -142,7 +153,8 @@ include("../includes/header.php");
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
             $description = $_POST["descImageAjouter"];
-            $req_insert_img = $db->prepare("INSERT INTO image_modele(nom, description, id_section, id_pageM) value ('$nom_img', '$description', '$idSection', '$idPage')");
+            $facultatif = $_POST["select_facultatif"];
+            $req_insert_img = $db->prepare("INSERT INTO image_modele(nom, description, id_section, id_pageM, facultatif) value ('$nom_img', '$description', '$idSection', '$idPage', '$facultatif')");
             $req_insert_img->execute();
             echo '<meta http-equiv="refresh" content="0">';
     }

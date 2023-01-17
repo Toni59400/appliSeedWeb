@@ -66,6 +66,14 @@ include("../includes/header.php");
                                         }
 ?>
                                 </select>
+                                <div class="col-auto mb-2 w-100">
+                            <input type="number" id="" max="500" min="0" class="form-control" name="tailleTexteAjouter" placeholder="Nombre Caractere" required>
+                        </div>
+                        <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
+                            <option selected disabled="disabled" value="-1">Facultatif :</option>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
                         <input type="submit" value="Ajouter le texte" name="add_texteM" class="bgSeed rounded-pill color_white border_white"/>
                         </form>
                     </div>
@@ -80,6 +88,8 @@ include("../includes/header.php");
                             <th scope="col">Nom</th>
                             <th scope="col">Section</th>
                             <th scope="col">Page</th>
+                            <th scope="col">Taille</th>
+                            <th scope="col">Facultatif</th>
                             <th scope="col">Action</th>
                             
                         </tr>
@@ -93,12 +103,18 @@ include("../includes/header.php");
                                 $req2_page = $db->query("SELECT * FROM page_modele where id_pageM = '$id_pag'");
                                 $data_section_texte = $req2_setion->fetch();
                                 $data_page_texte = $req2_page->fetch();
+                                $facultatif = "Oui";
+                                if($texte['facultatif'] == false){
+                                    $facultatif = "Non";
+                                }
                         ?>
                         <tr>
                             <th scope="row"><?=$texte["id_texteM"]?></th>
                             <td><?=$texte["nom"]?></td>
                             <td><?=$data_section_texte["nom"]?></td>
                             <td><?=$data_page_texte["nom"]?></td>
+                            <td><?=$texte["taille"]?> caractères</td>
+                            <td><?=$facultatif?></td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -136,7 +152,9 @@ include("../includes/header.php");
             $nom_txt = $_POST["nomTexteAjouter"];
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
-            $req_insert_txt = $db->prepare("INSERT INTO texte_modele(nom, id_section, id_pageM) value ('$nom_txt', '$idSection', '$idPage')");
+            $taille = $_POST["tailleTexteAjouter"];
+            $facultatif = $_POST["select_facultatif"];
+            $req_insert_txt = $db->prepare("INSERT INTO texte_modele(nom, id_section, id_pageM, taille, facultatif) value ('$nom_txt', '$idSection', '$idPage', '$taille', '$facultatif')");
             $req_insert_txt->execute();
             echo '<meta http-equiv="refresh" content="0">';
     }

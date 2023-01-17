@@ -165,13 +165,16 @@ if(isset($_SESSION["role"])){
                     $section = $image["id_section"];
                     $nom = $image["nom"];
                     $description = $image["description"];
-                    $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description) value ('$section','$id_page_inserer','$nom','','$description')");
+                    $facultatif = $image["facultatif"];
+                    $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description, facultatif) value ('$section','$id_page_inserer','$nom','','$description', '$facultatif')");
                     $req_insert_image->execute();
                 }
                 foreach($data_texte_modele as $texte){
                     $section = $texte["id_section"];
                     $nom = $texte["nom"];
-                    $req_insert_texte = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu) value ('$section','$id_page_inserer','$nom','')");
+                    $taille = $texte["taille"];
+                    $facultatif = $texte["facultatif"];
+                    $req_insert_texte = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu, taille, facultatif) value ('$section','$id_page_inserer','$nom','', '$taille','$facultatif')");
                     $req_insert_texte->execute();
                 }
             }
