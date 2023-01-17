@@ -148,10 +148,37 @@ if(isset($_SESSION["role"])){
             $urlSite = $_POST["urlSiteAjouter"];
             $req_insert_site = $db->prepare("INSERT INTO site(client_id, modele_id, nom, url) value ('$idClient', '$idModele', '$nom_site', '$urlSite')");
             $req_insert_site->execute();
-            $lien = "index.php";
+            $id_site_inserer = $db->lastInsertId();
+            $req_page_modele = $db->query("SELECT * FROM page_modele where id_modele = '$idModele'");
+            $data_page_modele = $req_page_modele->fetchAll();
+            foreach($data_page_modele as $page_modele){
+                $nom_page = $page_modele["nom"];
+                $id_page = $page_modele["id_pageM"];
+                $req_create_page_cli = $db->prepare("INSERT INTO page(site_id, nom) value ('$id_site_inserer', '$nom_page')");
+                $req_create_page_cli->execute();
+                $id_page_inserer = $db->lastInsertId();
+                $req_image_modele = $db->query("SELECT * FROM image_modele where id_pageM = '$id_page'");
+                $req_texte_modele = $db->query("SELECT * FROM texte_modele where id_pageM = '$id_page'");
+                $data_image_modele = $req_image_modele->fetchAll();
+                $data_texte_modele = $req_texte_modele->fetchAll();
+                foreach($data_image_modele as $image){
+                    $section = $image["id_section"];
+                    $nom = $image["nom"];
+                    $description = $image["description"];
+                    $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description) value ('$section','$id_page_inserer','$nom','','$description')");
+                    $req_insert_image->execute();
+                }
+                foreach($data_texte_modele as $texte){
+                    $section = $texte["id_section"];
+                    $nom = $texte["nom"];
+                    $req_insert_texte = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu) value ('$section','$id_page_inserer','$nom','')");
+                    $req_insert_texte->execute();
+                }
+            }
             echo '<meta http-equiv="refresh" content="0">';
+
+        }
     }
-}
 
     if(isset($_GET["id_site_supp"])){
         $id_supp = $_GET["id_site_supp"];

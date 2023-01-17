@@ -1,0 +1,157 @@
+<?php
+include("../config/config.php");
+include("../config/dbconnection.php");
+session_start();
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+
+?>
+<!DOCTYPE HTML>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/style.css">
+        <title>SeedWeb | Images</title>
+    </head>
+    <body class="text-center w-100 m-auto">
+<?php
+include("../includes/header.php");
+
+    if(isset($_SESSION["role"])){
+        if($_SESSION["role"] == "admin"){
+            if(isset($_GET["page_id"])){
+                $id_page = $_GET["page_id"];
+                $req = $db->query("SELECT * FROM image where page_id = '$id_page'");
+                if(isset($_POST["search_modele"])){
+                    if(isset($_POST['terme_page'])){
+                        $val = $_POST['terme_page'];
+                        $req = $db->query("SELECT * FROM image where page_id = '$id_page' and nom like '%$val%'");    
+                    }
+                }
+                $req_data_modele = $db->query("SELECT * FROM site where id in (SELECT site_id from page where id = '$id_page')");
+                $req_data_page = $db->query("SELECT * FROM page where id = '$id_page'");
+                $req_setion = $db->query("SELECT * FROM section");
+                $data_img = $req->fetchAll();
+                $data_site = $req_data_modele->fetch();
+                $data_page = $req_data_page->fetch();
+                $data_section = $req_setion->fetchAll();
+?>
+<div class="container">
+            <h1>Images <?=$data_site["nom"]?> - <?=$data_page["nom"]?></h1>
+            <hr>
+            <form method="POST">
+                <div class="d-flex justify-content-end w-50 float-end mb-3 mt-3 ">
+                    <input class="form-control me-1 ms-2" name="terme_page" type="search" placeholder="Rechercher une image" aria-label="Search">
+                    <input type="submit" name="search_modele" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
+                </div>
+                <div class="w-50 ">
+                    <div class="row g-3 justify-content-between">
+                        <form method="POST">
+                        <div class="col-auto mb-2">
+                            <input type="text" id="" class="form-control" name="nomImageAjouter" placeholder="Nom Image" required>
+                        </div>
+                        <select class="form-select mb-2" name="select_page" aria-label="Default select example">
+                            <option selected disabled="disabled" value="<?=$data_page["id"]?>"><?=$data_page["nom"]?> - <?=$data_site["nom"]?></option>
+                        </select>
+                        <select class="form-select mb-2" name="select_section" aria-label="Default select example">
+                            <option selected>Section</option>
+<?php
+                                foreach($data_section as $section){
+?>
+                            <option value="<?=$section["id"]?>"><?=$section["nom"]?></option>
+<?php
+                                }
+?>
+                            
+                        </select>
+                        <div class="col-auto mb-2 w-75">
+                            <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (25 caractères max, facultatif)" maxlength="25">
+                        </div>
+                        <input type="submit" value="Ajouter l'image" name="add_imageM" class="bgSeed rounded-pill color_white border_white"/>
+                        </form>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Section</th>
+                            <th scope="col">Page</th>
+                            <th scope="col">Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach ($data_img as $image) {
+                                $id_section = $image["id"];
+                                $id_pag = $image["page_id"];
+                                $req2_setion = $db->query("SELECT * FROM section where id = '$id_section'");
+                                $req2_page = $db->query("SELECT * FROM page where id = '$id_pag'");
+                                $data_section_image = $req2_setion->fetch();
+                                $data_page_image = $req2_page->fetch();
+                        ?>
+                        <tr>
+                            <th scope="row"><?=$image["id"]?></th>
+                            <td><?=$image["nom"]?></td>
+                            <td><?=$data_section_image["nom"]?></td>
+                            <td><?=$data_page_image["nom"]?></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item actionAdmin sup_image" data_page="<?=$id_page?>" data_sup="<?=$image['id']?>">Supprimer</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>function redi(){
+                window.location = "index.php?page_id=<?=$id_page?>";
+            }
+        </script>
+<?php
+    }
+}else{
+
+        header('Location: ../index.php');
+    }
+?>
+
+<?php
+}
+    include("../includes/layout_bottom.php");
+    if(isset($_POST["add_imageM"])){
+        if(isset($_POST["nomImageAjouter"]) && !empty($_POST["nomImageAjouter"]) && isset($_POST["select_page"]) && !empty($_POST["select_page"]) && isset($_POST["select_section"]) && !empty($_POST["select_section"])){
+            $nom_img = $_POST["nomImageAjouter"];
+            $idPage = $_POST["select_page"];
+            $idSection = $_POST["select_section"];
+            $description = $_POST["descImageAjouter"];
+            $req_insert_img = $db->prepare("INSERT INTO image(section_id,page_id, nom, path, description) value ('$idSection', '$idPage', '$nom_img', '', '$description')");
+            $req_insert_img->execute();
+            echo '<meta http-equiv="refresh" content="0">';
+    }
+    }
+
+    if(isset($_GET["id_image_supp"])){
+        $id_supp = $_GET["id_image_supp"];
+        $req_supp = $db->prepare("DELETE FROM image where id = '$id_supp'");
+        $req_supp->execute();
+        echo "<script>redi()</script>";
+    }
+?>

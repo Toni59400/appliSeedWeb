@@ -37,7 +37,7 @@ if(isset($_SESSION["role"])){
                     <input type="submit" name="search_modele" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
                 <div class="w-50 ">
-                    <form>
+                    <form method="POST">
                         <div class="row g-3 justify-content-between">
                             <div class="col-auto">
                                 <label for="" class="col-form-label">Nom</label>
@@ -51,7 +51,7 @@ if(isset($_SESSION["role"])){
                             <div class="col-auto float-end">
                                 <input type="text" id="" class="form-control" name="prixModeleAjouter" aria-describedby="">
                             </div>
-                            <input type="submit" value="Ajouter le modèle" class="bgSeed rounded-pill color_white border_white"/>
+                            <input type="submit" value="Ajouter le modèle"  name="add_modele" class="bgSeed rounded-pill color_white border_white"/>
                         </div>
                     </form>
                 </div>
@@ -94,6 +94,10 @@ if(isset($_SESSION["role"])){
                 </table>
             </div>
         </div>
+        <script>function redi(){
+                window.location = "index.php";
+            }
+        </script>
 
 <?php
 }else{
@@ -102,4 +106,22 @@ if(isset($_SESSION["role"])){
 <?php
 }}
     include("../includes/layout_bottom.php");
+
+    if(isset($_POST["add_modele"])){
+        if(isset($_POST["prixModeleAjouter"]) && !empty($_POST["prixModeleAjouter"]) && isset($_POST["nomModeleAjouter"]) && !empty($_POST["nomModeleAjouter"]) ){
+            $nom_modele = $_POST["nomModeleAjouter"];
+            $prix_modele = $_POST["prixModeleAjouter"];
+            $req_insert_modele = $db->prepare("INSERT INTO modele(nom, prix) value ('$nom_modele', '$prix_modele')");
+            $req_insert_modele->execute();
+            $lien = "index.php";
+            echo '<meta http-equiv="refresh" content="0">';
+    }
+}
+
+if(isset($_GET["id_modele_supp"])){
+    $id_supp = $_GET["id_modele_supp"];
+    $req_supp = $db->prepare("DELETE FROM modele where id = '$id_supp'");
+    $req_supp->execute();
+    echo "<script>redi()</script>";
+}
 ?>
