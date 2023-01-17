@@ -99,7 +99,7 @@ include("../includes/header.php");
                     <tbody>
                         <?php
                             foreach ($data_img as $image) {
-                                $id_section = $image["id"];
+                                $id_section = $image["section_id"];
                                 $id_pag = $image["page_id"];
                                 $req2_setion = $db->query("SELECT * FROM section where id = '$id_section'");
                                 $req2_page = $db->query("SELECT * FROM page where id = '$id_pag'");

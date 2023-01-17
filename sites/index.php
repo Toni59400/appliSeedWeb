@@ -153,6 +153,8 @@ if(isset($_SESSION["role"])){
             $req_insert_site = $db->prepare("INSERT INTO site(client_id, modele_id, nom, url) value ('$idClient', '$idModele', '$nom_site', '$urlSite')");
             $req_insert_site->execute();
             $id_site_inserer = $db->lastInsertId();
+            $req_insert_form = $db->prepare("INSERT INTO formulaire(id_client, progression, id_site, dateCreation, dateLastUpdate) value ('$idClient', 0, '$id_site_inserer', NOW(), NOW())");
+            $req_insert_form->execute();
             $req_page_modele = $db->query("SELECT * FROM page_modele where id_modele = '$idModele'");
             $data_page_modele = $req_page_modele->fetchAll();
             foreach($data_page_modele as $page_modele){

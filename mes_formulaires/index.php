@@ -23,11 +23,22 @@ if(!isset($_SESSION['theme'])){
 include("../includes/header.php");
 if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "client"){
+        $nbTotalDeChamps = 0;
+        $nbTotalDeChampsRemplis = 0;
         $id = $_SESSION["id_client"];
         $req_data_cli = $db->query("SELECT * FROM client where id = '$id'");
         $req_site = $db->query("SELECT * FROM site where client_id = '$id'");
         $data_site = $req_site->fetch();
-        $req_page = $db->query("SELECT * FROM page where ")
+        $id_site = $data_site["id"];
+        $req_page = $db->query("SELECT * FROM page where site_id = '$id_site'");
+        $data_page = $req_page->fetchAll();
+        foreach($data_page as $page){
+            $id_page = $page["id"];
+            $req_image = $db->query("SELECT * FROM image where page_id = '$id' order by section_id");
+            $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' order by section_id");
+            $data_image = $req_image->fetchAll();
+            $data_texte = $req_texte->fetchAll();
+        }
 ?>
 
 
