@@ -5,10 +5,13 @@ session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-
+if(!isset($_SESSION['theme'])){
+$_SESSION["theme"] = "light";
+}
+if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
 ?>
 <!DOCTYPE HTML>
-<html lang="fr">
+<html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

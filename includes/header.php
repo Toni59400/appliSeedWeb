@@ -15,6 +15,19 @@ if(isset($_SESSION['role'])){
                         <li class="nav-item "><a href="../modeles/" class="nav-link color_seedWeb">Modèles</a></li>
                         <li class="nav-item "><a href="../sites/" class="nav-link color_seedWeb">Sites</a></li>
                         <li class="nav-item "><a href="../sections/" class="nav-link color_seedWeb">Sections</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Theme
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <form method="POST">
+                                        <li><input type="submit" name="dark" class="dropdown-item" value="Dark"/></li>
+                                        <li><input type="submit" name="light" class="dropdown-item" value="Light"/></li>
+                                    </form>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -33,6 +46,19 @@ if(isset($_SESSION['role'])){
                         <li class="nav-item color_seedWeb"><a href="../mes_sites/" class="nav-link color_seedWeb">Mes sites</a></li>
                         <li class="nav-item color_seedWeb"><a href="../mes_formulaires/" class="nav-link color_seedWeb">Mes formulaires</a></li>
                         <li class="nav-item color_seedWeb"><a href="#" class="nav-link color_seedWeb">SeedWeb</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Theme
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <form method="POST">
+                                        <li><input type="submit" name="dark" class="dropdown-item" value="Dark"/></li>
+                                        <li><input type="submit" name="light" class="dropdown-item" value="Light"/></li>
+                                    </form>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -50,6 +76,19 @@ if(isset($_SESSION['role'])){
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="../" class="nav-link active bgSeed rounded-pill" aria-current="page">Connexion</a></li>
                 <li class="nav-item color_seedWeb"><a href="#" class="nav-link color_seedWeb">SeedWeb</a></li>
+                <li>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Theme
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <form method="POST">
+                                        <li><input type="submit" name="dark" class="dropdown-item" value="Dark"/></li>
+                                        <li><input type="submit" name="light" class="dropdown-item" value="Light"/></li>
+                                    </form>
+                                </ul>
+                            </div>
+                        </li>
             </ul>
             </div>
         </div>
