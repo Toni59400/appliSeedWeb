@@ -8,7 +8,7 @@ if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
     if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
-    ?>
+?>
 <!DOCTYPE HTML>
 <html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
     <head>
@@ -40,6 +40,10 @@ if(!isset($_SESSION['theme'])){
             <p class="mt-5 mb-3 text-muted">© SeedWeb 2023</p>
         </form>
         </main>
+        <script>function redi(){
+            window.location = "accueil/index.php";
+        }    
+        </script>
 
 <?php
 include("includes/layout_bottom.php");
@@ -67,7 +71,7 @@ if (isset($_POST['connexion'])){
             } else {
                 $_SESSION['role'] = "admin";
             }
-            header("Location: accueil/index.php");
+            echo "<script>redi()</script>";
         }else {
             echo "Identifiant ou mot de passe incorrect.";
         }

@@ -23,9 +23,14 @@ if(!isset($_SESSION['theme'])){
 include("../includes/header.php");
 if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "client"){
+        $id = $_SESSION["id_client"];
+        $req_data_cli = $db->query("SELECT * FROM client where id = '$id'");
+        $req_site = $db->query("SELECT * FROM site where client_id = '$id'");
+        $data_site = $req_site->fetch();
+        $req_page = $db->query("SELECT * FROM page where ")
 ?>
 
-<h1>Dans Formulaire (clients uniquement)</h1>
+
 
 <?php
 }else{

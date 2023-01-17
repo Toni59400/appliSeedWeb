@@ -43,9 +43,8 @@ if(isset($_SESSION['role'])){
                     </div>  
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a href="../accueil/" class="nav-link active bgSeed rounded-pill" aria-current="page">Accueil</a></li>
-                        <li class="nav-item color_seedWeb"><a href="../mes_sites/" class="nav-link color_seedWeb">Mes sites</a></li>
-                        <li class="nav-item color_seedWeb"><a href="../mes_formulaires/" class="nav-link color_seedWeb">Mes formulaires</a></li>
-                        <li class="nav-item color_seedWeb"><a href="#" class="nav-link color_seedWeb">SeedWeb</a></li>
+                        <li class="nav-item color_seedWeb"><a href="../mes_formulaires/" class="nav-link color_seedWeb">Mon formulaire</a></li>
+                        <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,7 +74,7 @@ if(isset($_SESSION['role'])){
                 </div>  
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="../" class="nav-link active bgSeed rounded-pill" aria-current="page">Connexion</a></li>
-                <li class="nav-item color_seedWeb"><a href="#" class="nav-link color_seedWeb">SeedWeb</a></li>
+                <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
                 <li>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
