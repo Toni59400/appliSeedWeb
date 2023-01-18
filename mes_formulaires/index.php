@@ -34,10 +34,16 @@ if(isset($_SESSION["role"])){
         $data_page = $req_page->fetchAll();
         foreach($data_page as $page){
             $id_page = $page["id"];
-            $req_image = $db->query("SELECT * FROM image where page_id = '$id' order by section_id");
-            $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' order by section_id");
-            $data_image = $req_image->fetchAll();
-            $data_texte = $req_texte->fetchAll();
+            $req_section = $db->query("SELECT * FROM section");
+            $data_section = $req_section->fetchAll();
+            // $req_image = $db->query("SELECT * FROM image where page_id = '$id' order by section_id");
+            // $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' order by section_id");
+            // $data_image = $req_image->fetchAll();
+            // $data_texte = $req_texte->fetchAll();
+            echo $page['nom'], $page['id'], "<br><br>";
+            foreach($data_section as $section){
+                echo $section["id"], $section["nom"], "<br>";
+            }
         }
 ?>
 

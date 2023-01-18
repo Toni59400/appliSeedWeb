@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 17 jan. 2023 à 12:03
+-- Généré le : mar. 17 jan. 2023 à 17:26
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -50,6 +50,28 @@ INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `formulaire`
+--
+
+CREATE TABLE `formulaire` (
+  `id` int(11) NOT NULL,
+  `id_client` int(11) NOT NULL,
+  `progression` int(11) DEFAULT NULL,
+  `id_site` int(11) NOT NULL,
+  `dateCreation` datetime NOT NULL,
+  `dateLastUpdate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `formulaire`
+--
+
+INSERT INTO `formulaire` (`id`, `id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
+(4, 2, 0, 10, '2023-01-17 17:25:38', '2023-01-17 17:25:38');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `image`
 --
 
@@ -68,9 +90,9 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
-(1, 1, 10, 'Image de fond', '', 'Image derrière le texte', 0),
-(2, 2, 10, 'Image Service 1', '', 'Image du service 1', 0),
-(3, 2, 10, 'Image Service 2', '', 'Image du service 2', 0);
+(10, 1, 23, 'Image de fond', '', 'Image derrière le texte', 0),
+(11, 2, 23, 'Image Service 1', '', 'Image du service 1', 0),
+(12, 2, 23, 'Image Service 2', '', 'Image du service 2', 0);
 
 -- --------------------------------------------------------
 
@@ -136,15 +158,10 @@ CREATE TABLE `page` (
 --
 
 INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
-(1, 2, 'Services'),
-(2, 2, 'Portfolio'),
-(3, 2, 'Accueil'),
-(4, 2, 'Qui sommes-nous'),
-(6, 2, 'Contact'),
-(10, 5, 'Accueil'),
-(11, 5, 'Services'),
-(12, 5, 'Qui sommes-nous'),
-(13, 5, 'Contact');
+(23, 10, 'Accueil'),
+(24, 10, 'Services'),
+(25, 10, 'Qui sommes-nous'),
+(26, 10, 'Contact');
 
 -- --------------------------------------------------------
 
@@ -212,8 +229,7 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
-(2, 2, 1, 'Test', 'https://urlTest.com'),
-(5, 2, 2, 'Test2', 'https://urlTest.com');
+(10, 2, 2, 'Salon De Coiffure', 'https://salon-de-coiffure.com');
 
 -- --------------------------------------------------------
 
@@ -236,7 +252,7 @@ CREATE TABLE `texte` (
 --
 
 INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, `facultatif`) VALUES
-(1, 1, 10, 'Texte Call-To-Action', '', 0, 0);
+(4, 1, 23, 'Texte Call-To-Action', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -269,6 +285,14 @@ INSERT INTO `texte_modele` (`id_texteM`, `nom`, `id_section`, `id_pageM`, `taill
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `formulaire`
+--
+ALTER TABLE `formulaire`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fkformsite` (`id_site`),
+  ADD KEY `fkformcli` (`id_client`);
 
 --
 -- Index pour la table `image`
@@ -347,10 +371,16 @@ ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT pour la table `formulaire`
+--
+ALTER TABLE `formulaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
@@ -368,7 +398,7 @@ ALTER TABLE `modele`
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
@@ -386,13 +416,13 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`
@@ -403,6 +433,13 @@ ALTER TABLE `texte_modele`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `formulaire`
+--
+ALTER TABLE `formulaire`
+  ADD CONSTRAINT `fkformcli` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fkformsite` FOREIGN KEY (`id_site`) REFERENCES `site` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `image`
