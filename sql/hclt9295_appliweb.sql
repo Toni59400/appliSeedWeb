@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 17 jan. 2023 à 17:26
+-- Généré le : ven. 20 jan. 2023 à 09:24
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,8 +44,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-17'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-16');
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-19'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-19');
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE `image` (
   `page_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(35) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -92,7 +92,8 @@ CREATE TABLE `image` (
 INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
 (10, 1, 23, 'Image de fond', '', 'Image derrière le texte', 0),
 (11, 2, 23, 'Image Service 1', '', 'Image du service 1', 0),
-(12, 2, 23, 'Image Service 2', '', 'Image du service 2', 0);
+(12, 2, 23, 'Image Service 2', '', 'Image du service 2', 0),
+(14, 2, 26, 'Image Entreprise', '', 'Image Illustrant l\'entreprise', 0);
 
 -- --------------------------------------------------------
 
@@ -208,7 +209,8 @@ INSERT INTO `section` (`id`, `nom`) VALUES
 (2, 'Services'),
 (3, 'Compétences'),
 (4, 'Avis Clients'),
-(5, 'Nos Valeurs');
+(5, 'Nos Valeurs'),
+(6, 'Qualites');
 
 -- --------------------------------------------------------
 
@@ -274,7 +276,13 @@ CREATE TABLE `texte_modele` (
 --
 
 INSERT INTO `texte_modele` (`id_texteM`, `nom`, `id_section`, `id_pageM`, `taille`, `facultatif`) VALUES
-(6, 'Texte Call-To-Action', 1, 37, 0, 0);
+(6, 'Texte Call-To-Action', 1, 37, 0, 0),
+(13, 'Nom Qualite 1', 6, 37, 30, 0),
+(14, 'Nom Qualite 2', 6, 37, 30, 0),
+(15, 'Nom Qualite 3', 6, 37, 30, 0),
+(16, 'Description qualite 1', 6, 37, 200, 0),
+(17, 'Description qualite 2', 6, 37, 200, 0),
+(18, 'Description qualite 3', 6, 37, 200, 0);
 
 --
 -- Index pour les tables déchargées
@@ -380,7 +388,7 @@ ALTER TABLE `formulaire`
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
@@ -410,7 +418,7 @@ ALTER TABLE `page_modele`
 -- AUTO_INCREMENT pour la table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `site`
@@ -428,7 +436,7 @@ ALTER TABLE `texte`
 -- AUTO_INCREMENT pour la table `texte_modele`
 --
 ALTER TABLE `texte_modele`
-  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Contraintes pour les tables déchargées

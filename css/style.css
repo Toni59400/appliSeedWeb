@@ -6,6 +6,10 @@
     color: #FFFFFF;
 }
 
+.color_white:hover{
+    color: #FFFFFF;
+}
+
 .modal_default_ok{
     padding: 3px;
     width: 80px;
