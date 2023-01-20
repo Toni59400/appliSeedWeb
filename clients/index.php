@@ -43,7 +43,7 @@ if(isset($_SESSION["role"])){
                     <input type="submit" name="search_cli" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
                 <div class="w-50 ">
-                    <form>
+                    <form method="POST">
                         <div class="row g-3 justify-content-between">
                             <div class="col-auto">
                                 <label for="" class="col-form-label">Nom</label>
@@ -81,7 +81,7 @@ if(isset($_SESSION["role"])){
                             <div class="col-auto">
                                 <input type="password" id="" placeholder="Password"  class="form-control" name="passClientAjouter" aria-describedby="">
                             </div>
-                            <input type="submit" value="Ajouter le client" class="bgSeed rounded-pill color_white border_white"/>
+                            <input type="submit" value="Ajouter le client" name="addCli" class="bgSeed rounded-pill color_white border_white"/>
                         </div>
                     </form>
                 </div>
@@ -121,13 +121,41 @@ if(isset($_SESSION["role"])){
                 </table>
             </div>
         </div>
+        <script>function redi(){
+                window.location = "index.php";
+            }
+        </script>
 <?php
 }else{
     header("Location: ../index.php");
 ?>
 <?php
 }}
-
     
     include("../includes/layout_bottom.php");
+
+    if(isset($_POST['addCli'])){
+        if(isset($_POST["nomClientAjouter"]) && !empty($_POST["nomClientAjouter"]) && isset($_POST["prenomClientAjouter"]) && !empty($_POST["prenomClientAjouter"]) && isset($_POST["adresseClientAjouter"]) && !empty($_POST["adresseClientAjouter"]) && isset($_POST["societeClientAjouter"]) && !empty($_POST["societeClientAjouter"]) && isset($_POST["identifiantClientAjouter"]) && !empty($_POST["identifiantClientAjouter"]) && isset($_POST["passClientAjouter"]) && !empty($_POST["passClientAjouter"])){
+            $nom = htmlspecialchars($_POST["nomClientAjouter"]);
+            $prenom = htmlspecialchars($_POST["prenomClientAjouter"]);
+            $adresse = htmlspecialchars($_POST["adresseClientAjouter"]);
+            $societe = htmlspecialchars($_POST["societeClientAjouter"]);
+            $identifiant = htmlspecialchars($_POST["identifiantClientAjouter"]);
+            $pass = password_hash(htmlspecialchars($_POST["passClientAjouter"]), PASSWORD_DEFAULT);
+            $req_insertClient = $db->prepare("INSERT INTO client(role, nom, prenom, adresse, societe, mail, pwd, lastConnection) value ('client', '$nom', '$prenom', '$adresse', '$societe', '$identifiant', '$pass', NOW())");
+            $req_insertClient->execute();
+            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe;
+            if (!file_exists($nom_dossier)) {
+                mkdir($nom_dossier, 0777, true);
+            }
+            echo '<meta http-equiv="refresh" content="0">';
+        }
+    }
+
+    if(isset($_GET["id_cli_supp"])){
+        $id_supp = $_GET["id_cli_supp"];
+        $req_supp = $db->prepare("DELETE FROM client where id = '$id_supp'");
+        $req_supp->execute();
+        echo "<script>redi()</script>";
+    }
 ?>

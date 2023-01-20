@@ -184,6 +184,15 @@ if(isset($_SESSION["role"])){
                     $req_insert_texte->execute();
                 }
             }
+            $data_cli_select = $db->query("SELECT * FROM client WHERE id='$idClient'");
+            $data_cli_select = $data_cli_select->fetch();
+            $nom = $data_cli_select['nom'];
+            $prenom = $data_cli_select['prenom'];
+            $societe = $data_cli_select['societe'];
+            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/images/";
+            if (!file_exists($nom_dossier)) {
+                mkdir($nom_dossier, 0777, true);
+            }
             echo '<meta http-equiv="refresh" content="0">';
 
         }
