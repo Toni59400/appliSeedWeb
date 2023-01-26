@@ -73,7 +73,7 @@ if(isset($_SESSION["role"])){
                                 <label for="" class="col-form-label">Identifiant</label>
                             </div>
                             <div class="col-auto">
-                                <input type="text" id="" placeholder="Login" class="form-control" name="identifiantClientAjouter" aria-describedby="">
+                                <input type="text" id="" placeholder="Login" class="form-control" for="email" name="identifiantClientAjouter" aria-describedby="">
                             </div>
                             <div class="col-auto">
                                 <label for="" class="col-form-label">Password</label>

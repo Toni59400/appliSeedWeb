@@ -37,6 +37,7 @@ if(!($detect->isMobile())){
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
             <label for="floatingPassword">Mot de passe</label>
             </div>
+            <a href="changePass/index.php">Mot de passe oublié ?</a>
             <button class="w-100 btnPerso bgSeed rounded-pill" type="submit" name="connexion">Connexion</button>
             <div class="alert-div"></div>
             <p class="mt-5 mb-3 text-muted">© SeedWeb 2023</p>

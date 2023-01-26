@@ -1,6 +1,7 @@
 <?php
 include("../config/config.php");
 include("../config/dbconnection.php");
+include_once('../sendMail.php');
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -28,6 +29,9 @@ if(isset($_SESSION["role"])){
         $nbTotalDeChampsRemplis = 0;
         $id = $_SESSION["id_client"];
         $req_data_cli = $db->query("SELECT * FROM client where id = '$id'");
+        $data_cli = $req_data_cli->fetch();
+        $data_admin = $db->query("SELECT * FROM client where role = 'admin'");
+        $data_admin = $data_admin->fetchAll();
         $req_site = $db->query("SELECT * FROM site where client_id = '$id'");
         $req_section = $db->query("SELECT * FROM section");
         $data_section = $req_section->fetchAll();
@@ -329,7 +333,22 @@ if(isset($_POST['save_page'])){
         <script>messError("<?=$texte?>")</script>
         <?php
     } else {
+        $i = $_GET['page'];
         $mess = "Page validée.";
+        $sujet = "Validation de page";
+            $message = '
+                    <html>
+                        <head>
+                            <title>'.$data_cli['societe'].' a validé une page de son formulaire.</title>
+                        </head>
+                        <body>
+                            <p>'.$data_cli['societe'].' vient de valider la page "'.$data_page[$i]['nom'].'" sur son formulaire !"</p>
+                    </html>
+                    ';
+            foreach($data_admin as $ad){
+                $email = $ad['mail'];
+                sendMail($sujet, $message, $email);
+            }
         ?>
         <script>message("<?=$mess?>")</script>
         <?php
