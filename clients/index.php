@@ -1,6 +1,7 @@
 <?php
 include("../config/config.php");
 include("../config/dbconnection.php");
+include_once('../sendMail.php');
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -112,7 +113,18 @@ if(isset($_SESSION["role"])){
                             <td><?=$client["adresse"]?></td>
                             <td><?=$client["societe"]?></td>
                             <td><?=$client["mail"]?></td>
-                            <td><span class="sup_client actionAdmin" data_sup="<?=$client['id']?>">Supprimer</span></td>
+                            <td>
+                            <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item actionAdmin sup_client" data_sup="<?=$client['id']?>">Supprimer</a></li>
+                                        <li><a class="dropdown-item actionAdmin" href="./index.php?relance=<?=$client['id']?>">Envoyé une relance</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            
                         </tr>
                         <?php
                             }
@@ -157,5 +169,23 @@ if(isset($_SESSION["role"])){
         $req_supp = $db->prepare("DELETE FROM client where id = '$id_supp'");
         $req_supp->execute();
         echo "<script>redi()</script>";
+    }
+
+    if (isset($_GET["relance"])){
+        $id = $_GET["relance"];
+        $data_cli = $db->query("SELECT * FROM client where id='$id'");
+        $data_cli = $data_cli->fetch();
+        $sujet = "Relance pour compléter le formulaire";
+            $message = '
+                    <html>
+                        <head>
+                            <title>Veuillez remplir votre formulaire</title>
+                        </head>
+                        <body>
+                            <p>SeedWebAppli vous invite à remplir votre formulaire concernant votre Site, se trouvant dans votre espace personnel > Mon Formulaire.</p> <br> <p>Merci à vous!</p>
+                    </html>
+                    ';
+        sendMail($sujet, $message, $data_cli["mail"]);
+        
     }
 ?>
