@@ -25,7 +25,6 @@ if(!isset($_SESSION['theme'])){
         <main class="form-signin w-50 m-auto mt-3">
         <form method="POST">
             <img class="mb-4" style="max-width: 150px;"src="https://seedweb.fr/wp-content/uploads/2022/12/Logo-seedweb-rectangle.png.webp" alt="logo_seed_web" >
-            <h1 class="h3 mb-3 fw-normal">Veuillez vous connecter</h1>
 
             <div class="form-floating mb-3">
             <input type="text" class="form-control" id="floatingInput" name="email">

@@ -45,6 +45,7 @@ for(let clientS of client_sup){
     clientS.addEventListener('click', delete_confirm_cli, false);
 }
 
+
 function delete_confirm_cli(){
     var id = this.getAttribute('data_sup');
     DayPilot.Modal.confirm("Voulez-vous vraiment supprimer le client ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {

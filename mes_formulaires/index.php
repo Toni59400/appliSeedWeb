@@ -48,19 +48,31 @@ if(isset($_SESSION["role"])){
         ?> 
         <form method="POST" action="" enctype='multipart/form-data'>
             <div  class="row w-100">
-                <h1 class="text-center">Page : "<?=$page['nom']?>"</h1>
-                <div class="position-relative"><input type="submit" name="save_page" value="Enregistrer" class="border_white color_white nav-link bgSeed rounded-pill w-25 position-absolute top-0 end-0"></div> <?php
+                <div class=" col w-50">
+                    <h1 class="text-center">Page : "<?=$page['nom']?>"</h1>
+                    <div class="m-2 text-center">
+                        <input type="submit" name="save_page" value="Valider la page" class="border_white color_white nav-link bgSeed rounded-pill w-25">
+                    </div>
+                    <div class="m-2 text-center">
+                    <input type="submit" name="save_state" value="Enregistrer l'avancement" class="border_white color_white nav-link bgSeed rounded-pill w-25">
+                    </div>
+                </div>
+                
+        <?php
         foreach($data_section as $section){
             $id_section = $section["id"];
             $id=$page["id"];
             $nom_section = $section['nom'];
-            $req_image = $db->query("SELECT * FROM image where page_id = '$id' and section_id = '$id_section'");
-            $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' and section_id = '$id_section'");
+            $req_image = $db->query("SELECT * FROM image where page_id = '$id' and section_id = '$id_section' order by nom");
+            $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' and section_id = '$id_section' order by nom");
             $data_image = $req_image->fetchAll();
             $data_texte = $req_texte->fetchAll();
             
             if(!empty($data_image) or !empty($data_texte)){
-                $src_img = strtolower("../img/".$data_modele["nom"]. "_". $page["nom"]. "_". $section["nom"] . ".png");
+                $array_space = array(" ");
+                $nom_page = str_replace($array_space, "-", $page["nom"]);
+                $nom_section2 = str_replace($array_space, "-", $section["nom"]);
+                $src_img = strtolower("../img/".$data_modele["nom"]. "_". $nom_page . "_". $nom_section2 . ".png");
                 ?>
                 <h2 class="text-center"><?=$nom_section?></h2>
                 <div class="w-100 text-center">
@@ -74,15 +86,13 @@ if(isset($_SESSION["role"])){
                     $description = $image["description"];
                     $facultatif = "Non";
                     if($image['facultatif'] == true){$facultatif = "Oui";}
-                    if($facultatif == "Non" && $renseigne == false){
                 ?>
                     <div class="m-2">
-                        <label for="formFileLg" class="form-label"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}?></label>
-                        <input class="form-control form-control-lg" id="formFileLg" idImage="<?=$image["id"]?>" name="<?=$nomImg?>" accept=".jpeg,.pdf,.png,.jpg,.svg,.webp,.gif" type="file" <?php if($facultatif == "Non"){echo "required";}?>/>
+                        <label for="formFileLg" class="form-label"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span> (Facultatif)</span>";}?></label>
+                        <input class="form-control form-control-lg" id="formFileLg" idImage="<?=$image["id"]?>" name="<?=$nomImg?>" accept=".jpeg,.pdf,.png,.jpg,.svg,.webp,.gif" type="file"/>
                     </div>
 <?php
                     }
-                }
 ?>
                 </div>
                 <div class="w-50 m-2 col" >
@@ -90,22 +100,36 @@ if(isset($_SESSION["role"])){
                 
                 foreach($data_texte as $texte){
                     $contenu = $texte["contenu"];
-                    $nomTxt = $texte['nom'];
+                    $array_space = array(" ");
+                    $nomTxt2 = $texte["nom"];
+                    $nomTxt = str_replace($array_space, "-", $texte['nom']);
                     $renseigne_txt = !(empty($texte["contenu"]));
                     $facultatif_txt = "Non";
                     if($texte['facultatif'] == true){$facultatif_txt = "Oui";}
-                    if($facultatif_txt == "Non" && $renseigne_txt == false){
+                    if($texte["taille"] < 100){
+                ?>
+
+                    <div class="m-2">
+                        <label for="" class="form-label"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label>
+                        <input class="form-control form-control-lg input_counter" value="<?=$contenu?>" id="formFileLg" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" type="text" >
+                        <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?></span>
+                        <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
+                    </div>
+
+                <?php
+                    } else {
                 ?>
                     <div class="m-2">
-                        <label for="" class="form-label"><?php echo $nomTxt; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}?></label>
-                        <input class="form-control form-control-lg input_counter" value="<?=$contenu?>" id="formFileLg" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" type="text" <?php if($facultatif_txt == "Non"){echo "required";}?>>
+                        <label class="form-label"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label>
+                        <textarea class="form-control input_counter" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" id="floatingTextarea"></textarea>
                         <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?></span>
                         <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
                     </div>
 
                 <?php
                     }
-            }
+                    }
+                    
             ?>
                 </div>
                 
@@ -131,17 +155,37 @@ if(isset($_SESSION["role"])){
                         </ul>
                     </nav>
             </div>
+            <script src="../script/daypilot-modal-3.15.1.min.js"></script>
             <script>
-                function popUpConfirm(texte){
-                    DayPilot.Modal.alert(texte , { theme: "modal_flat" });
-                }
+            function messError(test){
+                DayPilot.Modal.alert(test)
+                .then(function(args) {
+                    if (args.canceled) {
+                    }
+                    else {
+                        window.location = "index.php?page=<?=$_GET['page']?>";
+                    }
+                });
+            }
+            
+            function redi(){
+                window.location = "index.php?page=<?=$_GET['page']?>";
+            }
 
-            </script>
+            function message(texte){
+                DayPilot.Modal.alert(texte)
+                .then(function(args) {
+                    if (args.canceled) {
+                    }
+                    else {
+                        window.location = "index.php?page=<?=$_GET['page']?>";
+                    }
+                });
+        }
+        </script>
 
 <?php
-
-
-if(isset($_POST['save_page'])){
+if(isset($_POST["save_state"])){
     $i = $_GET['page'];
     $page = $data_page[$i];
     foreach($data_section as $section){
@@ -156,13 +200,12 @@ if(isset($_POST['save_page'])){
         $data_client = $db->query("SELECT * FROM client where id = '$id_cli'");
         $data_client = $data_client->fetch();
         if(!empty($data_image) or !empty($data_texte)){
-            echo "1";
             foreach($data_image as $image){
-                echo "2";
-                var_dump($image["nom"]);
+                $id_img = $image["id"];
                 $nom_img = $image["nom"];
-                if(isset($_FILES[$nom_img])){
-                    var_dump($_FILES);
+                var_dump($nom_img);
+                var_dump($_FILES);
+                if(isset($_FILES[$nom_img]) && !empty($_FILES[$nom_img]["name"])){
                     //Pour le client concerner pour upload dans le fichier ensuite : 
                     $nom = $data_client["nom"];
                     $prenom = $data_client['prenom'];
@@ -172,9 +215,10 @@ if(isset($_POST['save_page'])){
                     $name =  $_FILES[$nom_img]["name"];
                     $size =  $_FILES[$nom_img]["size"];
                     $error =  $_FILES[$nom_img]["error"];
+                    var_dump($size, $error);
                     $tabExtension = explode('.', $name);
                     $extension = strtolower(end($tabExtension));
-                    $maxSize = 400000;
+                    $maxSize = 600000;
                     $extensions = ['jpg', 'png', 'jpeg', 'gif'];
                     $path = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/" . $page["nom"] ."/images/";
                     if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
@@ -182,19 +226,111 @@ if(isset($_POST['save_page'])){
                             mkdir($path, 0777, true);
                         }
                         $path = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/" . $page["nom"] . "/images/" . $nom_img . "." . $extension;
-                        if (! move_uploaded_file($tmpName, $path)){
-                            echo "ko";
-                        } else { echo "ok";}
-                    } else {
-                        echo "ko";
-                        echo "popUpConfirm('Un probleme est survenu pour :".$name."')"; 
+                        if(move_uploaded_file($tmpName, $path)){
+                            $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true where id = '$id_img'");
+                            $req_update_img->execute();
+                        }
                     }
                 }
             }
             foreach($data_texte as $texte){
-
+                $array_space = array(" ");
+                $nomTxt = str_replace($array_space, "-", $texte['nom']);
+                $id_texte = $texte['id'];
+                var_dump($_POST);
+                if(isset($_POST[$nomTxt]) && !empty($_POST[$nomTxt])){
+                    $contenu = addslashes($_POST[$nomTxt]);
+                    $req_txt = $db->prepare("UPDATE texte SET contenu = '$contenu', facultatif = true where id = '$id_texte'");
+                    $req_txt = $req_txt->execute();
+                }
             }
         }
+    }
+    $mess = "Enregistrement effectué. Vous pouvez modifier les images en les ajoutant à nouveau.";
+    ?>
+    <script>message("<?=$mess?>")</script>
+    <?php
+}
+
+if(isset($_POST['save_page'])){
+    $nbError=0;
+    $error = array();
+    $i = $_GET['page'];
+    $page = $data_page[$i];
+    foreach($data_section as $section){
+        $id_section = $section["id"];
+        $id=$page["id"];
+        $nom_section = $section['nom'];
+        $req_image = $db->query("SELECT * FROM image where page_id = '$id' and section_id = '$id_section'");
+        $req_texte = $db->query("SELECT * FROM texte where page_id = '$id' and section_id = '$id_section'");
+        $data_image = $req_image->fetchAll();
+        $data_texte = $req_texte->fetchAll();
+        $id_cli = $_SESSION["id_client"];
+        $data_client = $db->query("SELECT * FROM client where id = '$id_cli'");
+        $data_client = $data_client->fetch();
+        if(!empty($data_image) or !empty($data_texte)){
+            foreach($data_image as $image){
+                $id_img = $image["id"];
+                $nom_img = $image["nom"];
+                if(isset($_FILES[$nom_img]) && !empty($_FILES[$nom_img]["name"])){
+                    //Pour le client concerner pour upload dans le fichier ensuite : 
+                    $nom = $data_client["nom"];
+                    $prenom = $data_client['prenom'];
+                    $societe = $data_client["societe"];
+                    // Pour le fichier (img) en question
+                    $tmpName = $_FILES[$nom_img]["tmp_name"];
+                    $name =  $_FILES[$nom_img]["name"];
+                    $size =  $_FILES[$nom_img]["size"];
+                    $error =  $_FILES[$nom_img]["error"];
+                    var_dump($size, $error);
+                    $tabExtension = explode('.', $name);
+                    $extension = strtolower(end($tabExtension));
+                    $maxSize = 600000;
+                    $extensions = ['jpg', 'png', 'jpeg', 'gif'];
+                    $path = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/" . $page["nom"] ."/images/";
+                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                        if (!file_exists($path)) {
+                            mkdir($path, 0777, true);
+                        }
+                        $path = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/" . $page["nom"] . "/images/" . $nom_img . "." . $extension;
+                        if(move_uploaded_file($tmpName, $path)){
+                            $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true where id = '$id_img'");
+                            $req_update_img->execute();
+                        }
+                    }
+                } else {
+                    if($image["facultatif"] == false){
+                        $nbError = $nbError +1;
+                    }
+                }
+            }
+            foreach($data_texte as $texte){
+                $array_space = array(" ");
+                $nomTxt = str_replace($array_space, "-", $texte['nom']);
+                $id_texte = $texte['id'];
+                if(isset($_POST[$nomTxt]) && !empty($_POST[$nomTxt])){
+                    $contenu = addslashes($_POST[$nomTxt]);
+                    $req_txt = $db->prepare("UPDATE texte SET contenu = '$contenu', facultatif = true where id = '$id_texte'");
+                    $req_txt = $req_txt->execute();
+                } else {
+                    if($texte["facultatif"] != true){
+                        $nbError ++;
+                    }
+                }
+            }
+        }
+    }
+    //echo '<meta http-equiv="refresh" content="1">';
+    if($nbError!=0){
+        $texte = strval($nbError)." Champ(s) necessaires manquants";
+        ?>
+        <script>messError("<?=$texte?>")</script>
+        <?php
+    } else {
+        $mess = "Page validée.";
+        ?>
+        <script>message("<?=$mess?>")</script>
+        <?php
     }
 }
 

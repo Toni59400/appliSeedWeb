@@ -50,11 +50,12 @@ include("../includes/header.php");
                     <input class="form-control me-1 ms-2" name="terme_modele" type="search" placeholder="Rechercher un texte" aria-label="Search">
                     <input type="submit" name="search_texte" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
+            </form>
                 <div class="w-50 ">
                     <div class="row g-3 justify-content-between">
                         <form method="POST">
                         <div class="col-auto mb-2">
-                            <input type="text" id="" class="form-control" name="nomTexteAjouter" placeholder="Nom Texte" required>
+                            <input type="text" id="" class="form-control" name="nomTexteAjouter" placeholder="Nom Texte" maxlength="35" required>
                         </div>
                         <select class="form-select mb-2" name="select_page" aria-label="Default select example">
                             <option selected value="<?=$data_page["id_pageM"]?>"><?=$data_page["nom"]?> - <?=$data_modele["nom"]?></option>
@@ -70,7 +71,7 @@ include("../includes/header.php");
 ?>
                                 </select>
                                 <div class="col-auto mb-2 w-100">
-                            <input type="number" id="" max="500" min="0" class="form-control" name="tailleTexteAjouter" placeholder="Nombre Caractere" required>
+                            <input type="number" id="" max="1000" min="0" class="form-control" name="tailleTexteAjouter" placeholder="Nombre Caractere" required>
                         </div>
                         <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
                             <option selected disabled="disabled" value="-1">Facultatif :</option>
@@ -81,7 +82,6 @@ include("../includes/header.php");
                         </form>
                     </div>
                 </div>
-            </form>
             <br><br>
             <div>
                 <table class="table">
@@ -152,7 +152,7 @@ include("../includes/header.php");
     include("../includes/layout_bottom.php");
     if(isset($_POST["add_texteM"])){
         if(isset($_POST["nomTexteAjouter"]) && !empty($_POST["nomTexteAjouter"]) && $_POST["select_section"] != "Section"){
-            $nom_txt = $_POST["nomTexteAjouter"];
+            $nom_txt = addslashes($_POST["nomTexteAjouter"]);
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
             $taille = $_POST["tailleTexteAjouter"];

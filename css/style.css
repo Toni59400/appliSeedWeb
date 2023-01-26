@@ -43,6 +43,10 @@ h1{
     font-family: 'Nunito', sans-serif;
 }
 
+.cursorP{
+    cursor: pointer!important;
+}
+
 .actionAdmin{
     cursor: pointer!important;
 }

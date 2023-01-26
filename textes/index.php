@@ -49,6 +49,7 @@ include("../includes/header.php");
                     <input class="form-control me-1 ms-2" name="terme_modele" type="search" placeholder="Rechercher un texte" aria-label="Search">
                     <input type="submit" name="search_texte" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
+            </form>
                 <div class="w-50 ">
                     <div class="row g-3 justify-content-between">
                         <form method="POST">
@@ -80,7 +81,6 @@ include("../includes/header.php");
                         </form>
                     </div>
                 </div>
-            </form>
             <br><br>
             <div>
                 <table class="table">
@@ -151,7 +151,7 @@ include("../includes/header.php");
     include("../includes/layout_bottom.php");
     if(isset($_POST["add_texte"])){
         if(isset($_POST["nomTexteAjouter"]) && !empty($_POST["nomTexteAjouter"]) && isset($_POST["select_page"]) && !empty($_POST["select_page"]) && isset($_POST["select_section"]) && !empty($_POST["select_section"])){
-            $nom_txt = $_POST["nomTexteAjouter"];
+            $nom_txt = addslashes($_POST["nomTexteAjouter"]);
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
             $facultatif = $_POST["select_facultatif"];

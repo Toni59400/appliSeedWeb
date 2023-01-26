@@ -49,11 +49,12 @@ include("../includes/header.php");
                     <input class="form-control me-1 ms-2" name="terme_page" type="search" placeholder="Rechercher une image" aria-label="Search">
                     <input type="submit" name="search_page" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
+            </form>
                 <div class="w-50 ">
                     <div class="row g-3 justify-content-between">
                         <form method="POST">
                         <div class="col-auto mb-2">
-                            <input type="text" id="" class="form-control" name="nomImageAjouter" placeholder="Nom Image" required>
+                            <input type="text" id="" class="form-control" name="nomImageAjouter" placeholder="Nom Image" onkeydown="if(event.keyCode==32) return false;" required>
                         </div>
                         <select class="form-select mb-2" name="select_page" aria-label="Default select example">
                             <option value="<?=$data_page["id_pageM"]?>"><?=$data_page["nom"]?> - <?=$data_modele["nom"]?></option>
@@ -81,7 +82,6 @@ include("../includes/header.php");
                         </form>
                     </div>
                 </div>
-            </form>
             <br><br>
             <div>
                 <table class="table">
@@ -91,6 +91,7 @@ include("../includes/header.php");
                             <th scope="col">Nom</th>
                             <th scope="col">Section</th>
                             <th scope="col">Page</th>
+                            <th scope="col">Description</th>
                             <th scope="col">Facultatif</th>
                             <th scope="col">Action</th>
                             
@@ -115,6 +116,7 @@ include("../includes/header.php");
                             <td><?=$image["nom"]?></td>
                             <td><?=$data_section_image["nom"]?></td>
                             <td><?=$data_page_image["nom"]?></td>
+                            <td><?=$image["description"]?></td>
                             <td><?=$facultatif?></td>
                             <td>
                                 <div class="dropdown">
@@ -151,10 +153,10 @@ include("../includes/header.php");
     include("../includes/layout_bottom.php");
     if(isset($_POST["add_imageM"])){
         if(isset($_POST["nomImageAjouter"]) && !empty($_POST["nomImageAjouter"]) && $_POST["select_section"] != "Section"){
-            $nom_img = $_POST["nomImageAjouter"];
+            $nom_img = addslashes($_POST["nomImageAjouter"]);
             $idPage = $_POST["select_page"];
             $idSection = $_POST["select_section"];
-            $description = $_POST["descImageAjouter"];
+            $description = addslashes($_POST["descImageAjouter"]);
             $facultatif = $_POST["select_facultatif"];
             $req_insert_img = $db->prepare("INSERT INTO image_modele(nom, description, id_section, id_pageM, facultatif) value ('$nom_img', '$description', '$idSection', '$idPage', '$facultatif')");
             $req_insert_img->execute();

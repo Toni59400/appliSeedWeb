@@ -49,39 +49,39 @@ include("../includes/header.php");
                     <input class="form-control me-1 ms-2" name="terme_page" type="search" placeholder="Rechercher une image" aria-label="Search">
                     <input type="submit" name="search_modele" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>
+            </form>
                 <div class="w-50 ">
                     <div class="row g-3 justify-content-between">
                         <form method="POST">
-                        <div class="col-auto mb-2">
-                            <input type="text" id="" class="form-control" name="nomImageAjouter" placeholder="Nom Image" required>
-                        </div>
-                        <select class="form-select mb-2" name="select_page" aria-label="Default select example">
-                            <option selected disabled="disabled" value="<?=$data_page["id"]?>"><?=$data_page["nom"]?> - <?=$data_site["nom"]?></option>
-                        </select>
-                        <select class="form-select mb-2" name="select_section" aria-label="Default select example">
-                            <option selected>Section</option>
-<?php
-                                foreach($data_section as $section){
-?>
-                            <option value="<?=$section["id"]?>"><?=$section["nom"]?></option>
-<?php
-                                }
-?>
-                            
-                        </select>
-                        <div class="col-auto mb-2 w-75">
-                            <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (25 caractères max, facultatif)" maxlength="25">
-                        </div>
-                        <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
-                            <option selected disabled="disabled" value="-1">Facultatif :</option>
-                            <option value="1">Oui</option>
-                            <option value="0">Non</option>
-                        </select>
-                        <input type="submit" value="Ajouter l'image" name="add_imageM" class="bgSeed rounded-pill color_white border_white"/>
+                            <div class="col-auto mb-2">
+                                <input type="text" id="" class="form-control" name="nomImageAjouter" placeholder="Nom Image " onkeydown="if(event.keyCode==32) return false;" required>
+                            </div>
+                            <select class="form-select mb-2" name="select_page" aria-label="Default select example">
+                                <option selected value="<?=$data_page["id"]?>"><?=$data_page["nom"]?> - <?=$data_site["nom"]?></option>
+                            </select>
+                            <select class="form-select mb-2" name="select_section" aria-label="Default select example">
+                                <option selected>Section</option>
+                                <?php
+                                    foreach($data_section as $section){
+                                ?>
+                                <option value="<?=$section["id"]?>"><?=$section["nom"]?></option>
+                                <?php
+                                    }
+                                ?>
+                                
+                            </select>
+                            <div class="col-auto mb-2 w-75">
+                                <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (Titre de l'image pour le client.)" maxlength="25" required>
+                            </div>
+                            <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
+                                <option selected disabled="disabled" value="-1">Facultatif :</option>
+                                <option value="1">Oui</option>
+                                <option value="0">Non</option>
+                            </select>
+                            <input type="submit" value="Ajouter l'image" name="add_imageM" class="bgSeed rounded-pill color_white border_white"/>
                         </form>
                     </div>
                 </div>
-            </form>
             <br><br>
             <div>
                 <table class="table">
@@ -150,12 +150,12 @@ include("../includes/header.php");
 }
     include("../includes/layout_bottom.php");
     if(isset($_POST["add_imageM"])){
-        if(isset($_POST["nomImageAjouter"]) && !empty($_POST["nomImageAjouter"]) && isset($_POST["select_page"]) && !empty($_POST["select_page"]) && isset($_POST["select_section"]) && !empty($_POST["select_section"])){
-            $nom_img = $_POST["nomImageAjouter"];
-            $idPage = $_POST["select_page"];
+        if(isset($_POST["nomImageAjouter"]) && !empty($_POST["nomImageAjouter"]) && isset($_POST["select_section"]) && !empty($_POST["select_section"])){
+            $nom_img = addslashes($_POST["nomImageAjouter"]);
+            $idPage = $_GET["page_id"];
             $idSection = $_POST["select_section"];
-            $description = $_POST["descImageAjouter"];
-            $facultatif = $_POST["facultatif"];
+            $description = addslashes($_POST["descImageAjouter"]);
+            $facultatif = $_POST["select_facultatif"];
             $req_insert_img = $db->prepare("INSERT INTO image(section_id,page_id, nom, path, description, facultatif) value ('$idSection', '$idPage', '$nom_img', '', '$description', '$facultatif')");
             $req_insert_img->execute();
             echo '<meta http-equiv="refresh" content="0">';

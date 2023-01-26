@@ -146,7 +146,7 @@ if(isset($_SESSION["role"])){
 
     if(isset($_POST["add_site"])){
         if(isset($_POST["nomSiteAjouter"]) && !empty($_POST["nomSiteAjouter"]) && isset($_POST["urlSiteAjouter"]) && !empty($_POST["urlSiteAjouter"]) ){
-            $nom_site = $_POST["nomSiteAjouter"];
+            $nom_site = addslashes($_POST["nomSiteAjouter"]);
             $idModele = $_POST["modeleSiteAjouter"];
             $idClient = $_POST["clientSiteAjouter"];
             $urlSite = $_POST["urlSiteAjouter"];
@@ -158,7 +158,7 @@ if(isset($_SESSION["role"])){
             $req_page_modele = $db->query("SELECT * FROM page_modele where id_modele = '$idModele'");
             $data_page_modele = $req_page_modele->fetchAll();
             foreach($data_page_modele as $page_modele){
-                $nom_page = $page_modele["nom"];
+                $nom_page = addslashes($page_modele["nom"]);
                 $id_page = $page_modele["id_pageM"];
                 $req_create_page_cli = $db->prepare("INSERT INTO page(site_id, nom) value ('$id_site_inserer', '$nom_page')");
                 $req_create_page_cli->execute();
@@ -169,15 +169,15 @@ if(isset($_SESSION["role"])){
                 $data_texte_modele = $req_texte_modele->fetchAll();
                 foreach($data_image_modele as $image){
                     $section = $image["id_section"];
-                    $nom = $image["nom"];
-                    $description = $image["description"];
+                    $nom = addslashes($image["nom"]);
+                    $description = addslashes($image["description"]);
                     $facultatif = $image["facultatif"];
                     $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description, facultatif) value ('$section','$id_page_inserer','$nom','','$description', '$facultatif')");
                     $req_insert_image->execute();
                 }
                 foreach($data_texte_modele as $texte){
                     $section = $texte["id_section"];
-                    $nom = $texte["nom"];
+                    $nom = addslashes($texte["nom"]);
                     $taille = $texte["taille"];
                     $facultatif = $texte["facultatif"];
                     $req_insert_texte = $db->prepare("INSERT INTO texte(section_id, page_id, nom, contenu, taille, facultatif) value ('$section','$id_page_inserer','$nom','', '$taille','$facultatif')");
