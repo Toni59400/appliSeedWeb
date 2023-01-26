@@ -1,15 +1,7 @@
 <?php
-function get_width(){
-  $size_width  = '<script type="text/javascript">document.write(screen.width)</script>';
-  return $size_width;
-}
-
-function get_height(){
-    $size_height = '<script type="text/javascript">document.write(screen.height)</script>';
-    return $size_height;
-}
 include("./config/config.php");
 include("./config/dbconnection.php");
+include("./includes/classMobile.php");
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -17,10 +9,8 @@ if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
 if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
-var_dump( get_height(), get_width());
-if(get_width()<960){
-    echo "Site accessible uniquement sur ordinateur";
-} else {
+$detect = new Mobile_Detect();
+if(!($detect->isMobile())){
 ?>
 <!DOCTYPE HTML>
 <html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
@@ -89,6 +79,38 @@ if (isset($_POST['connexion'])){
         }
     }
 }
+}else{
+?>
+<!DOCTYPE HTML>
+<html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="./css/style.css">
+        <title>SeedWeb | Connexion</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="d-flex justify-content-around align-items-center pt-3 mb-4 border-bottom">
+                <div>
+                    <a href="../accueil/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                        <img class="mb-4" style="max-width: 150px;"src="https://seedweb.fr/wp-content/uploads/2022/12/Logo-seedweb-rectangle.png.webp" alt="logo_seed_web" >
+                    </a>
+                </div>  
+            <ul class="nav nav-pills">
+                <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
+            </ul>
+            </div>
+        </div>
+        <main class="form-signin w-50 m-auto mt-3 text-center">
+            <div class="form-floating mb-3">
+                <h1>Ce site n'est pas disponible sur mobile</h1>
+            </div>
+        </main>
+    </body>
+</html>
+<?php
 }
 
 
