@@ -17,7 +17,7 @@ if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
 if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
-var_dump( get_height());
+var_dump( get_height(), get_width());
 if((get_height()<768 && get_width()<1366)){
     
     echo "Site accessible uniquement sur ordinateur";
