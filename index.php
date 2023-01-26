@@ -1,4 +1,13 @@
 <?php
+function get_width(){
+  $size_width  = '<script type="text/javascript">document.write(screen.width)</script>';
+  return $size_width;
+}
+
+function get_height(){
+    $size_height = '<script type="text/javascript">document.write(screen.height)</script>';
+    return $size_height;
+}
 include("./config/config.php");
 include("./config/dbconnection.php");
 session_start();
@@ -7,7 +16,12 @@ ini_set("display_errors", 1);
 if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
-    if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
+if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
+var_dump( get_height());
+if((get_height()<768 && get_width()<1366)){
+    
+    echo "Site accessible uniquement sur ordinateur";
+} else {
 ?>
 <!DOCTYPE HTML>
 <html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
@@ -75,6 +89,7 @@ if (isset($_POST['connexion'])){
             echo "Identifiant ou mot de passe incorrect.";
         }
     }
+}
 }
 
 

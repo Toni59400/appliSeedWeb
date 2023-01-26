@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 20 jan. 2023 à 09:24
+-- Généré le : jeu. 26 jan. 2023 à 11:00
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,8 +44,9 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-19'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-19');
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-24'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-24'),
+(4, 'client', 'Vacavant', 'Cyril', '1205 rue des Artilleurs Canadiens', 'SeedWeb', 'cyril_strange', '$2y$10$QGVlNrrBkclc4r1JrzJ3Eenw2CDrPiPok0LMV3oqcG634Cygjm/te', '2023-01-20');
 
 -- --------------------------------------------------------
 
@@ -67,7 +68,8 @@ CREATE TABLE `formulaire` (
 --
 
 INSERT INTO `formulaire` (`id`, `id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
-(4, 2, 0, 10, '2023-01-17 17:25:38', '2023-01-17 17:25:38');
+(5, 4, 0, 11, '2023-01-20 11:51:21', '2023-01-20 11:51:21'),
+(7, 2, 0, 13, '2023-01-24 11:26:05', '2023-01-24 11:26:05');
 
 -- --------------------------------------------------------
 
@@ -90,10 +92,29 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
-(10, 1, 23, 'Image de fond', '', 'Image derrière le texte', 0),
-(11, 2, 23, 'Image Service 1', '', 'Image du service 1', 0),
-(12, 2, 23, 'Image Service 2', '', 'Image du service 2', 0),
-(14, 2, 26, 'Image Entreprise', '', 'Image Illustrant l\'entreprise', 0);
+(15, 1, 27, 'Image 1 caroussel', '', '', 0),
+(16, 1, 27, 'Image 3 caroussel', '', '', 1),
+(17, 1, 27, 'Image 2 caroussel', '', '', 0),
+(41, 1, 34, 'Image-de-fond', '../dossier_client/ClientTest_ClientTest_NoDefined/Accueil/images/Image-de-fond.jpg', 'Image derrière le texte.', 1),
+(42, 2, 34, 'Image-service-1', '', 'Image du 1er service', 0),
+(43, 2, 34, 'Image-service-2', '', 'Image du deuxième service', 0),
+(44, 2, 34, 'Image-service-3', '', 'Image du 3ème service', 0),
+(45, 2, 34, 'Image-service-4', '', 'Image du 4eme service', 1),
+(46, 2, 34, 'Image-service-5', '', 'Image du 5eme service', 1),
+(47, 2, 34, 'Image-service-6', '', 'Image du 6eme service', 1),
+(48, 6, 34, 'Image-de-fond', '', 'Image de fond ', 0),
+(49, 2, 35, 'Image-service-1', '', 'Image du 1er service', 0),
+(50, 2, 35, 'Image-service-2', '', 'Image du deuxième service', 0),
+(51, 2, 35, 'Image-service-3', '', 'Image du 3ème service', 0),
+(52, 2, 35, 'Image-service-4', '', 'Image du 4eme service', 1),
+(53, 2, 35, 'Image-service-5', '', 'Image du 5eme service', 1),
+(54, 1, 36, 'image-1-hero', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-1-hero.png', 'Image de l\'entreprise', 1),
+(55, 5, 36, 'image-valeur-1', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur-1.png', 'Image de la valeur 1', 1),
+(56, 5, 36, 'image-valeur2', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur2.png', 'Image de la valeur 2', 1),
+(57, 5, 36, 'image-valeur3', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur3.png', 'Image de la valeur 3', 1),
+(58, 5, 36, 'Image-valeur4', '', 'Image de la valeur 4', 1),
+(59, 5, 36, 'Image-valeur5', '', 'Image de la valeur 5 ', 1),
+(60, 8, 37, 'image-de-contact', '../dossier_client/ClientTest_ClientTest_NoDefined/Contact/images/image-de-contact.png', 'Image de contact', 1);
 
 -- --------------------------------------------------------
 
@@ -115,12 +136,26 @@ CREATE TABLE `image_modele` (
 --
 
 INSERT INTO `image_modele` (`id_imageM`, `nom`, `description`, `id_section`, `id_pageM`, `facultatif`) VALUES
-(3, 'Image de fond', 'Image derrière le texte', 1, 37, 0),
-(4, 'Image Service 1', 'Image du service 1', 2, 37, 0),
-(5, 'Image Service 2', 'Image du service 2', 2, 37, 0),
-(7, 'Image 1 caroussel', '', 1, 1, 0),
-(8, 'Image 3 caroussel', '', 1, 1, 1),
-(9, 'Image 2 caroussel', '', 1, 1, 0);
+(10, 'Image-de-fond', 'Image derrière le texte.', 1, 37, 0),
+(11, 'Image-service-1', 'Image du 1er service', 2, 37, 0),
+(12, 'Image-service-2', 'Image du deuxième service', 2, 37, 0),
+(13, 'Image-service-3', 'Image du 3ème service', 2, 37, 0),
+(15, 'Image-service-4', 'Image du 4eme service', 2, 37, 1),
+(16, 'Image-service-5', 'Image du 5eme service', 2, 37, 1),
+(17, 'Image-service-6', 'Image du 6eme service', 2, 37, 1),
+(18, 'Image-de-fond', 'Image de fond ', 6, 37, 0),
+(19, 'Image-service-1', 'Image du 1er service', 2, 38, 0),
+(20, 'Image-service-2', 'Image du deuxième service', 2, 38, 0),
+(21, 'Image-service-3', 'Image du 3ème service', 2, 38, 0),
+(22, 'Image-service-4', 'Image du 4eme service', 2, 38, 1),
+(23, 'Image-service-5', 'Image du 5eme service', 2, 38, 1),
+(24, 'image-1-hero', 'Image de l\'entreprise', 1, 39, 0),
+(25, 'image-valeur-1', 'Image de la valeur 1', 5, 39, 0),
+(26, 'image-valeur2', 'Image de la valeur 2', 5, 39, 0),
+(27, 'image-valeur3', 'Image de la valeur 3', 5, 39, 0),
+(28, 'Image-valeur4', 'Image de la valeur 4', 5, 39, 1),
+(29, 'Image-valeur5', 'Image de la valeur 5 ', 5, 39, 1),
+(30, 'image-de-contact', 'Image de contact', 8, 40, 0);
 
 -- --------------------------------------------------------
 
@@ -159,10 +194,14 @@ CREATE TABLE `page` (
 --
 
 INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
-(23, 10, 'Accueil'),
-(24, 10, 'Services'),
-(25, 10, 'Qui sommes-nous'),
-(26, 10, 'Contact');
+(27, 11, 'Accueil'),
+(28, 11, 'Portfolio'),
+(29, 11, 'Services'),
+(30, 11, 'Page Test'),
+(34, 13, 'Accueil'),
+(35, 13, 'Services'),
+(36, 13, 'Qui sommes-nous'),
+(37, 13, 'Contact');
 
 -- --------------------------------------------------------
 
@@ -210,7 +249,11 @@ INSERT INTO `section` (`id`, `nom`) VALUES
 (3, 'Compétences'),
 (4, 'Avis Clients'),
 (5, 'Nos Valeurs'),
-(6, 'Qualites');
+(6, 'Qualites'),
+(7, 'Footer'),
+(8, 'Contact'),
+(9, 'Nos chiffres'),
+(10, 'Tarifs');
 
 -- --------------------------------------------------------
 
@@ -231,7 +274,8 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
-(10, 2, 2, 'Salon De Coiffure', 'https://salon-de-coiffure.com');
+(11, 4, 1, 'SeedWeb', 'https://urlTest.com'),
+(13, 2, 2, 'Agence', 'https://agence.com');
 
 -- --------------------------------------------------------
 
@@ -244,7 +288,7 @@ CREATE TABLE `texte` (
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contenu` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `taille` int(4) NOT NULL,
   `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -254,7 +298,54 @@ CREATE TABLE `texte` (
 --
 
 INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, `facultatif`) VALUES
-(4, 1, 23, 'Texte Call-To-Action', '', 0, 0);
+(36, 1, 34, 'Texte Call-To-Action', '', 35, 0),
+(37, 6, 34, 'Nom Qualite 1', '', 30, 0),
+(38, 6, 34, 'Nom Qualite 2', '', 30, 0),
+(39, 6, 34, 'Nom Qualite 3', '', 30, 0),
+(40, 6, 34, 'Description qualite 1', '', 200, 0),
+(41, 6, 34, 'Description qualite 2', '', 200, 0),
+(42, 6, 34, 'Description qualite 3', '', 200, 0),
+(43, 3, 34, 'Nom de la première compétence', '', 20, 0),
+(44, 3, 34, 'Nom de la deuxième compétence', '', 25, 0),
+(45, 3, 34, 'Nom de la troisième compétence', '', 25, 0),
+(46, 3, 34, 'Description de la 3ème compétence', '', 200, 0),
+(47, 3, 34, 'Description de la 2ème compétence', '', 200, 0),
+(48, 3, 34, 'Description de la 1ère compétence', '', 200, 0),
+(49, 2, 34, 'Nom du 1er service', '', 25, 0),
+(50, 2, 34, 'Nom du 2ème service', '', 25, 0),
+(51, 2, 34, 'Nom du 3ème service', '', 25, 0),
+(52, 2, 34, 'Nom du 4ème service', '', 25, 1),
+(53, 2, 34, 'Nom du 5ème service', '', 25, 1),
+(54, 2, 34, 'Nom du 6ème service', '', 25, 1),
+(55, 2, 35, 'Titre premier service', '', 25, 0),
+(56, 2, 35, 'Description du premier service', '', 600, 0),
+(57, 2, 35, 'Titre deuxième service', '', 25, 0),
+(58, 2, 35, 'Description deuxième service', '', 600, 0),
+(59, 2, 35, 'Titre troisième service', '', 25, 0),
+(60, 2, 35, 'Description troisième service', '', 600, 0),
+(61, 10, 35, 'Titre + prix de la prestation 1', '', 60, 1),
+(62, 10, 35, 'Contenu de la prestation 1', '', 200, 1),
+(63, 10, 35, 'Titre + prix de la prestation 2', '', 60, 1),
+(64, 10, 35, 'Contenu de la prestation 2', '', 200, 1),
+(65, 10, 35, 'Titre + prix de la prestation 3', '', 60, 1),
+(66, 10, 35, 'Contenu de la prestation 3', '', 200, 1),
+(67, 1, 36, 'Présentation de l\'entreprise', 'Entreprise de rénovation dans le bâtiment. ', 390, 1),
+(68, 2, 36, 'Présentation des services', '', 300, 0),
+(69, 2, 36, '1er service', 'test', 50, 1),
+(70, 2, 36, '2ème service', '', 50, 0),
+(71, 2, 36, '3ème service', '', 50, 0),
+(72, 9, 36, 'Titre de présentation des chiffres', '', 100, 1),
+(73, 9, 36, '1er chiffre avec sa description', '', 30, 1),
+(74, 9, 36, '2ème chiffre avec sa description', '', 30, 1),
+(75, 9, 36, '3ème chiffre avec sa description', '', 30, 1),
+(76, 9, 36, '4ème chiffre avec sa description', '', 30, 1),
+(77, 5, 36, 'Nom de la 1ère valeur', '', 25, 0),
+(78, 5, 36, 'Description de la 1ere valeur', '', 350, 0),
+(79, 5, 36, 'Nom de la deuxième valeur ', '', 25, 0),
+(80, 5, 36, 'Description de la deuxième valeur', '', 350, 0),
+(81, 5, 36, 'Nom de la troisième valeur', '', 25, 0),
+(82, 5, 36, 'Description de la 3ème valeur', '', 350, 0),
+(83, 8, 37, 'Texte de contact', '', 80, 1);
 
 -- --------------------------------------------------------
 
@@ -264,7 +355,7 @@ INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, 
 
 CREATE TABLE `texte_modele` (
   `id_texteM` int(11) NOT NULL,
-  `nom` varchar(30) NOT NULL,
+  `nom` varchar(35) NOT NULL,
   `id_section` int(11) NOT NULL,
   `id_pageM` int(11) NOT NULL,
   `taille` int(4) NOT NULL,
@@ -276,13 +367,54 @@ CREATE TABLE `texte_modele` (
 --
 
 INSERT INTO `texte_modele` (`id_texteM`, `nom`, `id_section`, `id_pageM`, `taille`, `facultatif`) VALUES
-(6, 'Texte Call-To-Action', 1, 37, 0, 0),
+(6, 'Texte Call-To-Action', 1, 37, 35, 0),
 (13, 'Nom Qualite 1', 6, 37, 30, 0),
 (14, 'Nom Qualite 2', 6, 37, 30, 0),
 (15, 'Nom Qualite 3', 6, 37, 30, 0),
 (16, 'Description qualite 1', 6, 37, 200, 0),
 (17, 'Description qualite 2', 6, 37, 200, 0),
-(18, 'Description qualite 3', 6, 37, 200, 0);
+(18, 'Description qualite 3', 6, 37, 200, 0),
+(19, 'Nom de la première compétence', 3, 37, 20, 0),
+(20, 'Nom de la deuxième compétence', 3, 37, 25, 0),
+(21, 'Nom de la troisième compétence', 3, 37, 25, 0),
+(22, 'Description de la 3ème compétence', 3, 37, 200, 0),
+(23, 'Description de la 2ème compétence', 3, 37, 200, 0),
+(24, 'Description de la 1ère compétence', 3, 37, 200, 0),
+(25, 'Nom du 1er service', 2, 37, 25, 0),
+(26, 'Nom du 2ème service', 2, 37, 25, 0),
+(27, 'Nom du 3ème service', 2, 37, 25, 0),
+(28, 'Nom du 4ème service', 2, 37, 25, 1),
+(29, 'Nom du 5ème service', 2, 37, 25, 1),
+(30, 'Nom du 6ème service', 2, 37, 25, 1),
+(32, 'Présentation de l\'entreprise', 1, 39, 390, 0),
+(33, 'Présentation des services', 2, 39, 300, 0),
+(34, '1er service', 2, 39, 50, 0),
+(35, '2ème service', 2, 39, 50, 0),
+(36, '3ème service', 2, 39, 50, 0),
+(37, 'Titre de présentation des chiffres', 9, 39, 100, 1),
+(38, '1er chiffre avec sa description', 9, 39, 30, 1),
+(39, '2ème chiffre avec sa description', 9, 39, 30, 1),
+(40, '3ème chiffre avec sa description', 9, 39, 30, 1),
+(41, '4ème chiffre avec sa description', 9, 39, 30, 1),
+(42, 'Nom de la 1ère valeur', 5, 39, 25, 0),
+(43, 'Description de la 1ere valeur', 5, 39, 350, 0),
+(44, 'Nom de la deuxième valeur ', 5, 39, 25, 0),
+(45, 'Description de la deuxième valeur', 5, 39, 350, 0),
+(46, 'Nom de la troisième valeur', 5, 39, 25, 0),
+(47, 'Description de la 3ème valeur', 5, 39, 350, 0),
+(48, 'Titre premier service', 2, 38, 25, 0),
+(49, 'Description du premier service', 2, 38, 600, 0),
+(50, 'Titre deuxième service', 2, 38, 25, 0),
+(51, 'Description deuxième service', 2, 38, 600, 0),
+(52, 'Titre troisième service', 2, 38, 25, 0),
+(53, 'Description troisième service', 2, 38, 600, 0),
+(54, 'Titre + prix de la prestation 1', 10, 38, 60, 1),
+(55, 'Contenu de la prestation 1', 10, 38, 200, 1),
+(56, 'Titre + prix de la prestation 2', 10, 38, 60, 1),
+(57, 'Contenu de la prestation 2', 10, 38, 200, 1),
+(58, 'Titre + prix de la prestation 3', 10, 38, 60, 1),
+(59, 'Contenu de la prestation 3', 10, 38, 200, 1),
+(60, 'Texte de contact', 8, 40, 80, 1);
 
 --
 -- Index pour les tables déchargées
@@ -376,25 +508,25 @@ ALTER TABLE `texte_modele`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `formulaire`
 --
 ALTER TABLE `formulaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
 --
 ALTER TABLE `image_modele`
-  MODIFY `id_imageM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_imageM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT pour la table `modele`
@@ -406,7 +538,7 @@ ALTER TABLE `modele`
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
@@ -418,25 +550,25 @@ ALTER TABLE `page_modele`
 -- AUTO_INCREMENT pour la table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`
 --
 ALTER TABLE `texte_modele`
-  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_texteM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Contraintes pour les tables déchargées

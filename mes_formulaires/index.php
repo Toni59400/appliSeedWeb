@@ -47,14 +47,16 @@ if(isset($_SESSION["role"])){
         $page = $data_page[$_GET["page"]];
         ?> 
         <form method="POST" action="" enctype='multipart/form-data'>
-            <div  class="row w-100">
-                <div class=" col w-50">
+            <div  class="row w-75 mr-12-5 ml-12-5">
+                <div class="col w-50">
                     <h1 class="text-center">Page : "<?=$page['nom']?>"</h1>
-                    <div class="m-2 text-center">
-                        <input type="submit" name="save_page" value="Valider la page" class="border_white color_white nav-link bgSeed rounded-pill w-25">
-                    </div>
-                    <div class="m-2 text-center">
-                    <input type="submit" name="save_state" value="Enregistrer l'avancement" class="border_white color_white nav-link bgSeed rounded-pill w-25">
+                    <div class="fixed-top opacity-75">
+                        <div class="m-2 text-center">
+                            <input type="submit" name="save_state" value="Enregistrer l'avancement" class="p-2 border_white color_white nav-link bgSeed rounded-pill w-auto">
+                        </div>
+                        <div class="m-2 text-center">
+                            <input type="submit" name="save_page" value="Valider la page" class="p-2 border_white color_white nav-link bgSeed rounded-pill w-auto">
+                        </div>
                     </div>
                 </div>
                 
@@ -87,8 +89,8 @@ if(isset($_SESSION["role"])){
                     $facultatif = "Non";
                     if($image['facultatif'] == true){$facultatif = "Oui";}
                 ?>
-                    <div class="m-2">
-                        <label for="formFileLg" class="form-label"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span> (Facultatif)</span>";}?></label>
+                    <div class="m-4">
+                        <p class="text-start "><label for="formFileLg" class="form-label fw-bold"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span> (Facultatif)</span>";}?></label></p>
                         <input class="form-control form-control-lg" id="formFileLg" idImage="<?=$image["id"]?>" name="<?=$nomImg?>" accept=".jpeg,.pdf,.png,.jpg,.svg,.webp,.gif" type="file"/>
                     </div>
 <?php
@@ -109,10 +111,10 @@ if(isset($_SESSION["role"])){
                     if($texte["taille"] < 100){
                 ?>
 
-                    <div class="m-2">
-                        <label for="" class="form-label"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label>
+                    <div class="m-4">
+                        <p class="text-start "><label for="" class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label></p>
                         <input class="form-control form-control-lg input_counter" value="<?=$contenu?>" id="formFileLg" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" type="text" >
-                        <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?></span>
+                        <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?> caractères restants</span>
                         <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
                     </div>
 
@@ -120,9 +122,9 @@ if(isset($_SESSION["role"])){
                     } else {
                 ?>
                     <div class="m-2">
-                        <label class="form-label"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label>
+                        <p class="text-start "><label class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label></p>
                         <textarea class="form-control input_counter" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" id="floatingTextarea"></textarea>
-                        <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?></span>
+                        <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?> caractères restants</span>
                         <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
                     </div>
 
@@ -139,7 +141,7 @@ if(isset($_SESSION["role"])){
 ?>  
                 </div>
             </form>
-            <div class="container" id="pagination">
+            <div class="container fixed-bottom opacity-75" id="pagination">
                     <nav aria-label="Page Navigation">
                         <ul class="pagination justify-content-center">
                     <?php 

@@ -128,7 +128,7 @@ function afficherNbCarac(){
     const valueLength = this.value.length;
     const leftCharLength = tailleMax - valueLength;
     if (leftCharLength < 0) return;{
-        span.innerText = leftCharLength;
+        span.innerText = leftCharLength + " caractères restants";
         this.classList.remove("is-invalid");
         spanLimite.style.display="none";
         span.style.display = "inline-block";
