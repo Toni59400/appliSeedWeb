@@ -2,6 +2,10 @@
 include("../config/config.php");
 include("../config/dbconnection.php");
 include_once('../sendMail.php');
+if(!isset($_SESSION['theme'])){
+    $_SESSION["theme"] = "light";
+}
+if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
 
 if (isset($_POST['recup'])){
     if (isset($_POST['email'])){
@@ -19,8 +23,7 @@ if (isset($_POST['recup'])){
                     ';
             sendMail($sujet, $message, $email2);
     }
-} if (isset($_GET['cli'])){ 
-    
+} if (isset($_GET['cli'])){   
 include("../includes/layout.php");
 ?>
 
@@ -86,6 +89,7 @@ include("../includes/layout_bottom.php");
                     </a>
                 </div>  
                 <ul class="nav nav-pills">
+                    <li class="nav-item"><a href="../" class="nav-link active bgSeed rounded-pill" aria-current="page">Connexion</a></li>
                     <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
                 </ul>
             </div>
@@ -93,8 +97,8 @@ include("../includes/layout_bottom.php");
         <main class="form-signin w-50 m-auto mt-3">
             <form method="POST">
                 <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" name="email">
-                <label for="floatingInput">Email</label>
+                <input type="mail" class="form-control" id="floatingInput" name="email" required>
+                <label for="floatingInput">Email (associé au compte)</label>
                 </div>
                 <button class="w-100 btnPerso bgSeed rounded-pill" type="submit" name="recup">Envoyer un mail de récupération</button>
             <p class="mt-5 mb-3 text-muted">© SeedWeb 2023</p>
