@@ -68,7 +68,7 @@ if(isset($_SESSION["role"])){
 <?php
                                 foreach ($data_pages as $page) {
 ?>
-                       z     <tr>
+                            <tr>
                                 <th scope="row"><?=$page["id"]?></th>
                                 <td><?=$page["nom"]?></td>
                                 <td>
