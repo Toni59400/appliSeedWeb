@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include("../config/config.php");
 include("../config/dbconnection.php");
 include_once('../sendMail.php');
@@ -26,7 +27,6 @@ if (isset($_POST['recup'])){
             sendMail($sujet, $message, $email2);
     }
 } if (isset($_GET['cli'])){   
-include("../includes/layout.php");
 ?>
 
 <!DOCTYPE HTML>

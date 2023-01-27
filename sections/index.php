@@ -45,7 +45,7 @@ if(isset($_SESSION["role"])){
                     </div>
                 </form>
                     <div class="w-50 ">
-                            <div class="row g-3 justify-content-between">
+                            <div class="row g-3 justify-content-between mt-3">
                                 <form method="POST">
                                 <div class="col-auto mb-2">
                                     <input type="text" id="" class="form-control" name="nomSectionAjouter" placeholder="Nom de la Section" required>
@@ -68,7 +68,7 @@ if(isset($_SESSION["role"])){
 <?php
                                 foreach ($data_pages as $page) {
 ?>
-                            <tr>
+                       z     <tr>
                                 <th scope="row"><?=$page["id"]?></th>
                                 <td><?=$page["nom"]?></td>
                                 <td>

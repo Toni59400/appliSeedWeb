@@ -31,7 +31,7 @@ if(isset($_SESSION["role"])){
             }
         }
         $data_site = $req_site->fetchAll();
-        $req_client_add = $db->query("SELECT * FROM client where role = 'client'");
+        $req_client_add = $db->query("SELECT * FROM client where role = 'client' and id not in (SELECT client_id from site);");
         $req_modele_add = $db->query("SELECT * FROM modele");
         $data_cli = $req_client_add->fetchAll();
         $data_modele = $req_modele_add->fetchAll();

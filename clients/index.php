@@ -133,7 +133,19 @@ if(isset($_SESSION["role"])){
                 </table>
             </div>
         </div>
-        <script>function redi(){
+        <script>
+        function message(texte, id){
+                DayPilot.Modal.alert(texte, {okText:"Oui", cancelText:"Annuler"})
+                .then(function(args) {
+                    if (args.canceled) {
+                    }
+                    else {
+                        window.location = "index.php?confirm="+id;
+                    }
+                });
+            }
+        
+        function redi(){
                 window.location = "index.php";
             }
         </script>
@@ -173,6 +185,13 @@ if(isset($_SESSION["role"])){
 
     if (isset($_GET["relance"])){
         $id = $_GET["relance"];
+        $mess="Voulez-vous envoyé l'email ?";
+        ?>
+        <script>message("<?=$mess?>", "<?=$id?>")</script>
+        <?php
+    }
+    if(isset($_GET["confirm"])){
+        $id = $_GET["confirm"];
         $data_cli = $db->query("SELECT * FROM client where id='$id'");
         $data_cli = $data_cli->fetch();
         $sujet = "Relance pour compléter le formulaire";
@@ -186,6 +205,7 @@ if(isset($_SESSION["role"])){
                     </html>
                     ';
         sendMail($sujet, $message, $data_cli["mail"]);
-        
+        echo "<script>redi()</script>";
     }
+    
 ?>

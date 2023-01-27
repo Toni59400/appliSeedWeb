@@ -19,13 +19,13 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'colvert.o2switch.net';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'contact@appliweb.seedweb.fr';                     //SMTP username
-    $mail->Password   = '-nv,.CB*koXV';                               //SMTP password
+    $mail->Username   = 'contact@seedweb.fr';                     //SMTP username
+    $mail->Password   = 'TpQgmlctvYfC';                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('ne-pas-repondre@appliweb.seedweb.fr', 'SeedWebAppli');
+    $mail->setFrom('ne-pas-repondre@seedweb.fr', 'SeedWebAppli');
     $mail->addAddress($e);     //Add a recipient
     /*
     $mail->addAddress('ellen@example.com');               //Name is optional

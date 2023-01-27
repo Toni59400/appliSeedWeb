@@ -54,6 +54,18 @@ function delete_confirm_cli(){
         }});
 }
 
+$(".meter > span").each(function () {
+    $(this)
+      .data("origWidth", $(this).width())
+      .width(0)
+      .animate(
+        {
+          width: $(this).data("origWidth")
+        },
+        1200
+      );
+  });
+
 function delete_confirm_modele(){
     var id = this.getAttribute('data_sup');
     DayPilot.Modal.confirm("Voulez-vous vraiment supprimer le modèle ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {

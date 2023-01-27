@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 26 jan. 2023 à 11:00
+-- Généré le : ven. 27 jan. 2023 à 15:56
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -44,9 +44,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'test@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-24'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'mail@test.fr', '$2y$10$JVJPFsVI/3Fml7AizXg4.ueqKDo8jT/8DxzOp/iuTtig..sQZIY8K', '2023-01-24'),
-(4, 'client', 'Vacavant', 'Cyril', '1205 rue des Artilleurs Canadiens', 'SeedWeb', 'cyril_strange', '$2y$10$QGVlNrrBkclc4r1JrzJ3Eenw2CDrPiPok0LMV3oqcG634Cygjm/te', '2023-01-20');
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'tonipira.tp@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-27'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-27');
 
 -- --------------------------------------------------------
 
@@ -68,8 +67,7 @@ CREATE TABLE `formulaire` (
 --
 
 INSERT INTO `formulaire` (`id`, `id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
-(5, 4, 0, 11, '2023-01-20 11:51:21', '2023-01-20 11:51:21'),
-(7, 2, 0, 13, '2023-01-24 11:26:05', '2023-01-24 11:26:05');
+(7, 2, 20, 13, '2023-01-24 11:26:05', '2023-01-27 14:35:21');
 
 -- --------------------------------------------------------
 
@@ -92,9 +90,6 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
-(15, 1, 27, 'Image 1 caroussel', '', '', 0),
-(16, 1, 27, 'Image 3 caroussel', '', '', 1),
-(17, 1, 27, 'Image 2 caroussel', '', '', 0),
 (41, 1, 34, 'Image-de-fond', '../dossier_client/ClientTest_ClientTest_NoDefined/Accueil/images/Image-de-fond.jpg', 'Image derrière le texte.', 1),
 (42, 2, 34, 'Image-service-1', '', 'Image du 1er service', 0),
 (43, 2, 34, 'Image-service-2', '', 'Image du deuxième service', 0),
@@ -194,10 +189,6 @@ CREATE TABLE `page` (
 --
 
 INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
-(27, 11, 'Accueil'),
-(28, 11, 'Portfolio'),
-(29, 11, 'Services'),
-(30, 11, 'Page Test'),
 (34, 13, 'Accueil'),
 (35, 13, 'Services'),
 (36, 13, 'Qui sommes-nous'),
@@ -274,7 +265,6 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
-(11, 4, 1, 'SeedWeb', 'https://urlTest.com'),
 (13, 2, 2, 'Agence', 'https://agence.com');
 
 -- --------------------------------------------------------
@@ -298,22 +288,22 @@ CREATE TABLE `texte` (
 --
 
 INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, `facultatif`) VALUES
-(36, 1, 34, 'Texte Call-To-Action', '', 35, 0),
-(37, 6, 34, 'Nom Qualite 1', '', 30, 0),
+(36, 1, 34, 'Texte Call-To-Action', 'test', 35, 1),
+(37, 6, 34, 'Nom Qualite 1', 'Test', 30, 1),
 (38, 6, 34, 'Nom Qualite 2', '', 30, 0),
 (39, 6, 34, 'Nom Qualite 3', '', 30, 0),
-(40, 6, 34, 'Description qualite 1', '', 200, 0),
-(41, 6, 34, 'Description qualite 2', '', 200, 0),
-(42, 6, 34, 'Description qualite 3', '', 200, 0),
-(43, 3, 34, 'Nom de la première compétence', '', 20, 0),
-(44, 3, 34, 'Nom de la deuxième compétence', '', 25, 0),
-(45, 3, 34, 'Nom de la troisième compétence', '', 25, 0),
-(46, 3, 34, 'Description de la 3ème compétence', '', 200, 0),
-(47, 3, 34, 'Description de la 2ème compétence', '', 200, 0),
-(48, 3, 34, 'Description de la 1ère compétence', '', 200, 0),
-(49, 2, 34, 'Nom du 1er service', '', 25, 0),
-(50, 2, 34, 'Nom du 2ème service', '', 25, 0),
-(51, 2, 34, 'Nom du 3ème service', '', 25, 0),
+(40, 6, 34, 'Description qualite 1', 'Test', 200, 1),
+(41, 6, 34, 'Description qualite 2', 'Test', 200, 1),
+(42, 6, 34, 'Description qualite 3', 'Test', 200, 1),
+(43, 3, 34, 'Nom de la première compétence', 'Test', 20, 1),
+(44, 3, 34, 'Nom de la deuxième compétence', 'Test', 25, 1),
+(45, 3, 34, 'Nom de la troisième compétence', 'Test', 25, 1),
+(46, 3, 34, 'Description de la 3ème compétence', 'Test', 200, 1),
+(47, 3, 34, 'Description de la 2ème compétence', 'Test', 200, 1),
+(48, 3, 34, 'Description de la 1ère compétence', 'Test', 200, 1),
+(49, 2, 34, 'Nom du 1er service', 'Test', 25, 1),
+(50, 2, 34, 'Nom du 2ème service', 'Test', 25, 1),
+(51, 2, 34, 'Nom du 3ème service', 'Test', 25, 1),
 (52, 2, 34, 'Nom du 4ème service', '', 25, 1),
 (53, 2, 34, 'Nom du 5ème service', '', 25, 1),
 (54, 2, 34, 'Nom du 6ème service', '', 25, 1),
@@ -508,19 +498,19 @@ ALTER TABLE `texte_modele`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `formulaire`
 --
 ALTER TABLE `formulaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
@@ -538,7 +528,7 @@ ALTER TABLE `modele`
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
@@ -556,13 +546,13 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`
