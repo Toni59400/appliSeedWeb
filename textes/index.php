@@ -44,8 +44,16 @@ include("../includes/header.php");
 <div class="container">
             <h1>Textes  <?=$data_site["nom"]?> - <?=$data_page["nom"]?></h1>
             <hr>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="../sites/index.php">Sites</a></li>
+                    <li class="breadcrumb-item"><a href="../pages-site/index.php">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Textes Page</li>
+                </ol>
+            </nav>
             <form method="POST">
-                <div class="d-flex justify-content-end w-50 float-end mb-3 mt-3 ">
+                <div class="d-flex justify-content-end w-50 float-end mb-3 ">
                     <input class="form-control me-1 ms-2" name="terme_modele" type="search" placeholder="Rechercher un texte" aria-label="Search">
                     <input type="submit" name="search_texte" class="bgSeed rounded-pill color_white border_white" value="Rechercher">
                 </div>

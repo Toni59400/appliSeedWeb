@@ -150,5 +150,4 @@ function afficherNbCarac(){
         span.style.display = "none";
         spanLimite.style.display="inline-block";
     }
-}
-    
+} 

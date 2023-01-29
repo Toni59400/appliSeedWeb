@@ -35,6 +35,10 @@ if(isset($_SESSION["role"])){
         <div class="container">
             <h1>Modèles</h1>
             <hr>
+            <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Modèles</li>
+            </ol>
             <form method="POST">
                 <div class="d-flex justify-content-end w-50 float-end mb-3 mt-3 ">
                     <input class="form-control me-1 ms-2" name="terme_modele" type="search" placeholder="Rechercher un modèle" aria-label="Search">

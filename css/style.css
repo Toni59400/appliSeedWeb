@@ -23,6 +23,10 @@
     border-radius: 13px;
 }
 
+.breadcrumb{
+    color: #10aaae !important;
+}
+
 .btn-outline-seed {
     --bs-btn-color: #10aaae;
     --bs-btn-border-color: #10aaae;

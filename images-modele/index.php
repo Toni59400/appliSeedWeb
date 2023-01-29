@@ -44,6 +44,14 @@ include("../includes/header.php");
 <div class="container">
             <h1>Images Modèles <?=$data_modele["nom"]?> - <?=$data_page["nom"]?></h1>
             <hr>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="../modeles/index.php">Modèles</a></li>
+                    <li class="breadcrumb-item"><a href="../pages-modele/index.php">Page Modele</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Images Modele</li>
+                </ol>
+            </nav>
             <form method="POST">
                 <div class="d-flex justify-content-end w-50 float-end mb-3 mt-3 ">
                     <input class="form-control me-1 ms-2" name="terme_page" type="search" placeholder="Rechercher une image" aria-label="Search">
