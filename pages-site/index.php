@@ -24,13 +24,20 @@ include("../includes/header.php");
 
     if(isset($_SESSION["role"])){
         if($_SESSION["role"] == "admin"){
-            
             $req_site = $db->query("SELECT * FROM page");
+            if(isset($_GET["site_id"])){
+                $idSite = $_GET['site_id'];
+                $req_site = $db->query("SELECT * FROM page where site_id='$idSite'");
+            }
             if(isset($_POST["search_page"])){
                 if(isset($_POST['terme_page'])){
                     $val = $_POST['terme_page'];
-
                     $req_site = $db->query("SELECT * FROM page where page.nom like '%$val%' or site_id in (SELECT id from site where nom like '%$val%' or url like '%$val%' or modele_id in (SELECT id FROM modele where nom like '%$val%'))");    
+                    if(isset($_GET['site_id'])){
+                        $idSite = $_GET['site_id'];
+                        $req_site = $db->query("SELECT * FROM page where site_id='$idSite' and page.nom like '%$val%' or site_id in (SELECT id from site where nom like '%$val%' or url like '%$val%' or modele_id in (SELECT id FROM modele where nom like '%$val%'))");    
+                    }
+                    
                 }
             }
             

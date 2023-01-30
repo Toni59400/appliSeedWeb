@@ -66,7 +66,7 @@ if(isset($_SESSION["role"])){
                                 <input type="url" id="" class="form-control" name="urlSiteAjouter" aria-describedby="">
                             </div>
                             <select class="form-select col-auto" name="clientSiteAjouter" aria-label="Default select example">
-                                <option selected>Clients</option>
+                                <option value="-1" selected>Clients</option>
                                 <?php
                                     foreach($data_cli as $cli){
                                 ?>
@@ -151,7 +151,7 @@ if(isset($_SESSION["role"])){
     include("../includes/layout_bottom.php");
 
     if(isset($_POST["add_site"])){
-        if(isset($_POST["nomSiteAjouter"]) && !empty($_POST["nomSiteAjouter"]) && isset($_POST["urlSiteAjouter"]) && !empty($_POST["urlSiteAjouter"]) ){
+        if(isset($_POST["nomSiteAjouter"]) && !empty($_POST["nomSiteAjouter"]) && isset($_POST["urlSiteAjouter"]) && !empty($_POST["urlSiteAjouter"]) && $_POST["clientSiteAjouter"] != "-1"){
             $nom_site = addslashes($_POST["nomSiteAjouter"]);
             $idModele = $_POST["modeleSiteAjouter"];
             $idClient = $_POST["clientSiteAjouter"];
@@ -195,7 +195,7 @@ if(isset($_SESSION["role"])){
             $nom = $data_cli_select['nom'];
             $prenom = $data_cli_select['prenom'];
             $societe = $data_cli_select['societe'];
-            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe . "/images/";
+            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom;
             if (!file_exists($nom_dossier)) {
                 mkdir($nom_dossier, 0777, true);
             }
