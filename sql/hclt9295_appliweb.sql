@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 27 jan. 2023 à 15:56
--- Version du serveur : 10.4.24-MariaDB
--- Version de PHP : 8.1.6
+-- Généré le : lun. 30 jan. 2023 à 12:27
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `role` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prenom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `adresse` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `societe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pwd` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(32) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `prenom` varchar(255) NOT NULL,
+  `adresse` varchar(255) NOT NULL,
+  `societe` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `pwd` varchar(255) NOT NULL,
   `lastConnection` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -44,30 +44,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
-(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'tonipira.tp@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-27'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-27');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `formulaire`
---
-
-CREATE TABLE `formulaire` (
-  `id` int(11) NOT NULL,
-  `id_client` int(11) NOT NULL,
-  `progression` int(11) DEFAULT NULL,
-  `id_site` int(11) NOT NULL,
-  `dateCreation` datetime NOT NULL,
-  `dateLastUpdate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `formulaire`
---
-
-INSERT INTO `formulaire` (`id`, `id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
-(7, 2, 20, 13, '2023-01-24 11:26:05', '2023-01-27 14:35:21');
+(1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'tonipira.tp@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-30'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-30');
 
 -- --------------------------------------------------------
 
@@ -79,9 +57,9 @@ CREATE TABLE `image` (
   `id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(35) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nom` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `description` varchar(35) DEFAULT NULL,
   `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -124,7 +102,7 @@ CREATE TABLE `image_modele` (
   `id_section` int(11) NOT NULL,
   `id_pageM` int(11) NOT NULL,
   `facultatif` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `image_modele`
@@ -160,8 +138,8 @@ INSERT INTO `image_modele` (`id_imageM`, `nom`, `description`, `id_section`, `id
 
 CREATE TABLE `modele` (
   `id` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prix` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nom` varchar(255) NOT NULL,
+  `prix` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -175,13 +153,33 @@ INSERT INTO `modele` (`id`, `nom`, `prix`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `notif`
+--
+
+CREATE TABLE `notif` (
+  `id` int(11) NOT NULL,
+  `admin` int(11) NOT NULL,
+  `page` tinyint(1) DEFAULT NULL,
+  `form` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `notif`
+--
+
+INSERT INTO `notif` (`id`, `admin`, `page`, `form`) VALUES
+(1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `page`
 --
 
 CREATE TABLE `page` (
   `id` int(11) NOT NULL,
   `site_id` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nom` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -204,7 +202,7 @@ CREATE TABLE `page_modele` (
   `id_pageM` int(11) NOT NULL,
   `nom` varchar(30) NOT NULL,
   `id_modele` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `page_modele`
@@ -227,7 +225,7 @@ INSERT INTO `page_modele` (`id_pageM`, `nom`, `id_modele`) VALUES
 
 CREATE TABLE `section` (
   `id` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nom` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -256,8 +254,8 @@ CREATE TABLE `site` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `modele_id` int(11) DEFAULT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nom` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -277,8 +275,8 @@ CREATE TABLE `texte` (
   `id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contenu` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `contenu` text NOT NULL,
   `taille` int(4) NOT NULL,
   `facultatif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -350,7 +348,7 @@ CREATE TABLE `texte_modele` (
   `id_pageM` int(11) NOT NULL,
   `taille` int(4) NOT NULL,
   `facultatif` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `texte_modele`
@@ -417,14 +415,6 @@ ALTER TABLE `client`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `formulaire`
---
-ALTER TABLE `formulaire`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `fkformsite` (`id_site`),
-  ADD KEY `fkformcli` (`id_client`);
-
---
 -- Index pour la table `image`
 --
 ALTER TABLE `image`
@@ -445,6 +435,13 @@ ALTER TABLE `image_modele`
 --
 ALTER TABLE `modele`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `notif`
+--
+ALTER TABLE `notif`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk56` (`admin`);
 
 --
 -- Index pour la table `page`
@@ -501,12 +498,6 @@ ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT pour la table `formulaire`
---
-ALTER TABLE `formulaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
@@ -523,6 +514,12 @@ ALTER TABLE `image_modele`
 --
 ALTER TABLE `modele`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `notif`
+--
+ALTER TABLE `notif`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `page`
@@ -565,13 +562,6 @@ ALTER TABLE `texte_modele`
 --
 
 --
--- Contraintes pour la table `formulaire`
---
-ALTER TABLE `formulaire`
-  ADD CONSTRAINT `fkformcli` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fkformsite` FOREIGN KEY (`id_site`) REFERENCES `site` (`id`) ON DELETE CASCADE;
-
---
 -- Contraintes pour la table `image`
 --
 ALTER TABLE `image`
@@ -584,6 +574,12 @@ ALTER TABLE `image`
 ALTER TABLE `image_modele`
   ADD CONSTRAINT `fk_2` FOREIGN KEY (`id_section`) REFERENCES `section` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_3` FOREIGN KEY (`id_pageM`) REFERENCES `page_modele` (`id_pageM`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `notif`
+--
+ALTER TABLE `notif`
+  ADD CONSTRAINT `fk56` FOREIGN KEY (`admin`) REFERENCES `client` (`id`);
 
 --
 -- Contraintes pour la table `page`

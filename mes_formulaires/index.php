@@ -403,6 +403,7 @@ if(isset($_POST['save_page'])){
                         </head>
                         <body>
                             <p>'.$data_cli['societe'].' vient de valider la page "'.$data_page[$i]['nom'].'" sur son formulaire !"</p>
+                        </body>
                     </html>
                     ';
             foreach($data_admin as $ad){
@@ -423,5 +424,4 @@ if(isset($_POST['save_page'])){
 <?php
 }}
     include("../includes/layout_bottom.php");
-
 ?>

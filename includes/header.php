@@ -15,6 +15,7 @@ if(isset($_SESSION['role'])){
                         <li class="nav-item "><a href="../modeles/" class="nav-link color_seedWeb">Modèles</a></li>
                         <li class="nav-item "><a href="../sites/" class="nav-link color_seedWeb">Sites</a></li>
                         <li class="nav-item "><a href="../sections/" class="nav-link color_seedWeb">Sections</a></li>
+                        <li class="nav-item "><a href="../formulaire/" class="nav-link color_seedWeb">Notification</a></li>
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
