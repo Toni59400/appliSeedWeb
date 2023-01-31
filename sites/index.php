@@ -85,6 +85,44 @@ if(isset($_SESSION["role"])){
                                     }
                                 ?>
                             </select>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Rédaction de contenu
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><div class="m-2 form-check">
+                                        <input class="form-check-input" type="checkbox" name="accueil" value="0" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Accueil
+                                        </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                    <div class="m-2 form-check">
+                                        <input class="form-check-input" type="checkbox" name="qui-sommes-nous" value="0" id="flexCheckChecked">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Qui sommes-nous
+                                        </label>
+                                    </div>
+                                    </li>
+                                    <li>
+                                    <div class="m-2 form-check">
+                                        <input class="form-check-input" type="checkbox" name="services" value="0" id="flexCheckChecked">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Services
+                                        </label>
+                                    </div>
+                                    </li>
+                                    <li>
+                                    <div class="m-2 form-check">
+                                        <input class="form-check-input" type="checkbox" name="nous-contacter" value="0" id="flexCheckChecked">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Nous contacter
+                                        </label>
+                                    </div>
+                                    </li>
+                                </ul>
+                            </div>
                             <input type="submit" value="Ajouter le site" name="add_site" class="bgSeed rounded-pill color_white border_white"/>
                         </div>
                     </form>
@@ -152,6 +190,26 @@ if(isset($_SESSION["role"])){
 
     if(isset($_POST["add_site"])){
         if(isset($_POST["nomSiteAjouter"]) && !empty($_POST["nomSiteAjouter"]) && isset($_POST["urlSiteAjouter"]) && !empty($_POST["urlSiteAjouter"]) && $_POST["clientSiteAjouter"] != "-1"){
+            if(isset($_POST['accueil'])){
+                $accueil = 1;
+            }else{
+                $accueil=0;
+            }
+            if(isset($_POST['qui-sommes-nous'])){
+                $qsn = 1;
+            }else{
+                $qsn=0;
+            }
+            if(isset($_POST['services'])){
+                $services = 1;
+            }else{
+                $services=0;
+            }
+            if(isset($_POST['nous-contacter'])){
+                $nous_contacter = 1;
+            }else{
+                $nous_contacter=0;
+            }
             $nom_site = addslashes($_POST["nomSiteAjouter"]);
             $idModele = $_POST["modeleSiteAjouter"];
             $idClient = $_POST["clientSiteAjouter"];
@@ -169,16 +227,29 @@ if(isset($_SESSION["role"])){
                 $req_create_page_cli = $db->prepare("INSERT INTO page(site_id, nom) value ('$id_site_inserer', '$nom_page')");
                 $req_create_page_cli->execute();
                 $id_page_inserer = $db->lastInsertId();
+                $copie_id_inserer = $id_page_inserer;
                 $req_image_modele = $db->query("SELECT * FROM image_modele where id_pageM = '$id_page'");
                 $req_texte_modele = $db->query("SELECT * FROM texte_modele where id_pageM = '$id_page'");
                 $data_image_modele = $req_image_modele->fetchAll();
                 $data_texte_modele = $req_texte_modele->fetchAll();
+                if($nom_page == "Qui sommes-nous"){if($qsn==1){
+                    $sql = $db->query("INSERT INTO avoiroption(page, idOption) value ('$id_page_inserer', 1)");
+                }}
+                if($nom_page == "Accueil"){if($accueil==1){
+                    $sql = $db->query("INSERT INTO avoiroption(page, idOption) value ('$id_page_inserer', 1)");
+                }}
+                if($nom_page == "Services"){if($services==1){
+                    $sql = $db->query("INSERT INTO avoiroption(page, idOption) value ('$id_page_inserer', 1)");
+                }}
+                if($nom_page == "Contact"){if($nous_contacter==1){
+                    $sql = $db->query("INSERT INTO avoiroption(page, idOption) value ('$id_page_inserer', 1)");
+                }}
                 foreach($data_image_modele as $image){
                     $section = $image["id_section"];
                     $nom = addslashes($image["nom"]);
                     $description = addslashes($image["description"]);
                     $facultatif = $image["facultatif"];
-                    $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description, facultatif) value ('$section','$id_page_inserer','$nom','','$description', '$facultatif')");
+                    $req_insert_image = $db->prepare("INSERT INTO image(section_id, page_id, nom, path, description, facultatif, alt) value ('$section','$id_page_inserer','$nom','','$description', '$facultatif', '')");
                     $req_insert_image->execute();
                 }
                 foreach($data_texte_modele as $texte){
@@ -195,10 +266,6 @@ if(isset($_SESSION["role"])){
             $nom = $data_cli_select['nom'];
             $prenom = $data_cli_select['prenom'];
             $societe = $data_cli_select['societe'];
-            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom;
-            if (!file_exists($nom_dossier)) {
-                mkdir($nom_dossier, 0777, true);
-            }
             echo '<meta http-equiv="refresh" content="0">';
 
         }

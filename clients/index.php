@@ -174,10 +174,6 @@ if(isset($_SESSION["role"])){
             $pass = password_hash(htmlspecialchars($_POST["passClientAjouter"]), PASSWORD_DEFAULT);
             $req_insertClient = $db->prepare("INSERT INTO client(role, nom, prenom, adresse, societe, mail, pwd, lastConnection) value ('client', '$nom', '$prenom', '$adresse', '$societe', '$identifiant', '$pass', NOW())");
             $req_insertClient->execute();
-            $nom_dossier = "../dossier_client/" . $nom . "_" . $prenom . "_" . $societe;
-            if (!file_exists($nom_dossier)) {
-                mkdir($nom_dossier, 0777, true);
-            }
             echo '<meta http-equiv="refresh" content="0">';
         }
     }

@@ -96,6 +96,7 @@ include("../includes/header.php");
                                 <th scope="col">Nom</th>
                                 <th scope="col">Image(s)</th>
                                 <th scope="col">Texte(s)</th>
+                                <th scope="col">Rédaction</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -111,6 +112,7 @@ include("../includes/header.php");
                                     $nbImg = $req_nbImg->rowCount();
                                     $nbTxt = $req_nbTxt->rowCount();
                                     $site = $req_mod_appartient->fetch();
+                                    $option = $db->query("SELECT * FROM avoiroption where page = '$id'")->fetch();
 ?>
                             <tr>
                                 <th scope="row"><?=$page["id"]?></th>
@@ -118,6 +120,7 @@ include("../includes/header.php");
                                 <td><?=$page["nom"]?></td>
                                 <td><?=$nbImg?></td>
                                 <td><?=$nbTxt?></td>
+                                <td><?php if(!empty($option)){echo "Oui";}else{echo "Non";}?></td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -127,6 +130,7 @@ include("../includes/header.php");
                                             <li><a class="dropdown-item actionAdmin sup_page" data_sup="<?=$page['id']?>">Supprimer</a></li>
                                             <li><a class="dropdown-item actionAdmin" href="../images/index.php?page_id=<?=$page['id']?>">Voir les images</a></li>
                                             <li><a class="dropdown-item actionAdmin" href="../textes/index.php?page_id=<?=$page['id']?>">Voir les textes</a></li>
+                                            <li><a class="dropdown-item actionAdmin add_option" info="<?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?>" data_page='<?=$_GET['site_id']?>' data_sup="<?=$page['id']?>"><?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?></a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -141,6 +145,10 @@ include("../includes/header.php");
             <script>function redi(){
                 window.location = "index.php";
             }
+            function redi2(id){
+                window.location = "index.php?site_id="+id;
+            }
+
             </script>
 <?php
     }else{
@@ -159,6 +167,24 @@ if(isset($_POST["add_page"])){
         echo '<meta http-equiv="refresh" content="0">';
 }
 }
+
+if(isset($_GET['id_add'])){
+    $id_page = $_GET['id_add'];
+    $add = $db->prepare("INSERT INTO avoiroption(page, idOption) value ('$id_page', 1)")->execute();
+    $site = $_GET["site_id"];
+    ?>
+        <script>redi2("<?=$site?>")</script>
+        <?php
+}
+if(isset($_GET["id_supp_redac"])){
+    $id_page = $_GET["id_supp_redac"];
+    $req_supp = $db->prepare("DELETE FROM avoiroption where page = '$id_page'")->execute();
+    $site = $_GET["site_id"];
+    ?>
+        <script>redi2("<?=$site?>")</script>
+        <?php
+}
+
 if(isset($_GET["id_page_supp"])){
     $id_supp = $_GET["id_page_supp"];
     $req_supp = $db->prepare("DELETE FROM page where id = '$id_supp'");

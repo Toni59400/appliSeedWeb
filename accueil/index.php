@@ -27,6 +27,7 @@ if(isset($_SESSION["role"])){
         $data_cli = $db->query("SELECT * FROM client where id='$id'")->fetch();
         $data_formulaire = $db->query("SELECT * FROM formulaire where id_client = '$id'")->fetch();
         $data_site = $db->query("SELECT * FROM site where client_id = '$id'")->fetch();
+        if(!empty($data_formulaire)){
 ?>
 
 <div class="w-50 mr-25 ml-25">
@@ -45,7 +46,7 @@ if(isset($_SESSION["role"])){
         <p class="fw-bold">Votre formulaire est entièrement complété</p>
     
 
-<?php } ?>
+<?php }} ?>
 
 
 </div>

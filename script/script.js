@@ -7,6 +7,11 @@ var texteM_sup = document.getElementsByClassName("sup_texte");
 var page_sup = document.getElementsByClassName("sup_page");
 var section_sup = document.getElementsByClassName("sup_section");
 var input_span = document.getElementsByClassName("input_counter");
+var option = document.getElementsByClassName("add_option");
+
+for(let opt of option){
+    opt.addEventListener('click', addOpt, false);
+}
 
 for(let input of input_span){
     input.addEventListener('input', afficherNbCarac, false);
@@ -71,6 +76,22 @@ function delete_confirm_modele(){
     DayPilot.Modal.confirm("Voulez-vous vraiment supprimer le modèle ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {
         if (args.result){
             window.location = "index.php?id_modele_supp="+id
+        }});
+}
+
+function addOpt(){
+    var id = this.getAttribute('data_sup');
+    var idSite = this.getAttribute('data_page');
+    var txt = this.getAttribute('info');
+    DayPilot.Modal.confirm("Confirmer ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {
+        if (args.result){
+            console.log(this.innerHTML);
+            if(txt == "Ajouter la rédaction"){
+                window.location = "index.php?site_id="+idSite+"&id_add="+id
+            }
+            if(txt == "Supprimer la rédaction"){
+                window.location = "index.php?site_id="+idSite+"&id_supp_redac="+id
+            }
         }});
 }
 

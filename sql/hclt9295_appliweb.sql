@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 30 jan. 2023 à 12:27
+-- Généré le : mar. 31 jan. 2023 à 10:05
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `appliseed`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avoiroption`
+--
+
+CREATE TABLE `avoiroption` (
+  `page` int(11) NOT NULL,
+  `idOption` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `avoiroption`
+--
+
+INSERT INTO `avoiroption` (`page`, `idOption`) VALUES
+(50, 1),
+(51, 1),
+(52, 1),
+(53, 1);
 
 -- --------------------------------------------------------
 
@@ -45,7 +66,30 @@ CREATE TABLE `client` (
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
 (1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'tonipira.tp@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-30'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-30');
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-30'),
+(6, 'client', 'Vacavant', 'Cyril', '1205 rue des Artilleurs Canadiens', 'SeedWeb', 'hihomej450@bymercy.com', '$2y$10$4tojesj2zjrNncBQntHeIu7VDx2ytWhP90Fk1MjagSQ71a0y2ECeS', '2023-01-30');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `formulaire`
+--
+
+CREATE TABLE `formulaire` (
+  `id_client` int(11) NOT NULL,
+  `progression` int(11) DEFAULT NULL,
+  `id_site` int(11) NOT NULL,
+  `dateCreation` date DEFAULT NULL,
+  `dateLastUpdate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `formulaire`
+--
+
+INSERT INTO `formulaire` (`id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
+(6, 7, 16, '2023-01-30', '2023-01-31'),
+(2, 0, 17, '2023-01-31', '2023-01-31');
 
 -- --------------------------------------------------------
 
@@ -58,36 +102,57 @@ CREATE TABLE `image` (
   `section_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
+  `path` text NOT NULL,
   `description` varchar(35) DEFAULT NULL,
-  `facultatif` tinyint(1) NOT NULL
+  `facultatif` tinyint(1) NOT NULL,
+  `alt` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `image`
 --
 
-INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`) VALUES
-(41, 1, 34, 'Image-de-fond', '../dossier_client/ClientTest_ClientTest_NoDefined/Accueil/images/Image-de-fond.jpg', 'Image derrière le texte.', 1),
-(42, 2, 34, 'Image-service-1', '', 'Image du 1er service', 0),
-(43, 2, 34, 'Image-service-2', '', 'Image du deuxième service', 0),
-(44, 2, 34, 'Image-service-3', '', 'Image du 3ème service', 0),
-(45, 2, 34, 'Image-service-4', '', 'Image du 4eme service', 1),
-(46, 2, 34, 'Image-service-5', '', 'Image du 5eme service', 1),
-(47, 2, 34, 'Image-service-6', '', 'Image du 6eme service', 1),
-(48, 6, 34, 'Image-de-fond', '', 'Image de fond ', 0),
-(49, 2, 35, 'Image-service-1', '', 'Image du 1er service', 0),
-(50, 2, 35, 'Image-service-2', '', 'Image du deuxième service', 0),
-(51, 2, 35, 'Image-service-3', '', 'Image du 3ème service', 0),
-(52, 2, 35, 'Image-service-4', '', 'Image du 4eme service', 1),
-(53, 2, 35, 'Image-service-5', '', 'Image du 5eme service', 1),
-(54, 1, 36, 'image-1-hero', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-1-hero.png', 'Image de l\'entreprise', 1),
-(55, 5, 36, 'image-valeur-1', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur-1.png', 'Image de la valeur 1', 1),
-(56, 5, 36, 'image-valeur2', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur2.png', 'Image de la valeur 2', 1),
-(57, 5, 36, 'image-valeur3', '../dossier_client/ClientTest_ClientTest_NoDefined/Qui sommes-nous/images/image-valeur3.png', 'Image de la valeur 3', 1),
-(58, 5, 36, 'Image-valeur4', '', 'Image de la valeur 4', 1),
-(59, 5, 36, 'Image-valeur5', '', 'Image de la valeur 5 ', 1),
-(60, 8, 37, 'image-de-contact', '../dossier_client/ClientTest_ClientTest_NoDefined/Contact/images/image-de-contact.png', 'Image de contact', 1);
+INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`, `facultatif`, `alt`) VALUES
+(101, 1, 46, 'Image-de-fond1', '../dossier_client/Vacavant_Cyril/Accueil/images/Image-de-fond1.jpg', 'Image derrière le texte.', 1, 'sszszssasas'),
+(102, 2, 46, 'Image-service-1', '../dossier_client/Vacavant_Cyril/Accueil/images/Image-service-1.jpg', 'Image du 1er service', 1, ''),
+(103, 2, 46, 'Image-service-2', '../dossier_client/Vacavant_Cyril/Accueil/images/Image-service-2.jpg', 'Image du deuxième service', 1, ''),
+(104, 2, 46, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(105, 2, 46, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(106, 2, 46, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(107, 2, 46, 'Image-service-6', '', 'Image du 6eme service', 1, ''),
+(108, 6, 46, 'Image-de-fond', '', 'Image de fond ', 0, ''),
+(109, 2, 47, 'Image-service-1', '', 'Image du 1er service', 0, ''),
+(110, 2, 47, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
+(111, 2, 47, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(112, 2, 47, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(113, 2, 47, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(114, 1, 48, 'image-1-hero', '', 'Image de l\'entreprise', 0, ''),
+(115, 5, 48, 'image-valeur-1', '', 'Image de la valeur 1', 0, ''),
+(116, 5, 48, 'image-valeur2', '', 'Image de la valeur 2', 0, ''),
+(117, 5, 48, 'image-valeur3', '', 'Image de la valeur 3', 0, ''),
+(118, 5, 48, 'Image-valeur4', '', 'Image de la valeur 4', 1, ''),
+(119, 5, 48, 'Image-valeur5', '', 'Image de la valeur 5 ', 1, ''),
+(120, 8, 49, 'image-de-contact', '../dossier_client/Vacavant_Cyril/Contact/images/image-de-contact.jpg', 'Image de contact', 1, 'test'),
+(121, 1, 50, 'Image-de-fond1', '', 'Image derrière le texte.', 0, ''),
+(122, 2, 50, 'Image-service-1', '', 'Image du 1er service', 0, ''),
+(123, 2, 50, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
+(124, 2, 50, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(125, 2, 50, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(126, 2, 50, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(127, 2, 50, 'Image-service-6', '', 'Image du 6eme service', 1, ''),
+(128, 6, 50, 'Image-de-fond', '', 'Image de fond ', 0, ''),
+(129, 2, 51, 'Image-service-1', '', 'Image du 1er service', 0, ''),
+(130, 2, 51, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
+(131, 2, 51, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(132, 2, 51, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(133, 2, 51, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(134, 1, 52, 'image-1-hero', '', 'Image de l\'entreprise', 0, ''),
+(135, 5, 52, 'image-valeur-1', '', 'Image de la valeur 1', 0, ''),
+(136, 5, 52, 'image-valeur2', '', 'Image de la valeur 2', 0, ''),
+(137, 5, 52, 'image-valeur3', '', 'Image de la valeur 3', 0, ''),
+(138, 5, 52, 'Image-valeur4', '', 'Image de la valeur 4', 1, ''),
+(139, 5, 52, 'Image-valeur5', '', 'Image de la valeur 5 ', 1, ''),
+(140, 8, 53, 'image-de-contact', '', 'Image de contact', 0, '');
 
 -- --------------------------------------------------------
 
@@ -109,7 +174,7 @@ CREATE TABLE `image_modele` (
 --
 
 INSERT INTO `image_modele` (`id_imageM`, `nom`, `description`, `id_section`, `id_pageM`, `facultatif`) VALUES
-(10, 'Image-de-fond', 'Image derrière le texte.', 1, 37, 0),
+(10, 'Image-de-fond1', 'Image derrière le texte.', 1, 37, 0),
 (11, 'Image-service-1', 'Image du 1er service', 2, 37, 0),
 (12, 'Image-service-2', 'Image du deuxième service', 2, 37, 0),
 (13, 'Image-service-3', 'Image du 3ème service', 2, 37, 0),
@@ -168,7 +233,25 @@ CREATE TABLE `notif` (
 --
 
 INSERT INTO `notif` (`id`, `admin`, `page`, `form`) VALUES
-(1, 1, 1, 1);
+(1, 1, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `optionpage`
+--
+
+CREATE TABLE `optionpage` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(35) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `optionpage`
+--
+
+INSERT INTO `optionpage` (`id`, `nom`) VALUES
+(1, 'Redaction');
 
 -- --------------------------------------------------------
 
@@ -187,10 +270,14 @@ CREATE TABLE `page` (
 --
 
 INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
-(34, 13, 'Accueil'),
-(35, 13, 'Services'),
-(36, 13, 'Qui sommes-nous'),
-(37, 13, 'Contact');
+(46, 16, 'Accueil'),
+(47, 16, 'Services'),
+(48, 16, 'Qui sommes-nous'),
+(49, 16, 'Contact'),
+(50, 17, 'Accueil'),
+(51, 17, 'Services'),
+(52, 17, 'Qui sommes-nous'),
+(53, 17, 'Contact');
 
 -- --------------------------------------------------------
 
@@ -263,7 +350,8 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
-(13, 2, 2, 'Agence', 'https://agence.com');
+(16, 6, 2, 'SeedWeb', 'https://urlTest.com'),
+(17, 2, 2, 'Salon De Coiffure', 'https://urlTest.com');
 
 -- --------------------------------------------------------
 
@@ -286,54 +374,102 @@ CREATE TABLE `texte` (
 --
 
 INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, `facultatif`) VALUES
-(36, 1, 34, 'Texte Call-To-Action', 'test', 35, 1),
-(37, 6, 34, 'Nom Qualite 1', 'Test', 30, 1),
-(38, 6, 34, 'Nom Qualite 2', '', 30, 0),
-(39, 6, 34, 'Nom Qualite 3', '', 30, 0),
-(40, 6, 34, 'Description qualite 1', 'Test', 200, 1),
-(41, 6, 34, 'Description qualite 2', 'Test', 200, 1),
-(42, 6, 34, 'Description qualite 3', 'Test', 200, 1),
-(43, 3, 34, 'Nom de la première compétence', 'Test', 20, 1),
-(44, 3, 34, 'Nom de la deuxième compétence', 'Test', 25, 1),
-(45, 3, 34, 'Nom de la troisième compétence', 'Test', 25, 1),
-(46, 3, 34, 'Description de la 3ème compétence', 'Test', 200, 1),
-(47, 3, 34, 'Description de la 2ème compétence', 'Test', 200, 1),
-(48, 3, 34, 'Description de la 1ère compétence', 'Test', 200, 1),
-(49, 2, 34, 'Nom du 1er service', 'Test', 25, 1),
-(50, 2, 34, 'Nom du 2ème service', 'Test', 25, 1),
-(51, 2, 34, 'Nom du 3ème service', 'Test', 25, 1),
-(52, 2, 34, 'Nom du 4ème service', '', 25, 1),
-(53, 2, 34, 'Nom du 5ème service', '', 25, 1),
-(54, 2, 34, 'Nom du 6ème service', '', 25, 1),
-(55, 2, 35, 'Titre premier service', '', 25, 0),
-(56, 2, 35, 'Description du premier service', '', 600, 0),
-(57, 2, 35, 'Titre deuxième service', '', 25, 0),
-(58, 2, 35, 'Description deuxième service', '', 600, 0),
-(59, 2, 35, 'Titre troisième service', '', 25, 0),
-(60, 2, 35, 'Description troisième service', '', 600, 0),
-(61, 10, 35, 'Titre + prix de la prestation 1', '', 60, 1),
-(62, 10, 35, 'Contenu de la prestation 1', '', 200, 1),
-(63, 10, 35, 'Titre + prix de la prestation 2', '', 60, 1),
-(64, 10, 35, 'Contenu de la prestation 2', '', 200, 1),
-(65, 10, 35, 'Titre + prix de la prestation 3', '', 60, 1),
-(66, 10, 35, 'Contenu de la prestation 3', '', 200, 1),
-(67, 1, 36, 'Présentation de l\'entreprise', 'Entreprise de rénovation dans le bâtiment. ', 390, 1),
-(68, 2, 36, 'Présentation des services', '', 300, 0),
-(69, 2, 36, '1er service', 'test', 50, 1),
-(70, 2, 36, '2ème service', '', 50, 0),
-(71, 2, 36, '3ème service', '', 50, 0),
-(72, 9, 36, 'Titre de présentation des chiffres', '', 100, 1),
-(73, 9, 36, '1er chiffre avec sa description', '', 30, 1),
-(74, 9, 36, '2ème chiffre avec sa description', '', 30, 1),
-(75, 9, 36, '3ème chiffre avec sa description', '', 30, 1),
-(76, 9, 36, '4ème chiffre avec sa description', '', 30, 1),
-(77, 5, 36, 'Nom de la 1ère valeur', '', 25, 0),
-(78, 5, 36, 'Description de la 1ere valeur', '', 350, 0),
-(79, 5, 36, 'Nom de la deuxième valeur ', '', 25, 0),
-(80, 5, 36, 'Description de la deuxième valeur', '', 350, 0),
-(81, 5, 36, 'Nom de la troisième valeur', '', 25, 0),
-(82, 5, 36, 'Description de la 3ème valeur', '', 350, 0),
-(83, 8, 37, 'Texte de contact', '', 80, 1);
+(180, 1, 46, 'Texte Call-To-Action', 'dddd', 35, 1),
+(181, 6, 46, 'Nom Qualite 1', '', 30, 0),
+(182, 6, 46, 'Nom Qualite 2', '', 30, 0),
+(183, 6, 46, 'Nom Qualite 3', '', 30, 0),
+(184, 6, 46, 'Description qualite 1', '', 200, 0),
+(185, 6, 46, 'Description qualite 2', '', 200, 0),
+(186, 6, 46, 'Description qualite 3', '', 200, 0),
+(187, 3, 46, 'Nom de la première compétence', '', 20, 0),
+(188, 3, 46, 'Nom de la deuxième compétence', '', 25, 0),
+(189, 3, 46, 'Nom de la troisième compétence', '', 25, 0),
+(190, 3, 46, 'Description de la 3ème compétence', '', 200, 0),
+(191, 3, 46, 'Description de la 2ème compétence', '', 200, 0),
+(192, 3, 46, 'Description de la 1ère compétence', '', 200, 0),
+(193, 2, 46, 'Nom du 1er service', '', 25, 0),
+(194, 2, 46, 'Nom du 2ème service', '', 25, 0),
+(195, 2, 46, 'Nom du 3ème service', '', 25, 0),
+(196, 2, 46, 'Nom du 4ème service', '', 25, 1),
+(197, 2, 46, 'Nom du 5ème service', '', 25, 1),
+(198, 2, 46, 'Nom du 6ème service', '', 25, 1),
+(199, 2, 47, 'Titre premier service', '', 25, 0),
+(200, 2, 47, 'Description du premier service', '', 600, 0),
+(201, 2, 47, 'Titre deuxième service', '', 25, 0),
+(202, 2, 47, 'Description deuxième service', '', 600, 0),
+(203, 2, 47, 'Titre troisième service', '', 25, 0),
+(204, 2, 47, 'Description troisième service', '', 600, 0),
+(205, 10, 47, 'Titre + prix de la prestation 1', '', 60, 1),
+(206, 10, 47, 'Contenu de la prestation 1', '', 200, 1),
+(207, 10, 47, 'Titre + prix de la prestation 2', '', 60, 1),
+(208, 10, 47, 'Contenu de la prestation 2', '', 200, 1),
+(209, 10, 47, 'Titre + prix de la prestation 3', '', 60, 1),
+(210, 10, 47, 'Contenu de la prestation 3', '', 200, 1),
+(211, 1, 48, 'Présentation de l\'entreprise', '', 390, 0),
+(212, 2, 48, 'Présentation des services', '', 300, 0),
+(213, 2, 48, '1er service', '', 50, 0),
+(214, 2, 48, '2ème service', '', 50, 0),
+(215, 2, 48, '3ème service', '', 50, 0),
+(216, 9, 48, 'Titre de présentation des chiffres', '', 100, 1),
+(217, 9, 48, '1er chiffre avec sa description', '', 30, 1),
+(218, 9, 48, '2ème chiffre avec sa description', '', 30, 1),
+(219, 9, 48, '3ème chiffre avec sa description', '', 30, 1),
+(220, 9, 48, '4ème chiffre avec sa description', '', 30, 1),
+(221, 5, 48, 'Nom de la 1ère valeur', '', 25, 0),
+(222, 5, 48, 'Description de la 1ere valeur', '', 350, 0),
+(223, 5, 48, 'Nom de la deuxième valeur ', '', 25, 0),
+(224, 5, 48, 'Description de la deuxième valeur', '', 350, 0),
+(225, 5, 48, 'Nom de la troisième valeur', '', 25, 0),
+(226, 5, 48, 'Description de la 3ème valeur', '', 350, 0),
+(227, 8, 49, 'Texte de contact', '', 80, 1),
+(228, 1, 50, 'Texte Call-To-Action', '', 35, 0),
+(229, 6, 50, 'Nom Qualite 1', '', 30, 0),
+(230, 6, 50, 'Nom Qualite 2', '', 30, 0),
+(231, 6, 50, 'Nom Qualite 3', '', 30, 0),
+(232, 6, 50, 'Description qualite 1', '', 200, 0),
+(233, 6, 50, 'Description qualite 2', '', 200, 0),
+(234, 6, 50, 'Description qualite 3', '', 200, 0),
+(235, 3, 50, 'Nom de la première compétence', '', 20, 0),
+(236, 3, 50, 'Nom de la deuxième compétence', '', 25, 0),
+(237, 3, 50, 'Nom de la troisième compétence', '', 25, 0),
+(238, 3, 50, 'Description de la 3ème compétence', '', 200, 0),
+(239, 3, 50, 'Description de la 2ème compétence', '', 200, 0),
+(240, 3, 50, 'Description de la 1ère compétence', '', 200, 0),
+(241, 2, 50, 'Nom du 1er service', '', 25, 0),
+(242, 2, 50, 'Nom du 2ème service', '', 25, 0),
+(243, 2, 50, 'Nom du 3ème service', '', 25, 0),
+(244, 2, 50, 'Nom du 4ème service', '', 25, 1),
+(245, 2, 50, 'Nom du 5ème service', '', 25, 1),
+(246, 2, 50, 'Nom du 6ème service', '', 25, 1),
+(247, 2, 51, 'Titre premier service', '', 25, 0),
+(248, 2, 51, 'Description du premier service', '', 600, 0),
+(249, 2, 51, 'Titre deuxième service', '', 25, 0),
+(250, 2, 51, 'Description deuxième service', '', 600, 0),
+(251, 2, 51, 'Titre troisième service', '', 25, 0),
+(252, 2, 51, 'Description troisième service', '', 600, 0),
+(253, 10, 51, 'Titre + prix de la prestation 1', '', 60, 1),
+(254, 10, 51, 'Contenu de la prestation 1', '', 200, 1),
+(255, 10, 51, 'Titre + prix de la prestation 2', '', 60, 1),
+(256, 10, 51, 'Contenu de la prestation 2', '', 200, 1),
+(257, 10, 51, 'Titre + prix de la prestation 3', '', 60, 1),
+(258, 10, 51, 'Contenu de la prestation 3', '', 200, 1),
+(259, 1, 52, 'Présentation de l\'entreprise', '', 390, 0),
+(260, 2, 52, 'Présentation des services', '', 300, 0),
+(261, 2, 52, '1er service', '', 50, 0),
+(262, 2, 52, '2ème service', '', 50, 0),
+(263, 2, 52, '3ème service', '', 50, 0),
+(264, 9, 52, 'Titre de présentation des chiffres', '', 100, 1),
+(265, 9, 52, '1er chiffre avec sa description', '', 30, 1),
+(266, 9, 52, '2ème chiffre avec sa description', '', 30, 1),
+(267, 9, 52, '3ème chiffre avec sa description', '', 30, 1),
+(268, 9, 52, '4ème chiffre avec sa description', '', 30, 1),
+(269, 5, 52, 'Nom de la 1ère valeur', '', 25, 0),
+(270, 5, 52, 'Description de la 1ere valeur', '', 350, 0),
+(271, 5, 52, 'Nom de la deuxième valeur ', '', 25, 0),
+(272, 5, 52, 'Description de la deuxième valeur', '', 350, 0),
+(273, 5, 52, 'Nom de la troisième valeur', '', 25, 0),
+(274, 5, 52, 'Description de la 3ème valeur', '', 350, 0),
+(275, 8, 53, 'Texte de contact', '', 80, 1);
 
 -- --------------------------------------------------------
 
@@ -409,10 +545,24 @@ INSERT INTO `texte_modele` (`id_texteM`, `nom`, `id_section`, `id_pageM`, `taill
 --
 
 --
+-- Index pour la table `avoiroption`
+--
+ALTER TABLE `avoiroption`
+  ADD PRIMARY KEY (`page`,`idOption`),
+  ADD KEY `fk1111` (`idOption`);
+
+--
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `formulaire`
+--
+ALTER TABLE `formulaire`
+  ADD KEY `ggg` (`id_client`),
+  ADD KEY `id_site` (`id_site`);
 
 --
 -- Index pour la table `image`
@@ -442,6 +592,12 @@ ALTER TABLE `modele`
 ALTER TABLE `notif`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk56` (`admin`);
+
+--
+-- Index pour la table `optionpage`
+--
+ALTER TABLE `optionpage`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `page`
@@ -495,13 +651,13 @@ ALTER TABLE `texte_modele`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
@@ -522,10 +678,16 @@ ALTER TABLE `notif`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT pour la table `optionpage`
+--
+ALTER TABLE `optionpage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
@@ -543,13 +705,13 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`
@@ -560,6 +722,20 @@ ALTER TABLE `texte_modele`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `avoiroption`
+--
+ALTER TABLE `avoiroption`
+  ADD CONSTRAINT `fk111` FOREIGN KEY (`page`) REFERENCES `page` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk1111` FOREIGN KEY (`idOption`) REFERENCES `optionpage` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `formulaire`
+--
+ALTER TABLE `formulaire`
+  ADD CONSTRAINT `formulaire_ibfk_1` FOREIGN KEY (`id_site`) REFERENCES `site` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ggg` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `image`
@@ -579,7 +755,7 @@ ALTER TABLE `image_modele`
 -- Contraintes pour la table `notif`
 --
 ALTER TABLE `notif`
-  ADD CONSTRAINT `fk56` FOREIGN KEY (`admin`) REFERENCES `client` (`id`);
+  ADD CONSTRAINT `fk56` FOREIGN KEY (`admin`) REFERENCES `client` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `page`
