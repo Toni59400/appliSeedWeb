@@ -19,8 +19,8 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'colvert.o2switch.net';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'ddd';                     //SMTP username
-    $mail->Password   = 'ddd';                         //SMTP password
+    $mail->Username   = 'appli@appliweb.seedweb.fr';                     //SMTP username
+    $mail->Password   = 'A?IKJ#maF;JC';                         //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
