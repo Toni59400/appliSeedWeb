@@ -8,6 +8,11 @@ var page_sup = document.getElementsByClassName("sup_page");
 var section_sup = document.getElementsByClassName("sup_section");
 var input_span = document.getElementsByClassName("input_counter");
 var option = document.getElementsByClassName("add_option");
+var envoiMail = document.getElementsByClassName("btn_envoi_form");
+
+for(let clickbtn of envoiMail){
+    clickbtn.addEventListener("click", verifEnvoiMail, false);
+}
 
 for(let opt of option){
     opt.addEventListener('click', addOpt, false);
@@ -56,6 +61,15 @@ function delete_confirm_cli(){
     DayPilot.Modal.confirm("Voulez-vous vraiment supprimer le client ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {
         if (args.result){
             window.location = "index.php?id_cli_supp="+id
+        }});
+}
+
+function verifEnvoiMail(){
+    var mail = this.getAttribute("data_cli");
+    var page = this.getAttribute("data_page");
+    DayPilot.Modal.confirm("Voulez-vous envoyer un mail à "+mail+" pour lui dire que son formulaire est diponible ?", {okText:"Oui", cancelText:"Annuler"}).then(function(args) {
+        if (args.result){
+            window.location = "index.php?page_id="+page+"&send_form="+mail
         }});
 }
 

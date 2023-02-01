@@ -1,6 +1,7 @@
 <?php
 if(isset($_SESSION['role'])){
     if($_SESSION["role"] == "admin"){
+        $url = $_SERVER["REQUEST_URI"];
     ?>  
             <div class="container">
                 <div class="d-flex justify-content-around align-items-center pt-3 mb-4 border-bottom">
@@ -10,21 +11,22 @@ if(isset($_SESSION['role'])){
                             </a>
                         </div>  
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a href="../accueil/" class="active nav-link bgSeed rounded-pill" aria-current="page">Accueil</a></li>
-                        <li class="nav-item "><a href="../clients/" class="nav-link color_seedWeb">Clients</a></li>
-                        <li class="nav-item "><a href="../modeles/" class="nav-link color_seedWeb">Modèles</a></li>
-                        <li class="nav-item "><a href="../sites/" class="nav-link color_seedWeb">Sites</a></li>
-                        <li class="nav-item "><a href="../sections/" class="nav-link color_seedWeb">Sections</a></li>
-                        <li class="nav-item "><a href="../formulaire/" class="nav-link color_seedWeb">Notification</a></li>
+                        <li class="nav-item"><a href="../accueil/" class="<?php if($url=="/accueil/"){echo "nav-link active bgSeed rounded-pill";}else{echo "nav-link color_seedWeb";}?>" aria-current="page">Accueil</a></li>
+                        <li class="nav-item "><a href="../clients/" class="<?php if($url=="/clients/"){echo "nav-link active bgSeed rounded-pill";}else{echo "nav-link color_seedWeb";}?>">Clients</a></li>
+                        <li class="nav-item "><a href="../sites/" class="<?php if($url=="/sites/"){echo "nav-link active bgSeed rounded-pill";}else{echo "nav-link color_seedWeb";}?>">Sites</a></li>
+                        
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Theme
+                                    Option
                                 </button>
                                 <ul class="dropdown-menu">
                                     <form method="POST">
-                                        <li><input type="submit" name="dark" class="dropdown-item" value="Dark"/></li>
-                                        <li><input type="submit" name="light" class="dropdown-item" value="Light"/></li>
+                                        <li class="nav-item "><a href="../formulaire/" class="nav-link color_seedWeb">Notification</a></li>
+                                        <li class="nav-item "><a href="../modeles/" class="nav-link color_seedWeb">Modèles</a></li>
+                                        <li class="nav-item "><a href="../sections/" class="nav-link color_seedWeb">Sections</a></li>
+                                        <li><input type="submit" name="dark" class="dropdown-item" value="Thème Dark"/></li>
+                                        <li><input type="submit" name="light" class="dropdown-item" value="Thème Light"/></li>
                                     </form>
                                 </ul>
                             </div>
@@ -42,6 +44,7 @@ if(isset($_SESSION['role'])){
             </div>
     <?php
     }else if($_SESSION["role"] == "client"){
+        $url = $_SERVER["REQUEST_URI"];
     ?>
             <div class="container">
                 <div class="d-flex justify-content-around align-items-center pt-3 mb-4 border-bottom">
@@ -51,9 +54,9 @@ if(isset($_SESSION['role'])){
                         </a>
                     </div>  
                     <ul class="nav nav-pills align-items-center">
-                        <li class="nav-item"><a href="../accueil/" class="nav-link active bgSeed rounded-pill" aria-current="page">Accueil</a></li>
-                        <li class="nav-item color_seedWeb"><a href="../mes_formulaires/" class="nav-link color_seedWeb">Mon formulaire</a></li>
-                        <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
+                        <li class="nav-item"><a href="../accueil/" class="<?php if($url=="/accueil/"){echo "nav-link active bgSeed rounded-pill";}else{echo "nav-link color_seedWeb";}?>" aria-current="page">Accueil</a></li>
+                        <li class="nav-item color_seedWeb"><a href="../mes_formulaires/" class="<?php if($url=="/mes_formulaires/"){echo "nav-link active bgSeed rounded-pill";}else{echo "nav-link color_seedWeb";}?>">Mon formulaire</a></li>
+                        <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb" target="_blank">SeedWeb</a></li>
                         <li>
                             <div class="dropdown">
                                 <button class="color_seedWebH dropdown-toggle color_seedWeb bg-transparent" style="border: none;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -91,7 +94,7 @@ if(isset($_SESSION['role'])){
                 </div>  
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="../" class="nav-link active bgSeed rounded-pill" aria-current="page">Connexion</a></li>
-                <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb">SeedWeb</a></li>
+                <li class="nav-item color_seedWeb"><a href="https://seedweb.fr/" class="nav-link color_seedWeb" target="_blank">SeedWeb</a></li>
                 <li>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

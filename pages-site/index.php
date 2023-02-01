@@ -24,10 +24,10 @@ include("../includes/header.php");
 
     if(isset($_SESSION["role"])){
         if($_SESSION["role"] == "admin"){
-            $req_site = $db->query("SELECT * FROM page");
+            $req_site = $db->query("SELECT * FROM page order by id desc");
             if(isset($_GET["site_id"])){
                 $idSite = $_GET['site_id'];
-                $req_site = $db->query("SELECT * FROM page where site_id='$idSite'");
+                $req_site = $db->query("SELECT * FROM page where site_id='$idSite' order by id desc");
             }
             if(isset($_POST["search_page"])){
                 if(isset($_POST['terme_page'])){
@@ -54,7 +54,7 @@ include("../includes/header.php");
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
                         <li class="breadcrumb-item"><a href="../sites/index.php">Sites</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Pages Sites</li>
+                        <li class="breadcrumb-item active" aria-current="page">Pages</li>
                     </ol>
                 </nav>
                 <form method="POST">
@@ -83,7 +83,7 @@ include("../includes/header.php");
 ?>
                                 </select>
                                 <input type="submit" value="Ajouter la page" name="add_page" class="bgSeed rounded-pill color_white border_white"/>
-                                </form>
+                            </form>
                             </div>
                     </div>
                 <br><br>
@@ -91,12 +91,13 @@ include("../includes/header.php");
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Etat</th>
                                 <th scope="col">Site</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Image(s)</th>
                                 <th scope="col">Texte(s)</th>
                                 <th scope="col">Rédaction</th>
+                                <th></th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -115,12 +116,35 @@ include("../includes/header.php");
                                     $option = $db->query("SELECT * FROM avoiroption where page = '$id'")->fetch();
 ?>
                             <tr>
-                                <th scope="row"><?=$page["id"]?></th>
+                                <th scope="row"><?php
+                                if($nbImg==0 || $nbTxt==0){
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                ⚠
+                                </div>
+                                <?php
+                                }else{
+                                ?>
+                                <div class="alert alert-success" role="alert">
+                                ✓
+                                </div>
+<?php
+                                }
+?>
+                                </th>
                                 <td><?=$site["nom"]?></td>
                                 <td><?=$page["nom"]?></td>
                                 <td><?=$nbImg?></td>
                                 <td><?=$nbTxt?></td>
-                                <td><?php if(!empty($option)){echo "Oui";}else{echo "Non";}?></td>
+                                <td><?php if(!empty($option)){echo "SeedWeb";}else{echo "Client";}?></td>
+                                <td>
+                                    <a class="dropdown-item actionAdmin" href="../images/index.php?page_id=<?=$page['id']?>">Voir les images 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
+                                        <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                        <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
+                                    </svg>
+                                    </a>
+                                </td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,8 +152,6 @@ include("../includes/header.php");
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item actionAdmin sup_page" data_sup="<?=$page['id']?>">Supprimer</a></li>
-                                            <li><a class="dropdown-item actionAdmin" href="../images/index.php?page_id=<?=$page['id']?>">Voir les images</a></li>
-                                            <li><a class="dropdown-item actionAdmin" href="../textes/index.php?page_id=<?=$page['id']?>">Voir les textes</a></li>
                                             <li><a class="dropdown-item actionAdmin add_option" info="<?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?>" data_page='<?=$_GET['site_id']?>' data_sup="<?=$page['id']?>"><?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?></a></li>
                                         </ul>
                                     </div>

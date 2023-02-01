@@ -26,11 +26,11 @@ if(!isset($_SESSION['theme'])){
 include("../includes/header.php");
 if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "admin"){
-        $req_client = $db->query("SELECT * FROM client where role = 'client';");
+        $req_client = $db->query("SELECT * FROM client where role = 'client' order by id desc");
         if(isset($_POST["search_cli"])){
             if(isset($_POST['terme_cli'])){
                 $val = $_POST['terme_cli'];
-                $req_client = $db->query("SELECT * FROM (SELECT * FROM client where role = 'client') as Cli where Cli.nom like '%$val%' or Cli.prenom like '%$val%' or Cli.adresse like '%$val%' or Cli.societe like '%$val%' or Cli.mail like '%$val%'");    
+                $req_client = $db->query("SELECT * FROM (SELECT * FROM client where role = 'client') as Cli where Cli.nom like '%$val%' or Cli.prenom like '%$val%' or Cli.adresse like '%$val%' or Cli.societe like '%$val%' or Cli.mail like '%$val%' order by id desc");    
             }
         }
         $data_cli = $req_client->fetchAll();
@@ -207,7 +207,7 @@ if(isset($_SESSION["role"])){
                     </html>
                     ';
         sendMail($sujet, $message, $data_cli["mail"]);
-        echo "<script>redi()</script>";
+        //echo "<script>redi()</script>";
     }
     
 ?>

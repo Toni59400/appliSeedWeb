@@ -264,7 +264,6 @@ if(isset($_POST["save_state"])){
                 $array_space = array(" ");
                 $nomTxt = str_replace($array_space, "-", $texte['nom']);
                 $id_texte = $texte['id'];
-                var_dump($_POST);
                 if(isset($_POST[$nomTxt]) && !empty($_POST[$nomTxt])){
                     $contenu = addslashes($_POST[$nomTxt]);
                     $req_txt = $db->prepare("UPDATE texte SET contenu = '$contenu', facultatif = true where id = '$id_texte'");
@@ -364,7 +363,6 @@ if(isset($_POST['save_page'])){
                     $name =  $_FILES[$nom_img]["name"];
                     $size =  $_FILES[$nom_img]["size"];
                     $error =  $_FILES[$nom_img]["error"];
-                    var_dump($size, $error);
                     $tabExtension = explode('.', $name);
                     $extension = strtolower(end($tabExtension));
                     $maxSize = 600000;

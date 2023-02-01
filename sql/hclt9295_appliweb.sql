@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 31 jan. 2023 à 10:05
+-- Généré le : mar. 31 jan. 2023 à 12:39
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -37,10 +37,11 @@ CREATE TABLE `avoiroption` (
 --
 
 INSERT INTO `avoiroption` (`page`, `idOption`) VALUES
-(50, 1),
-(51, 1),
-(52, 1),
-(53, 1);
+(46, 1),
+(47, 1),
+(82, 1),
+(83, 1),
+(84, 1);
 
 -- --------------------------------------------------------
 
@@ -66,7 +67,7 @@ CREATE TABLE `client` (
 
 INSERT INTO `client` (`id`, `role`, `nom`, `prenom`, `adresse`, `societe`, `mail`, `pwd`, `lastConnection`) VALUES
 (1, 'admin', 'Admin', 'Admin', '1205 rue des Artilleurs Canadiens 62580 Thèlus', 'SeedWeb | StrangeEngine', 'tonipira.tp@gmail.com', '$2y$10$T51tkij/5EWcyxLx1.KAE.z4IOiSZM/AhLr/gLucMc1v9/UBsIX1.', '2023-01-30'),
-(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-30'),
+(2, 'client', 'ClientTest', 'ClientTest', 'Test 62000 Arras', 'NoDefined', 'fallon59400@gmail.com', '$2y$10$gcWWzKi3P9dAcAcf./ACNeBbscVlWvJoZO6abTvqpskmkJQbj1wpe', '2023-01-31'),
 (6, 'client', 'Vacavant', 'Cyril', '1205 rue des Artilleurs Canadiens', 'SeedWeb', 'hihomej450@bymercy.com', '$2y$10$4tojesj2zjrNncBQntHeIu7VDx2ytWhP90Fk1MjagSQ71a0y2ECeS', '2023-01-30');
 
 -- --------------------------------------------------------
@@ -89,7 +90,7 @@ CREATE TABLE `formulaire` (
 
 INSERT INTO `formulaire` (`id_client`, `progression`, `id_site`, `dateCreation`, `dateLastUpdate`) VALUES
 (6, 7, 16, '2023-01-30', '2023-01-31'),
-(2, 0, 17, '2023-01-31', '2023-01-31');
+(2, 72, 25, '2023-01-31', '2023-01-31');
 
 -- --------------------------------------------------------
 
@@ -133,26 +134,26 @@ INSERT INTO `image` (`id`, `section_id`, `page_id`, `nom`, `path`, `description`
 (118, 5, 48, 'Image-valeur4', '', 'Image de la valeur 4', 1, ''),
 (119, 5, 48, 'Image-valeur5', '', 'Image de la valeur 5 ', 1, ''),
 (120, 8, 49, 'image-de-contact', '../dossier_client/Vacavant_Cyril/Contact/images/image-de-contact.jpg', 'Image de contact', 1, 'test'),
-(121, 1, 50, 'Image-de-fond1', '', 'Image derrière le texte.', 0, ''),
-(122, 2, 50, 'Image-service-1', '', 'Image du 1er service', 0, ''),
-(123, 2, 50, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
-(124, 2, 50, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
-(125, 2, 50, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
-(126, 2, 50, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
-(127, 2, 50, 'Image-service-6', '', 'Image du 6eme service', 1, ''),
-(128, 6, 50, 'Image-de-fond', '', 'Image de fond ', 0, ''),
-(129, 2, 51, 'Image-service-1', '', 'Image du 1er service', 0, ''),
-(130, 2, 51, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
-(131, 2, 51, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
-(132, 2, 51, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
-(133, 2, 51, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
-(134, 1, 52, 'image-1-hero', '', 'Image de l\'entreprise', 0, ''),
-(135, 5, 52, 'image-valeur-1', '', 'Image de la valeur 1', 0, ''),
-(136, 5, 52, 'image-valeur2', '', 'Image de la valeur 2', 0, ''),
-(137, 5, 52, 'image-valeur3', '', 'Image de la valeur 3', 0, ''),
-(138, 5, 52, 'Image-valeur4', '', 'Image de la valeur 4', 1, ''),
-(139, 5, 52, 'Image-valeur5', '', 'Image de la valeur 5 ', 1, ''),
-(140, 8, 53, 'image-de-contact', '', 'Image de contact', 0, '');
+(281, 1, 82, 'Image-de-fond1', '../dossier_client/ClientTest_ClientTest/Accueil/images/Image-de-fond1.jpg', 'Image derrière le texte.', 1, ''),
+(282, 2, 82, 'Image-service-1', '', 'Image du 1er service', 0, ''),
+(283, 2, 82, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
+(284, 2, 82, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(285, 2, 82, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(286, 2, 82, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(287, 2, 82, 'Image-service-6', '', 'Image du 6eme service', 1, ''),
+(288, 6, 82, 'Image-de-fond', '', 'Image de fond ', 0, ''),
+(289, 2, 83, 'Image-service-1', '', 'Image du 1er service', 0, ''),
+(290, 2, 83, 'Image-service-2', '', 'Image du deuxième service', 0, ''),
+(291, 2, 83, 'Image-service-3', '', 'Image du 3ème service', 0, ''),
+(292, 2, 83, 'Image-service-4', '', 'Image du 4eme service', 1, ''),
+(293, 2, 83, 'Image-service-5', '', 'Image du 5eme service', 1, ''),
+(294, 1, 84, 'image-1-hero', '', 'Image de l\'entreprise', 0, ''),
+(295, 5, 84, 'image-valeur-1', '', 'Image de la valeur 1', 0, ''),
+(296, 5, 84, 'image-valeur2', '', 'Image de la valeur 2', 0, ''),
+(297, 5, 84, 'image-valeur3', '', 'Image de la valeur 3', 0, ''),
+(298, 5, 84, 'Image-valeur4', '', 'Image de la valeur 4', 1, ''),
+(299, 5, 84, 'Image-valeur5', '', 'Image de la valeur 5 ', 1, ''),
+(300, 8, 85, 'image-de-contact', '../dossier_client/ClientTest_ClientTest/Contact/images/image-de-contact.jpg', 'Image de contact', 1, 'ssss');
 
 -- --------------------------------------------------------
 
@@ -274,10 +275,10 @@ INSERT INTO `page` (`id`, `site_id`, `nom`) VALUES
 (47, 16, 'Services'),
 (48, 16, 'Qui sommes-nous'),
 (49, 16, 'Contact'),
-(50, 17, 'Accueil'),
-(51, 17, 'Services'),
-(52, 17, 'Qui sommes-nous'),
-(53, 17, 'Contact');
+(82, 25, 'Accueil'),
+(83, 25, 'Services'),
+(84, 25, 'Qui sommes-nous'),
+(85, 25, 'Contact');
 
 -- --------------------------------------------------------
 
@@ -351,7 +352,7 @@ CREATE TABLE `site` (
 
 INSERT INTO `site` (`id`, `client_id`, `modele_id`, `nom`, `url`) VALUES
 (16, 6, 2, 'SeedWeb', 'https://urlTest.com'),
-(17, 2, 2, 'Salon De Coiffure', 'https://urlTest.com');
+(25, 2, 2, 'Salon De Coiffure', 'https://urlTest.com');
 
 -- --------------------------------------------------------
 
@@ -422,54 +423,54 @@ INSERT INTO `texte` (`id`, `section_id`, `page_id`, `nom`, `contenu`, `taille`, 
 (225, 5, 48, 'Nom de la troisième valeur', '', 25, 0),
 (226, 5, 48, 'Description de la 3ème valeur', '', 350, 0),
 (227, 8, 49, 'Texte de contact', '', 80, 1),
-(228, 1, 50, 'Texte Call-To-Action', '', 35, 0),
-(229, 6, 50, 'Nom Qualite 1', '', 30, 0),
-(230, 6, 50, 'Nom Qualite 2', '', 30, 0),
-(231, 6, 50, 'Nom Qualite 3', '', 30, 0),
-(232, 6, 50, 'Description qualite 1', '', 200, 0),
-(233, 6, 50, 'Description qualite 2', '', 200, 0),
-(234, 6, 50, 'Description qualite 3', '', 200, 0),
-(235, 3, 50, 'Nom de la première compétence', '', 20, 0),
-(236, 3, 50, 'Nom de la deuxième compétence', '', 25, 0),
-(237, 3, 50, 'Nom de la troisième compétence', '', 25, 0),
-(238, 3, 50, 'Description de la 3ème compétence', '', 200, 0),
-(239, 3, 50, 'Description de la 2ème compétence', '', 200, 0),
-(240, 3, 50, 'Description de la 1ère compétence', '', 200, 0),
-(241, 2, 50, 'Nom du 1er service', '', 25, 0),
-(242, 2, 50, 'Nom du 2ème service', '', 25, 0),
-(243, 2, 50, 'Nom du 3ème service', '', 25, 0),
-(244, 2, 50, 'Nom du 4ème service', '', 25, 1),
-(245, 2, 50, 'Nom du 5ème service', '', 25, 1),
-(246, 2, 50, 'Nom du 6ème service', '', 25, 1),
-(247, 2, 51, 'Titre premier service', '', 25, 0),
-(248, 2, 51, 'Description du premier service', '', 600, 0),
-(249, 2, 51, 'Titre deuxième service', '', 25, 0),
-(250, 2, 51, 'Description deuxième service', '', 600, 0),
-(251, 2, 51, 'Titre troisième service', '', 25, 0),
-(252, 2, 51, 'Description troisième service', '', 600, 0),
-(253, 10, 51, 'Titre + prix de la prestation 1', '', 60, 1),
-(254, 10, 51, 'Contenu de la prestation 1', '', 200, 1),
-(255, 10, 51, 'Titre + prix de la prestation 2', '', 60, 1),
-(256, 10, 51, 'Contenu de la prestation 2', '', 200, 1),
-(257, 10, 51, 'Titre + prix de la prestation 3', '', 60, 1),
-(258, 10, 51, 'Contenu de la prestation 3', '', 200, 1),
-(259, 1, 52, 'Présentation de l\'entreprise', '', 390, 0),
-(260, 2, 52, 'Présentation des services', '', 300, 0),
-(261, 2, 52, '1er service', '', 50, 0),
-(262, 2, 52, '2ème service', '', 50, 0),
-(263, 2, 52, '3ème service', '', 50, 0),
-(264, 9, 52, 'Titre de présentation des chiffres', '', 100, 1),
-(265, 9, 52, '1er chiffre avec sa description', '', 30, 1),
-(266, 9, 52, '2ème chiffre avec sa description', '', 30, 1),
-(267, 9, 52, '3ème chiffre avec sa description', '', 30, 1),
-(268, 9, 52, '4ème chiffre avec sa description', '', 30, 1),
-(269, 5, 52, 'Nom de la 1ère valeur', '', 25, 0),
-(270, 5, 52, 'Description de la 1ere valeur', '', 350, 0),
-(271, 5, 52, 'Nom de la deuxième valeur ', '', 25, 0),
-(272, 5, 52, 'Description de la deuxième valeur', '', 350, 0),
-(273, 5, 52, 'Nom de la troisième valeur', '', 25, 0),
-(274, 5, 52, 'Description de la 3ème valeur', '', 350, 0),
-(275, 8, 53, 'Texte de contact', '', 80, 1);
+(612, 1, 82, 'Texte Call-To-Action', 'Texte compris dans votre option', 35, 1),
+(613, 6, 82, 'Nom Qualite 1', 'Texte compris dans votre option', 30, 1),
+(614, 6, 82, 'Nom Qualite 2', 'Texte compris dans votre option', 30, 1),
+(615, 6, 82, 'Nom Qualite 3', 'Texte compris dans votre option', 30, 1),
+(616, 6, 82, 'Description qualite 1', 'Texte compris dans votre option', 200, 1),
+(617, 6, 82, 'Description qualite 2', 'Texte compris dans votre option', 200, 1),
+(618, 6, 82, 'Description qualite 3', 'Texte compris dans votre option', 200, 1),
+(619, 3, 82, 'Nom de la première compétence', 'Texte compris dans votre option', 20, 1),
+(620, 3, 82, 'Nom de la deuxième compétence', 'Texte compris dans votre option', 25, 1),
+(621, 3, 82, 'Nom de la troisième compétence', 'Texte compris dans votre option', 25, 1),
+(622, 3, 82, 'Description de la 3ème compétence', 'Texte compris dans votre option', 200, 1),
+(623, 3, 82, 'Description de la 2ème compétence', 'Texte compris dans votre option', 200, 1),
+(624, 3, 82, 'Description de la 1ère compétence', 'Texte compris dans votre option', 200, 1),
+(625, 2, 82, 'Nom du 1er service', 'Texte compris dans votre option', 25, 1),
+(626, 2, 82, 'Nom du 2ème service', 'Texte compris dans votre option', 25, 1),
+(627, 2, 82, 'Nom du 3ème service', 'Texte compris dans votre option', 25, 1),
+(628, 2, 82, 'Nom du 4ème service', 'Texte compris dans votre option', 25, 1),
+(629, 2, 82, 'Nom du 5ème service', 'Texte compris dans votre option', 25, 1),
+(630, 2, 82, 'Nom du 6ème service', 'Texte compris dans votre option', 25, 1),
+(631, 2, 83, 'Titre premier service', 'Texte compris dans votre option', 25, 1),
+(632, 2, 83, 'Description du premier service', 'Texte compris dans votre option', 600, 1),
+(633, 2, 83, 'Titre deuxième service', 'Texte compris dans votre option', 25, 1),
+(634, 2, 83, 'Description deuxième service', 'Texte compris dans votre option', 600, 1),
+(635, 2, 83, 'Titre troisième service', 'Texte compris dans votre option', 25, 1),
+(636, 2, 83, 'Description troisième service', 'Texte compris dans votre option', 600, 1),
+(637, 10, 83, 'Titre + prix de la prestation 1', 'Texte compris dans votre option', 60, 1),
+(638, 10, 83, 'Contenu de la prestation 1', 'Texte compris dans votre option', 200, 1),
+(639, 10, 83, 'Titre + prix de la prestation 2', 'Texte compris dans votre option', 60, 1),
+(640, 10, 83, 'Contenu de la prestation 2', 'Texte compris dans votre option', 200, 1),
+(641, 10, 83, 'Titre + prix de la prestation 3', 'Texte compris dans votre option', 60, 1),
+(642, 10, 83, 'Contenu de la prestation 3', 'Texte compris dans votre option', 200, 1),
+(643, 1, 84, 'Présentation de l\'entreprise', 'Texte compris dans votre option', 390, 1),
+(644, 2, 84, 'Présentation des services', 'Texte compris dans votre option', 300, 1),
+(645, 2, 84, '1er service', 'Texte compris dans votre option', 50, 1),
+(646, 2, 84, '2ème service', 'Texte compris dans votre option', 50, 1),
+(647, 2, 84, '3ème service', 'Texte compris dans votre option', 50, 1),
+(648, 9, 84, 'Titre de présentation des chiffres', 'Texte compris dans votre option', 100, 1),
+(649, 9, 84, '1er chiffre avec sa description', 'Texte compris dans votre option', 30, 1),
+(650, 9, 84, '2ème chiffre avec sa description', 'Texte compris dans votre option', 30, 1),
+(651, 9, 84, '3ème chiffre avec sa description', 'Texte compris dans votre option', 30, 1),
+(652, 9, 84, '4ème chiffre avec sa description', 'Texte compris dans votre option', 30, 1),
+(653, 5, 84, 'Nom de la 1ère valeur', 'Texte compris dans votre option', 25, 1),
+(654, 5, 84, 'Description de la 1ere valeur', 'Texte compris dans votre option', 350, 1),
+(655, 5, 84, 'Nom de la deuxième valeur ', 'Texte compris dans votre option', 25, 1),
+(656, 5, 84, 'Description de la deuxième valeur', 'Texte compris dans votre option', 350, 1),
+(657, 5, 84, 'Nom de la troisième valeur', 'Texte compris dans votre option', 25, 1),
+(658, 5, 84, 'Description de la 3ème valeur', 'Texte compris dans votre option', 350, 1),
+(659, 8, 85, 'Texte de contact', '', 80, 1);
 
 -- --------------------------------------------------------
 
@@ -657,7 +658,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 
 --
 -- AUTO_INCREMENT pour la table `image_modele`
@@ -687,7 +688,7 @@ ALTER TABLE `optionpage`
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT pour la table `page_modele`
@@ -705,13 +706,13 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT pour la table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `texte`
 --
 ALTER TABLE `texte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=660;
 
 --
 -- AUTO_INCREMENT pour la table `texte_modele`

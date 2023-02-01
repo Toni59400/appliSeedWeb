@@ -53,11 +53,73 @@ if(isset($_SESSION["role"])){
 
 <?php
     } if($_SESSION['role'] == "admin"){
-
-
+        $nbForm = $db->query("SELECT * FROM FORMULAIRE")->rowCount();
+        $nbFormStart = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION != 0")->rowCount();
+        $nbFormFinish = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION >= 100")->rowCount();
+        
+        $avgForm = $db->query("SELECT round(avg(progression), 2) as moyenne from formulaire")->fetch();
         ?>
+<div class="w-50 mr-25 ml-25 ">
+    <div class="card-group row-cols-1 row-cols-md-3">
+        <div class="col">
+            <div class="card m-4 rounded" style="width: 18rem;">
+                <span class="fs-1"><?=$nbForm?></span>
+                <div class="card-body">
+                    <p class="card-text">Formulaires générés</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-4 rounded border" style="width: 18rem;">
+                <span class="fs-1"><?=$nbFormStart?></span>
+                <div class="card-body">
+                    <p class="card-text">Formulaires en cours - Client</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-4 rounded border" style="width: 18rem;">
+                <span class="fs-1"><?=$nbFormFinish?></span>
+                <div class="card-body">
+                    <p class="card-text">Formulaires terminés</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-4 rounded border" style="width: 18rem;">
+                <span class="fs-1"><?=$nbClientConnectDay?></span>
+                <div class="card-body">
+                    <p class="card-text">Clients connectés ce jour</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-4 rounded border" style="width: 18rem;">
+                <span class="fs-1"><?=$nbClientConnectWeek?></span>
+                <div class="card-body">
+                    <p class="card-text">Clients connectés cette semaine</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-4 rounded border" style="width: 18rem;">
+                <span class="fs-1"><?="0"?></span>
+                <div class="card-body">
+                    <p class="card-text">Site avec le modèle Agence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <p class="fw-bold">Remplissage moyen des formulaires</p>
+        <div class="meter seed">
+            <span style="width: <?=$avgForm["moyenne"]?>%" class="text-black"><?=$avgForm["moyenne"]?>%</span>
+        </div>
+    </div>
+</div>
 
-<h1>Dans Accueil admin</h1>
 
 <?php
     }

@@ -23,11 +23,11 @@ if(!isset($_SESSION['theme'])){
 include("../includes/header.php");
 if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "admin"){
-        $req_site = $db->query("SELECT * FROM site");
+        $req_site = $db->query("SELECT * FROM site order by id desc");
         if(isset($_POST["search_site"])){
             if(isset($_POST['terme_site'])){
                 $val = $_POST['terme_site'];
-                $req_site = $db->query("SELECT * FROM site where nom like '%$val%' or url like '%$val%' or client_id in (SELECT id from client where nom like '%$val%');");    
+                $req_site = $db->query("SELECT * FROM site where nom like '%$val%' or url like '%$val%' or client_id in (SELECT id from client where nom like '%$val%') order by id desc");    
             }
         }
         $data_site = $req_site->fetchAll();
@@ -87,7 +87,7 @@ if(isset($_SESSION["role"])){
                             </select>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Rédaction de contenu
+                                    Contenu créé par SeedWeb
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><div class="m-2 form-check">
@@ -138,6 +138,7 @@ if(isset($_SESSION["role"])){
                             <th scope="col">URL</th>
                             <th scope="col">Societe(Client)</th>
                             <th scope="col">Modèle</th>
+                            <th></th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -158,13 +159,19 @@ if(isset($_SESSION["role"])){
                             <td><?=$client['societe']?></td>
                             <td><?=$modele["nom"]?></td>
                             <td>
+                            <a class="dropdown-item actionAdmin" href="../pages-site/index.php?site_id=<?=$site['id']?>">Voir les pages
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursorP bi bi-arrow-right-square" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                </svg>
+                                </a>
+                            </td>
+                            <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Action
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item actionAdmin sup_site" data_sup="<?=$site['id']?>">Supprimer</a></li>
-                                        <li><a class="dropdown-item actionAdmin" href="../pages-site/index.php?site_id=<?=$site['id']?>">Voir les pages</a></li>
                                     </ul>
                                 </div>
                             </td>
