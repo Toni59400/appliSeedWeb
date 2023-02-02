@@ -1,7 +1,7 @@
 <?php
 include("../config/config.php");
 include("../config/dbconnection.php");
-include_once('../sendMail.php');
+include("../mailBuilder.php");
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -37,19 +37,20 @@ if(isset($_SESSION["role"])){
         $data_section = $req_section->fetchAll();
         $data_site = $req_site->fetch();
         if(!empty($data_site)){
-        $id_site = $data_site["id"];
-        $id_modele = $data_site["modele_id"];
-        $req_modele = $db->query("SELECT nom FROM modele where id = '$id_modele'");
-        $data_modele = $req_modele->fetch();
-        $req_page = $db->query("SELECT * FROM page where site_id = '$id_site'");
-        $nbPageSiteClient = $req_page->rowCount();
-        $data_page = $req_page->fetchAll();
-        $nbEltParPage = 1;
-        $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
-        if(!isset($_GET['page'])){
-            $_GET['page'] = 0;
-        }
-        $page = $data_page[$_GET["page"]];
+            $id_site = $data_site["id"];
+            $id_modele = $data_site["modele_id"];
+            $req_modele = $db->query("SELECT nom FROM modele where id = '$id_modele'");
+            $data_modele = $req_modele->fetch();
+            $req_page = $db->query("SELECT * FROM page where site_id = '$id_site' and page.id not in (select page from pagevalide)");
+            $nbPageSiteClient = $req_page->rowCount();
+            if($nbPageSiteClient != 0){
+                $data_page = $req_page->fetchAll();
+                $nbEltParPage = 1;
+                $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
+                if(!isset($_GET['page'])){
+                    $_GET['page'] = 0;
+                }
+                $page = $data_page[$_GET["page"]];
         ?> 
         <form method="POST" action="" enctype='multipart/form-data'>
             <div  class="row w-75 mr-12-5 ml-12-5">
@@ -189,6 +190,10 @@ if(isset($_SESSION["role"])){
                     }
                 });
             }
+
+            function accueil(){
+                window.location = "../accueil/index.php";
+            }
             
             function redi(){
                 window.location = "index.php?page=<?=$_GET['page']?>";
@@ -304,30 +309,21 @@ if(isset($_POST["save_state"])){
 
     $mess = "Enregistrement effectué. Vous pouvez modifier les images en les ajoutant à nouveau. Vous avez complété ".$pourcentage."% du formulaire.";
     if($pourcentage>=100){
-        $mess = "Formulaire validé.";
-        $sujet = "Validation du formulaire";
-            $message = '
-                    <html>
-                        <head>
-                            <title>'.$data_cli['societe'].' a validé son formulaire.</title>
-                        </head>
-                        <body>
-                            <p>'.$data_cli['societe'].' vient de terminer son formulaire !"</p>
-                        </body>
-                    </html>
-                    ';
+        $cli = $data_cli['nom'].' '.$data_cli["prenom"];
             foreach($data_admin as $ad){
                 $idAd = $ad["id"];
                 $data_notif = $db->query("SELECT * FROM notif where admin = '$idAd'")->fetch();
-                if($data_notif["page"] == true){
-                    $email = $ad['mail'];
-                    sendMail($sujet, $message, $email);
+                if($data_notif["form"] == true){
+                    $mail = $ad['mail'];
+                    mailFormFinish($mail, $cli);
                 }
             }
+            
     }
     ?>
     <script>message("<?=$mess?>")</script>
     <?php
+    $_GET["page"]=0;
 }
 
 if(isset($_POST['save_page'])){
@@ -438,34 +434,50 @@ if(isset($_POST['save_page'])){
     } else {
         
         $i = $_GET['page'];
-        $mess = "Page validée.";
-        $sujet = "Validation de page";
-            $message = '
-                    <html>
-                        <head>
-                            <title>'.$data_cli['societe'].' a validé une page de son formulaire.</title>
-                        </head>
-                        <body>
-                            <p>'.$data_cli['societe'].' vient de valider la page "'.$data_page[$i]['nom'].'" sur son formulaire !"</p>
-                        </body>
-                    </html>
-                    ';
+        $idpage = $data_page[$i]['id'];
+        $nomPage = $data_page[$i]['nom'];
+        $sql = $db->prepare("INSERT INTO pagevalide(page) value ('$idpage')")->execute();
+        $nbPageRestante = $db->query("SELECT * FROM page where site_id = '$id_site' and page.id not in (select page from pagevalide)")->rowCount();
+        $mess = "La page est complétée à 100%.";
+        ?>
+        <script>message("<?=$mess?>")</script>
+        <?php
+            $cli = $data_cli["nom"].' '.$data_cli['prenom'];
             foreach($data_admin as $ad){
                 $idAd = $ad["id"];
                 $data_notif = $db->query("SELECT * FROM notif where admin = '$idAd'")->fetch();
                 if($data_notif["page"] == true){
                     $email = $ad['mail'];
-                    sendMail($sujet, $message, $email);
+                    mailPageFinish($cli, $nomPage, $email);
+                    $_GET["page"]=0;
                 }
             }
-        ?>
-        <script>message("<?=$mess?>")</script>
-        <?php
+        if($nbPageRestante == 0){
+            $cli = $data_cli['nom'].' '.$data_cli["prenom"];
+            foreach($data_admin as $ad){
+                $idAd = $ad["id"];
+                $data_notif = $db->query("SELECT * FROM notif where admin = '$idAd'")->fetch();
+                if($data_notif["form"] == true){
+                    $mail = $ad['mail'];
+                    mailFormFinish($mail, $cli);
+                    $_GET["page"]=0;
+                }
+            }
+        }
+        
     }
 }
 
 
 
+}else{
+    ?>
+    <div class="w-50 mr-25 ml-25">
+        <p class="fw-bold">Votre formulaire est entièrement complété</p>
+    </div>
+
+    <?php
+}
 }else{
 ?>
 <h1>Pas encore de site</h1>

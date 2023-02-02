@@ -2,7 +2,7 @@
 session_start();
 include("../config/config.php");
 include("../config/dbconnection.php");
-include_once('../sendMail.php');
+include_once('../mailBuilder.php');
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 if(!isset($_SESSION['theme'])){
@@ -12,19 +12,7 @@ if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"]
 
 if (isset($_POST['recup'])){
     if (isset($_POST['email'])){
-        $email2=$_POST['email'];
-        $sujet = "Recupération du mot de passe";
-            $message = '
-                    <html>
-                        <head>
-                            <title>Récupération de votre mot de passe</title>
-                        </head>
-                        <body>
-                            <p>Cliquez sur ce lien pour recuperer le mot de passe</p>
-                            <a href="http://appliweb.seedweb.fr/changePass/index.php?cli='.$email2.'">Cliquez ici !</a>
-                    </html>
-                    ';
-            sendMail($sujet, $message, $email2);
+        mailPassLost($_POST['email']);
     }
 } if (isset($_GET['cli'])){   
 ?>
@@ -54,11 +42,11 @@ if (isset($_POST['recup'])){
         <main class="form-signin w-50 m-auto mt-3">
             <form method="POST">
                 <div class="form-floating mb-3">
-                <input type="text" class="form-control" for="pass" id="floatingInput" name="pass">
+                <input type="password" class="form-control" for="pass" id="floatingInput" name="pass">
                 <label for="floatingInput">Mot de passe</label>
                 </div>
                 <div class="form-floating mb-3">
-                <input type="text" class="form-control" for="pass" id="floatingInput" name="pass_confirm">
+                <input type="password" class="form-control" for="pass" id="floatingInput" name="pass_confirm">
                 <label for="floatingInput">Confirmer le mot de passe</label>
                 </div>
 

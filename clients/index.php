@@ -1,7 +1,7 @@
 <?php
 include("../config/config.php");
 include("../config/dbconnection.php");
-include_once('../sendMail.php');
+include("../mailBuilder.php");
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -196,18 +196,9 @@ if(isset($_SESSION["role"])){
         $id = $_GET["confirm"];
         $data_cli = $db->query("SELECT * FROM client where id='$id'");
         $data_cli = $data_cli->fetch();
-        $sujet = "Relance pour compléter le formulaire";
-            $message = '
-                    <html>
-                        <head>
-                            <title>Veuillez remplir votre formulaire</title>
-                        </head>
-                        <body>
-                            <p>SeedWebAppli vous invite à remplir votre formulaire concernant votre Site, se trouvant dans votre espace personnel > Mon Formulaire.</p> <br> <p>Merci à vous!</p>
-                    </html>
-                    ';
-        sendMail($sujet, $message, $data_cli["mail"]);
-        //echo "<script>redi()</script>";
+        $nom = $data_cli["nom"].' '.$data_cli['prenom'];
+        mailRelance($nom, $data_cli["mail"]);
+        echo "<script>redi()</script>";
     }
     
 ?>

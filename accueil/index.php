@@ -56,8 +56,8 @@ if(isset($_SESSION["role"])){
         $nbForm = $db->query("SELECT * FROM FORMULAIRE")->rowCount();
         $nbFormStart = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION != 0")->rowCount();
         $nbFormFinish = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION >= 100")->rowCount();
-        
         $avgForm = $db->query("SELECT round(avg(progression), 2) as moyenne from formulaire")->fetch();
+        $modele = $db->query('SELECT * FROM MODELE');
         ?>
 <div class="w-50 mr-25 ml-25 ">
     <div class="card-group row-cols-1 row-cols-md-3">
@@ -85,31 +85,28 @@ if(isset($_SESSION["role"])){
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card m-4 rounded border" style="width: 18rem;">
-                <span class="fs-1"><?=$nbClientConnectDay?></span>
-                <div class="card-body">
-                    <p class="card-text">Clients connectés ce jour</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card m-4 rounded border" style="width: 18rem;">
-                <span class="fs-1"><?=$nbClientConnectWeek?></span>
-                <div class="card-body">
-                    <p class="card-text">Clients connectés cette semaine</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card m-4 rounded border" style="width: 18rem;">
-                <span class="fs-1"><?="0"?></span>
-                <div class="card-body">
-                    <p class="card-text">Site avec le modèle Agence</p>
-                </div>
-            </div>
-        </div>
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Modèle</th>
+            <th scope="col">Nombre de site</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($modele as $m){
+                    $id = $m["id"];
+                    $nbSite = $db->query("SELECT * FROM SITE WHERE MODELE_ID = '$id'")->rowCount();
+            ?>
+            <tr>
+                <th scope="row"><?=$m['nom']?></th>
+                <td><?=$nbSite?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    
     <br>
     <hr>
     <div>

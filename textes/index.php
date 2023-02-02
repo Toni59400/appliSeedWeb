@@ -1,7 +1,7 @@
 <?php
 include("../config/config.php");
 include("../config/dbconnection.php");
-include_once('../sendMail.php');
+include("../mailBuilder.php");
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -158,7 +158,16 @@ include("../includes/header.php");
             }
         </script>
 <?php
+    if(isset($_GET["send_form"])){
+        $nom = $data_cli["nom"];
+        $prenom = $data_cli["prenom"];
+        $site = $data_site["url"];
+        $mail = $_GET["send_form"];
+        formReady($nom, $prenom, $site, $mail);
     }
+
+
+}
 }else{
         header('Location: ../index.php');
     }
@@ -179,24 +188,6 @@ include("../includes/header.php");
             echo '<meta http-equiv="refresh" content="0">';
     }
     }
-
-    if(isset($_POST["send_form"])){
-        
-        $mess = "Formulaire disponible.";
-        $sujet = "Votre formulaire est disponible";
-            $message = '
-                    <html>
-                        <head>
-                            <title>Bonjour '.$data_cli['nom'].' '.$data_cli['prenom'].', votre formulaire est disponible.</title>
-                        </head>
-                        <body>
-                            <a href=\'appliweb.seedweb.fr/\'<p>Veuillez le remplir.</p>
-                        </body>
-                    </html>
-                    ';
-            
-                    sendMail($sujet, $message, $data_cli["mail"]);
-            }
 
     if(isset($_GET["id_texte_supp"])){
         $id_supp = $_GET["id_texte_supp"];
