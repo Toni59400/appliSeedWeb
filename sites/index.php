@@ -139,6 +139,7 @@ if(isset($_SESSION["role"])){
                             <th scope="col">Societe(Client)</th>
                             <th scope="col">Modèle</th>
                             <th></th>
+                            <th>Données</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -149,6 +150,8 @@ if(isset($_SESSION["role"])){
                                 $id_modele = $site["modele_id"];
                                 $req_client = $db->query("SELECT * FROM client Where id = '$id_cli'");
                                 $req_modele = $db->query("SELECT * FROM modele where id = '$id_modele'");
+                                $idS = $site["id"];
+                                $pourcentage = $db->query("SELECT progression from formulaire where id_site ='$idS'")->fetch();
                                 $client = $req_client->fetch();
                                 $modele = $req_modele->fetch();
                         ?>
@@ -163,6 +166,14 @@ if(isset($_SESSION["role"])){
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursorP bi bi-arrow-right-square" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
                                 </svg>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="../viewForm/index.php?site_id=<?=$site['id']?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                    </svg>
                                 </a>
                             </td>
                             <td>
@@ -187,6 +198,11 @@ if(isset($_SESSION["role"])){
                 window.location = "index.php";
             }
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+            <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            </script>
 <?php
 }else{
     header('Location: ../index.php');

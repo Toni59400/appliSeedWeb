@@ -9,6 +9,21 @@ var section_sup = document.getElementsByClassName("sup_section");
 var input_span = document.getElementsByClassName("input_counter");
 var option = document.getElementsByClassName("add_option");
 var envoiMail = document.getElementsByClassName("btn_envoi_form");
+var copy = document.getElementsByClassName("copySpan");
+var openForm = document.getElementsByClassName("openFormPb");
+var closeForm = document.getElementsByClassName("closeForm");
+
+for (let form of closeForm){
+    form.addEventListener("click", closeFormFunc, false);
+}
+
+for (let form of openForm){
+    form.addEventListener("click", openFormFunc, false);
+}
+
+for(let copying of copy){
+    copying.addEventListener("click", copyInClipBoard, false);
+}
 
 for(let clickbtn of envoiMail){
     clickbtn.addEventListener("click", verifEnvoiMail, false);
@@ -53,6 +68,26 @@ for(let siteS of site_sup){
 
 for(let clientS of client_sup){
     clientS.addEventListener('click', delete_confirm_cli, false);
+}
+
+function closeFormFunc(){
+    var idForm = this.getAttribute("idForm");
+    document.getElementById(idForm).style.display = "none";
+}
+
+function openFormFunc(){
+    var idForm = this.getAttribute("idForm");
+    document.getElementById(idForm).style.display = "block";
+}
+
+
+
+function copyInClipBoard(){
+    var contenuToCopy = this.getAttribute("data_copy");
+    console.log(contenuToCopy);
+    navigator.clipboard.writeText(contenuToCopy).then(() => {
+        
+    })
 }
 
 

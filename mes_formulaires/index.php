@@ -50,10 +50,12 @@ if(isset($_SESSION["role"])){
                 if(!isset($_GET['page'])){
                     $_GET['page'] = 0;
                 }
-                $page = $data_page[$_GET["page"]];
+                if(!isset($data_page[$_GET["page"]])){$page = $data_page[0];}else{
+                $page = $data_page[$_GET["page"]];}
         ?> 
-        <form method="POST" action="" enctype='multipart/form-data'>
-            <div  class="row w-75 mr-12-5 ml-12-5">
+        <div>
+            <form method="POST" action="" enctype='multipart/form-data'>
+            <div  class="row w-75 mr-12-5 ml-12-5" style="margin-bottom: 70px;">
                 <div class="col w-50">
                     <h1 class="text-center">Page : "<?=$page['nom']?>"</h1>
                     <div class="opacity-75">
@@ -92,16 +94,29 @@ if(isset($_SESSION["role"])){
                 foreach($data_image as $image){
                     $nomImg = $image['nom'];
                     $alt = $image['alt'];
+                    $idImg = $image["id"];
                     $renseigne = !(empty($image["path"]));
                     $description = $image["description"];
                     $facultatif = "Non";
-                    if($image['facultatif'] == true){$facultatif = "Oui";}
+                    if($image['facultatif'] == true){$facultatif = "Oui";}else{
+                        $req_data_erreur = $db->query("SELECT * FROM ERREUR WHERE id_image = '$idImg'")->fetch();
+                        $descErr = "";
+                        if(!empty($req_data_erreur)){
+                            if($req_data_erreur["finish"] == false){
+                                $descErr = $req_data_erreur["description"];}
+                        }
+                    }
                 ?>
                 <div class="m-4">
-                <p class="text-start "><label for="formFileLg" class="form-label fw-bold"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span> (Facultatif)</span>";}?></label></p>
+                <p class="text-start "><label for="" class="form-label fw-bold"><?php if(empty($description)){echo $nomImg;}else{echo $description;}; if($facultatif == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";
+                if(!empty($descErr)){echo '<svg class="mx-2" xmlns="http://www.w3.org/2000/svg" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-title="'.$descErr.'" width="30" height="30" fill="rgb(255,0,0)" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                  </svg>';}
+                }else{echo '<span> (Facultatif)<svg class="m-2" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-title="L\'ancienne image sera écrasée" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/></svg></span>';}?></label></p>
                     <div class="input-group">
                         <input class="form-control" title="" id="formFileLg" idImage="<?=$image["id"]?>" name="<?=$nomImg?>" accept=".jpeg,.pdf,.png,.jpg,.svg,.webp,.gif" type="file"/>
-                        <input type="text" aria-label="Last name" name="<?=$nomImg?>-alt" maxlength="30" value="<?=$alt?>" placeholder="Description de l'image" class="form-control">
+                        <input type="text" aria-label="Last name" name="<?=$nomImg?>-alt" maxlength="30" value="" placeholder="Veuillez décrire l'image" class="form-control">
                     </div>
                 </div>
 <?php
@@ -159,10 +174,10 @@ if(isset($_SESSION["role"])){
             <?php
         }
     }
-?>  
-                </div>
-            </form>
-            <div class="container fixed-bottom opacity-75" id="pagination">
+    ?>              </div>
+                </form>
+            </div>
+            <div class="container fixed-bottom" id="pagination">
                     <nav aria-label="Page Navigation">
                         <ul class="pagination justify-content-center">
                     <?php 
@@ -247,14 +262,19 @@ if(isset($_POST["save_state"])){
                     $extension = strtolower(end($tabExtension));
                     $maxSize = 600000;
                     $extensions = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
-                    $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/images/";
+                    $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]."/images/";
                     if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                         if (!file_exists($path)) {
                             mkdir($path, 0777, true);
                         }
-                        $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] . "/images/" . $nom_img . "." . $extension;
+                        $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]. "/images/" . $nom_img . "." . $extension;
                         if(move_uploaded_file($tmpName, $path)){
+                            $pbExist = $db->query("SELECT * FROM ERREUR WHERE id_image='$id_img'")->rowCount();
+                            if($pbExist>0){
+                                $sqlSolvePb = $db->prepare("UPDATE erreur set finish=1 where id_image='$id_img'")->execute();
+                            }
                             $alt = "";
+                            var_dump($_POST);
                             if(isset($_POST[$image['nom'].'-alt'])){
                                 $alt=$_POST[$image['nom'].'-alt'];
                             }
@@ -333,7 +353,9 @@ if(isset($_POST['save_page'])){
     $error = array();
     $i = $_GET['page'];
     $pages = $db->query("SELECT * FROM page WHERE site_id = '$id_site'")->fetchAll();
+    if(isset($data_page[$i])){
     $page = $data_page[$i];
+    }else{$page = $data_page[0];}
     foreach($data_section as $section){
         $id_section = $section["id"];
         $id=$page["id"];
@@ -362,19 +384,23 @@ if(isset($_POST['save_page'])){
                     $tabExtension = explode('.', $name);
                     $extension = strtolower(end($tabExtension));
                     $maxSize = 600000;
-                    $extensions = ['jpg', 'png', 'jpeg', 'gif'];
-                    $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/images/";
+                    $extensions = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
+                    $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]."/images/";
                     if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                         if (!file_exists($path)) {
                             mkdir($path, 0777, true);
                         }
-                        $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] . "/images/" . $nom_img . "." . $extension;
+                        $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]. "/images/" . $nom_img . "." . $extension;
                         if(move_uploaded_file($tmpName, $path)){
+                            $pbExist = $db->query("SELECT * FROM ERREUR WHERE id_image='$id_img'")->rowCount();
+                            if($pbExist>0){
+                                $sqlSolvePb = $db->prepare("UPDATE erreur set finish=1 where id_image='$id_img'")->execute();
+                            }
                             $alt = "";
                             if(isset($_POST[$image['nom'].'-alt'])){
                                 $alt=$_POST[$image['nom'].'-alt'];
                             }
-                            $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true, alt='$alt' where id = '$id_img'");
+                            $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true, alt = '$alt' where id = '$id_img'");
                             $req_update_img->execute();
                         }
                     }
@@ -425,7 +451,7 @@ if(isset($_POST['save_page'])){
         $req_form = $db->prepare("UPDATE formulaire SET progression='$pourcentage', dateLastUpdate=NOW() where id_client = $id_cli and id_site='$id_site'");
         $req_form->execute();
     }
-    //echo '<meta http-equiv="refresh" content="1">';
+    echo '<meta http-equiv="refresh" content="1">';
     if($nbError!=0){
         $texte = strval($nbError)." Champ(s) necessaires manquants";
         ?>
@@ -486,6 +512,8 @@ if(isset($_POST['save_page'])){
 ?>
 <h1>Pas d'autorisation pour accéder à cette page.</h1>
 <?php
-}}
-    include("../includes/layout_bottom.php");
+}
+include("../includes/layout_bottom.php");
+}
+    
 ?>

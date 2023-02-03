@@ -1,3 +1,4 @@
 dossier_client/*
 config/config.php
 sendMail.php
+sql/*
