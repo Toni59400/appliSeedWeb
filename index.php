@@ -57,9 +57,9 @@ if (isset($_POST['connexion'])){
 
     $sql_client = "SELECT * FROM client WHERE mail = '$email' "; 
     
-    $result_client = $db->prepare($sql_client);
+    $result_client = $db->query($sql_client);
    
-    $result_client->execute();
+    $result_client->fetchAll();
 
     // C'est un client
     if ($result_client->rowCount() > 0){
