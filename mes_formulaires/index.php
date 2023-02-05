@@ -99,7 +99,7 @@ if(isset($_SESSION["role"])){
                     $description = $image["description"];
                     $facultatif = "Non";
                     if($image['facultatif'] == true){$facultatif = "Oui";}else{
-                        $req_data_erreur = $db->query("SELECT * FROM ERREUR WHERE id_image = '$idImg'")->fetch();
+                        $req_data_erreur = $db->query("SELECT * FROM erreur WHERE id_image = '$idImg'")->fetch();
                         $descErr = "";
                         if(!empty($req_data_erreur)){
                             if($req_data_erreur["finish"] == false){
@@ -269,7 +269,7 @@ if(isset($_POST["save_state"])){
                         }
                         $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]. "/images/" . $nom_img . "." . $extension;
                         if(move_uploaded_file($tmpName, $path)){
-                            $pbExist = $db->query("SELECT * FROM ERREUR WHERE id_image='$id_img'")->rowCount();
+                            $pbExist = $db->query("SELECT * FROM erreur WHERE id_image='$id_img'")->rowCount();
                             if($pbExist>0){
                                 $sqlSolvePb = $db->prepare("UPDATE erreur set finish=1 where id_image='$id_img'")->execute();
                             }
@@ -392,7 +392,7 @@ if(isset($_POST['save_page'])){
                         }
                         $path = "../dossier_client/" . $nom . "_" . $prenom . "/" . $page["nom"] ."/" .$section["nom"]. "/images/" . $nom_img . "." . $extension;
                         if(move_uploaded_file($tmpName, $path)){
-                            $pbExist = $db->query("SELECT * FROM ERREUR WHERE id_image='$id_img'")->rowCount();
+                            $pbExist = $db->query("SELECT * FROM erreur WHERE id_image='$id_img'")->rowCount();
                             if($pbExist>0){
                                 $sqlSolvePb = $db->prepare("UPDATE erreur set finish=1 where id_image='$id_img'")->execute();
                             }

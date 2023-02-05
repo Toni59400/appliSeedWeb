@@ -53,9 +53,9 @@ if(isset($_SESSION["role"])){
 
 <?php
     } if($_SESSION['role'] == "admin"){
-        $nbForm = $db->query("SELECT * FROM FORMULAIRE")->rowCount();
-        $nbFormStart = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION != 0")->rowCount();
-        $nbFormFinish = $db->query("SELECT * FROM FORMULAIRE WHERE PROGRESSION >= 100")->rowCount();
+        $nbForm = $db->query("SELECT * FROM formulaire")->rowCount();
+        $nbFormStart = $db->query("SELECT * FROM formulaire WHERE progression != 0")->rowCount();
+        $nbFormFinish = $db->query("SELECT * FROM formulaire WHERE progression >= 100")->rowCount();
         $avgForm = $db->query("SELECT round(avg(progression), 2) as moyenne from formulaire")->fetch();
         $modele = $db->query('SELECT * FROM MODELE');
         ?>

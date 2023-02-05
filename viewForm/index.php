@@ -27,14 +27,14 @@ if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "admin"){
         if(isset($_GET["site_id"])){
             $idSite = $_GET['site_id'];
-            $dataSite = $db->query("SELECT * FROM SITE WHERE ID = '$idSite'")->fetch();
+            $dataSite = $db->query("SELECT * FROM site WHERE ID = '$idSite'")->fetch();
             $nbPageSiteClient = $db->query("SELECT * FROM page WHERE site_id = '$idSite'")->rowCount();
             $idCli = $dataSite["client_id"];
             $idModele = $dataSite['modele_id'];
-            $data_page = $db->query("SELECT * FROM PAGE where site_id='$idSite'")->fetchAll();
-            $data_section = $db->query("SELECT * FROM SECTION")->fetchAll();
-            $dataClient = $db->query("SELECT * FROM CLIENT WHERE ID = '$idCli'")->fetch();
-            $data_modele = $db->query("SELECT * FROM MODELE WHERE ID = '$idModele'")->fetch();
+            $data_page = $db->query("SELECT * FROM page where site_id='$idSite'")->fetchAll();
+            $data_section = $db->query("SELECT * FROM section")->fetchAll();
+            $dataClient = $db->query("SELECT * FROM client WHERE ID = '$idCli'")->fetch();
+            $data_modele = $db->query("SELECT * FROM modele WHERE ID = '$idModele'")->fetch();
             $nbEltParPage = 1;
             $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
                 if(!isset($_GET['page'])){
@@ -80,7 +80,7 @@ if(isset($_SESSION["role"])){
                     $idImage=$image["id"];
                     $path = $image['path'];
                     if(!empty($image['path'])){
-                        $sqlSelectPb = $db->query("SELECT * FROM ERREUR where id_image='$idImage'")->fetch();
+                        $sqlSelectPb = $db->query("SELECT * FROM erreur where id_image='$idImage'")->fetch();
                         $pbRegler = true;
                         if(!empty($sqlSelectPb)){if($sqlSelectPb['finish'] == false){$pbRegler = false;}}
                 ?>
@@ -206,15 +206,15 @@ if(isset($_SESSION["role"])){
                 $desc = $_POST["pb"];
                 $verifPbExist = $db->query("SELECT * FROM erreur where id_image = '$idImage'")->rowCount();
                 if($verifPbExist>0){
-                    $sql = $db->query("SELECT * FROM IMAGE WHERE ID='$idImage'")->fetch();
+                    $sql = $db->query("SELECT * FROM image WHERE ID='$idImage'")->fetch();
                     $idPage = (int)$sql["page_id"];
-                    $sqlUpdatePageFinie = $db->prepare("DELETE from PAGEVALIDE WHERE page = '$idPage'")->execute();
+                    $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
                     $addPb = $db->prepare("UPDATE erreur set description='$desc', finish=0 where id_image='$idImage'")->execute();
                     $reqModifImg = $db->prepare("UPDATE image set facultatif = 0 where id = '$idImage'")->execute();
                 }else{
-                    $sql = $db->query("SELECT * FROM IMAGE WHERE ID='$idImage'")->fetch();
+                    $sql = $db->query("SELECT * FROM image WHERE ID='$idImage'")->fetch();
                     $idPage = (int)$sql["page_id"];
-                    $sqlUpdatePageFinie = $db->prepare("DELETE from PAGEVALIDE WHERE page = '$idPage'")->execute();
+                    $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
                     $addPb = $db->prepare("INSERT INTO erreur(id_image, description, finish) value ('$idImage', '$desc', 0)")->execute();
                     $reqModifImg = $db->prepare("UPDATE image set facultatif = 0 where id = '$idImage'")->execute();
                 }
