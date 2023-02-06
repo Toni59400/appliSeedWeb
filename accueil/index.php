@@ -57,7 +57,7 @@ if(isset($_SESSION["role"])){
         $nbFormStart = $db->query("SELECT * FROM formulaire WHERE progression != 0")->rowCount();
         $nbFormFinish = $db->query("SELECT * FROM formulaire WHERE progression >= 100")->rowCount();
         $avgForm = $db->query("SELECT round(avg(progression), 2) as moyenne from formulaire")->fetch();
-        $modele = $db->query('SELECT * FROM MODELE');
+        $modele = $db->query('SELECT * FROM modele');
         ?>
 <div class="w-50 mr-25 ml-25 ">
     <div class="card-group row-cols-1 row-cols-md-3">
@@ -97,7 +97,7 @@ if(isset($_SESSION["role"])){
             <?php
                 foreach($modele as $m){
                     $id = $m["id"];
-                    $nbSite = $db->query("SELECT * FROM SITE WHERE MODELE_ID = '$id'")->rowCount();
+                    $nbSite = $db->query("SELECT * FROM site WHERE modele_id = '$id'")->rowCount();
             ?>
             <tr>
                 <th scope="row"><?=$m['nom']?></th>
