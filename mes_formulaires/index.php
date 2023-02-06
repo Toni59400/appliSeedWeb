@@ -42,8 +42,10 @@ if(isset($_SESSION["role"])){
             $req_modele = $db->query("SELECT nom FROM modele where id = '$id_modele'");
             $data_modele = $req_modele->fetch();
             $req_page = $db->query("SELECT * FROM page where site_id = '$id_site' and page.id not in (select page from pagevalide)");
+            $NbPage = $db->query("SELECT * from page where site_id = '$id_site'")->rowCount();
+            $NbPageOk = $db->query("SELECT * from page where site_id = '$id_site' and page.id in (select page from pagevalide)")->rowCount();
             $nbPageSiteClient = $req_page->rowCount();
-            if($nbPageSiteClient != 0){
+            if($NbPage != $NbPageOk ){
                 $data_page = $req_page->fetchAll();
                 $nbEltParPage = 1;
                 $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
@@ -133,7 +135,16 @@ if(isset($_SESSION["role"])){
                     $nomTxt = str_replace($array_space, "-", $texte['nom']);
                     $renseigne_txt = !(empty($texte["contenu"]));
                     $facultatif_txt = "Non";
-                    if($texte['facultatif'] == true){$facultatif_txt = "Oui";}
+                    $idT = $texte["id"];
+                    $descErr = "";
+                    if($texte['facultatif'] == true){$facultatif_txt = "Oui";}else{
+                        $req_data_erreur = $db->query("SELECT * FROM erreurt WHERE id_texte = '$idT'")->fetch();
+                        
+                        if(!empty($req_data_erreur)){
+                            if($req_data_erreur["finish"] == false){
+                                $descErr = $req_data_erreur["description"];}
+                        }
+                    }
                     if(!empty($data_option)){
 ?>
                     <div class="m-4">
@@ -147,7 +158,13 @@ if(isset($_SESSION["role"])){
                 ?>
 
                     <div class="m-4">
-                        <p class="text-start "><label for="" class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label></p>
+                        <p class="text-start "><label for="" class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}
+                         if(!empty($descErr)){echo '<svg class="mx-2" xmlns="http://www.w3.org/2000/svg" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-title="'.$descErr.'" width="30" height="30" fill="rgb(255,0,0)" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                          </svg>';}
+                         ?>
+                    </label></p>
                         <input class="form-control form-control-lg input_counter" value="<?=$contenu?>" id="formFileLg" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" type="text" >
                         <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?> caractères restants</span>
                         <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
@@ -157,7 +174,12 @@ if(isset($_SESSION["role"])){
                     } else {
                 ?>
                     <div class="m-2">
-                        <p class="text-start "><label class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}?></label></p>
+                        <p class="text-start "><label class="form-label fw-bold"><?php echo $nomTxt2; if($facultatif_txt == "Non"){echo "<span class=\"text-danger-emphasis\">*</span>";}else{echo "<span>(Facultatif)</span>";}
+                         if(!empty($descErr)){echo '<svg class="mx-2" xmlns="http://www.w3.org/2000/svg" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-title="'.$descErr.'" width="30" height="30" fill="rgb(255,0,0)" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                          </svg>';}
+                        ?></label></p>
                         <textarea class="form-control input_counter" idTexte="<?=$texte["id"]?>" maxlength="<?=$texte["taille"]?>" name="<?=$nomTxt?>" id="floatingTextarea"><?=$contenu?></textarea>
                         <span class="counter badge bg-secondary" id="span_counter_input<?=$texte["id"]?>" ><?=$texte["taille"]?> caractères restants</span>
                         <span style="display: none;" class="badge bg-secondary " id="limite<?=$texte["id"]?>">Vous avez atteint la limite de caractères</span>
@@ -290,6 +312,10 @@ if(isset($_POST["save_state"])){
                 $nomTxt = str_replace($array_space, "-", $texte['nom']);
                 $id_texte = $texte['id'];
                 if(isset($_POST[$nomTxt]) && !empty($_POST[$nomTxt])){
+                    $pbExist = $db->query("SELECT * FROM erreurt WHERE id_texte='$id_texte'")->rowCount();
+                    if($pbExist>0){
+                        $sqlSolvePb = $db->prepare("UPDATE erreurt set finish=1 where id_texte='$id_texte'")->execute();
+                    }
                     $contenu = addslashes($_POST[$nomTxt]);
                     $req_txt = $db->prepare("UPDATE texte SET contenu = '$contenu', facultatif = true where id = '$id_texte'");
                     $req_txt = $req_txt->execute();
@@ -448,9 +474,13 @@ if(isset($_POST['save_page'])){
             }
         }
         $pourcentage=intval($checkChamps*100/$allChamps);
+        $nbPageRestante = $db->query("SELECT * FROM page where site_id = '$id_site' and page.id not in (select page from pagevalide)")->rowCount();
+        if($nbPageRestante == 0){$pourcentage=100;}
         $req_form = $db->prepare("UPDATE formulaire SET progression='$pourcentage', dateLastUpdate=NOW() where id_client = $id_cli and id_site='$id_site'");
         $req_form->execute();
     }
+
+    
     echo '<meta http-equiv="refresh" content="1">';
     if($nbError!=0){
         $texte = strval($nbError)." Champ(s) necessaires manquants";
@@ -462,6 +492,20 @@ if(isset($_POST['save_page'])){
         $i = $_GET['page'];
         $idpage = $data_page[$i]['id'];
         $nomPage = $data_page[$i]['nom'];
+        $dbErr = $db->query("SELECT * FROM erreur where finish = 0");
+        $dbErrT = $db->query("SELECT * FROM erreurt where finish = 0");
+        if($dbErr->rowCount()>0){
+            $data = $dbErr->fetchAll();
+            foreach($data as $img){
+                $idImg = $img["id_image"];
+                $sql = $db->query("SELECT * from image where id = '$idImg'")->fetch();
+                $idP = $sql["page_id"];
+                $pageV = $db->query("SELECT * FROM pagevalide where page='$idP'")->rowCount();
+                if($pageV>0){
+                    $sqlDel = $db->prepare("DELETE FROM pagevalide where page='$idP'")->execute();
+                }
+            }
+        }
         $sql = $db->prepare("INSERT INTO pagevalide(page) value ('$idpage')")->execute();
         $nbPageRestante = $db->query("SELECT * FROM page where site_id = '$id_site' and page.id not in (select page from pagevalide)")->rowCount();
         $mess = "La page est complétée à 100%.";
@@ -478,7 +522,11 @@ if(isset($_POST['save_page'])){
                     $_GET["page"]=0;
                 }
             }
+
         if($nbPageRestante == 0){
+            $pourcentage = 100;
+            $req_form = $db->prepare("UPDATE formulaire SET progression='$pourcentage', dateLastUpdate=NOW() where id_client = $id_cli and id_site='$id_site'");
+            $req_form->execute();
             $cli = $data_cli['nom'].' '.$data_cli["prenom"];
             foreach($data_admin as $ad){
                 $idAd = $ad["id"];
@@ -517,3 +565,4 @@ include("../includes/layout_bottom.php");
 }
     
 ?>
+

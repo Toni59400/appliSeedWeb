@@ -214,7 +214,7 @@ function afficherNbCarac(){
         this.classList.remove("is-invalid");
         spanLimite.style.display="none";
         span.style.display = "inline-block";
-        
+
     }if(leftCharLength == 0 ){
         this.classList.add("is-invalid");
         span.style.display = "none";

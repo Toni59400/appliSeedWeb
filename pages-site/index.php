@@ -152,6 +152,7 @@ include("../includes/header.php");
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item actionAdmin sup_page" data_sup="<?=$page['id']?>">Supprimer</a></li>
+                                            <li><a class="dropdown-item actionAdmin" href="../textes/index.php?page_id=<?=$page['id']?>">Voir les textes</a></li>
                                             <li><a class="dropdown-item actionAdmin add_option" info="<?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?>" data_page='<?=$_GET['site_id']?>' data_sup="<?=$page['id']?>"><?php if(!empty($option)){echo "Supprimer la rédaction";}else{echo "Ajouter la rédaction";}?></a></li>
                                         </ul>
                                     </div>

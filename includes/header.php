@@ -2,8 +2,14 @@
 if(isset($_SESSION['role'])){
     if($_SESSION["role"] == "admin"){
         $url = $_SERVER["REQUEST_URI"];
+        $idAdm = $_SESSION["id_client"];
+        $dataAdm = $db->query("SELECT * FROM client where id = '$idAdm'")->fetch();
     ?>  
             <div class="container">
+            <p class="text-end">Bonjour <?=$dataAdm["prenom"]?> <?=$dataAdm["nom"]?> ! <?php if($dataAdm["prenom"] == "Rémy" || $dataAdm["prenom"] == "Valentine" || $dataAdm["prenom"] == "Alexia"){?>
+                <img src="../img/rclens.svg" style="heigth:20px; width:20px;"/>
+            <?php } ?>
+            </p>
                 <div class="d-flex justify-content-around align-items-center pt-3 mb-4 border-bottom">
                         <div>
                             <a href="../accueil/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -33,10 +39,10 @@ if(isset($_SESSION['role'])){
                         </li>
                         <a href="./index.php?unco=1">
                             <li class="m-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#10aaae" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                                </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#10aaae" class="bi bi-power" viewBox="0 0 16 16">
+                                <path d="M7.5 1v7h1V1h-1z"/>
+                                <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"/>
+                            </svg>
                             </li>
                         </a>
                     </ul>
@@ -72,10 +78,10 @@ if(isset($_SESSION['role'])){
                         </li>
                         <a href="./index.php?unco=1">
                             <li class="m-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#10aaae" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                                </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#10aaae" class="bi bi-power" viewBox="0 0 16 16">
+                                <path d="M7.5 1v7h1V1h-1z"/>
+                                <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"/>
+                            </svg>
                             </li>
                         </a>
                     </ul>

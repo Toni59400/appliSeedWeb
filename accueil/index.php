@@ -27,6 +27,17 @@ if(isset($_SESSION["role"])){
         $data_cli = $db->query("SELECT * FROM client where id='$id'")->fetch();
         $data_formulaire = $db->query("SELECT * FROM formulaire where id_client = '$id'")->fetch();
         $data_site = $db->query("SELECT * FROM site where client_id = '$id'")->fetch();
+        $idSite = $data_site["id"];
+        $dataPage = $db->query("SELECT * FROM page where site_id='$idSite'")->fetchAll();
+        $nbErr = 0;
+        $NbPage = $db->query("SELECT * from page where site_id = '$idSite'")->rowCount();
+        $NbPageOk = $db->query("SELECT * from page where site_id = '$idSite' and page.id in (select page from pagevalide)")->rowCount();
+        foreach($dataPage as $page){
+            $idP = $page["id"];
+            $nbErrTexte = $db->query("SELECT * from erreurt where id_texte in (SELECT id FROM texte where page_id = '$idP') and finish=0")->rowCount();
+            $nbErrImage = $db->query("SELECT * from erreur where id_image in (SELECT id FROM image where page_id = '$idP') and finish=0")->rowCount();
+            $nbErr+= $nbErrImage+$nbErrTexte;
+        }
         if(!empty($data_formulaire)){
 ?>
 
@@ -35,13 +46,19 @@ if(isset($_SESSION["role"])){
     <?php if($data_formulaire["progression"] == 0){?>
         <p class="fw-bold">Vous n'avez pas encore commencé à remplir votre formulaire</p>
         <a href="../mes_formulaires/"><p class="fw-bold btn btn-outline-seed">Cliquez-ici pour le commencer !</p></a>
-    <?php }if($data_formulaire["progression"] > 0 && $data_formulaire["progression"] < 100){?>
-    <p class="fw-bold">Avancement de votre formulaire:</p>
+    <?php }if(($data_formulaire["progression"] > 0 && $data_formulaire["progression"] < 100) || ($NbPage != $NbPageOk) && $data_formulaire["progression"] != 0){?>
+    <p class="fw-bold">Avancement de votre formulaire: 
+<?php if($nbErr>0){?>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="rgb(255,1,1)" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-title="Le formulaire comporte <?=$nbErr?> erreur(s)" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        </svg>
+<?php }?>
+    </p>
     <div class="meter seed">
         <span style="width: <?=$data_formulaire['progression']?>%" class="text-black"><?=$data_formulaire['progression']?>%</span>
     </div>
     <a href="../mes_formulaires/"><p class="fw-bold btn btn-outline-seed">Cliquez-ici pour le compléter !</p></a>
-    <?php }elseif($data_formulaire["progression"]>=100){ ?>
+    <?php }elseif($NbPage == $NbPageOk){ ?>
 
         <p class="fw-bold">Votre formulaire est entièrement complété</p>
     

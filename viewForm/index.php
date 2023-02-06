@@ -2,6 +2,7 @@
 include("../config/config.php");
 include("../config/dbconnection.php");
 include("../mailBuilder.php");
+include("../zipper.php");
 session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -9,7 +10,7 @@ if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
     if(isset($_POST["dark"])){$_SESSION["theme"] = "dark";} if(isset($_POST["light"])){ $_SESSION["theme"] = "light";}
-    ?>
+?>
 <!DOCTYPE HTML>
 <html lang="fr" data-bs-theme="<?=$_SESSION["theme"]?>">
     <head>
@@ -27,22 +28,38 @@ if(isset($_SESSION["role"])){
     if($_SESSION["role"] == "admin"){
         if(isset($_GET["site_id"])){
             $idSite = $_GET['site_id'];
-            $dataSite = $db->query("SELECT * FROM site WHERE ID = '$idSite'")->fetch();
+            $dataSite = $db->query("SELECT * FROM site WHERE id = '$idSite'")->fetch();
             $nbPageSiteClient = $db->query("SELECT * FROM page WHERE site_id = '$idSite'")->rowCount();
             $idCli = $dataSite["client_id"];
             $idModele = $dataSite['modele_id'];
             $data_page = $db->query("SELECT * FROM page where site_id='$idSite'")->fetchAll();
             $data_section = $db->query("SELECT * FROM section")->fetchAll();
-            $dataClient = $db->query("SELECT * FROM client WHERE ID = '$idCli'")->fetch();
-            $data_modele = $db->query("SELECT * FROM modele WHERE ID = '$idModele'")->fetch();
+            $dataClient = $db->query("SELECT * FROM client WHERE id = '$idCli'")->fetch();
+            $data_modele = $db->query("SELECT * FROM modele WHERE id = '$idModele'")->fetch();
             $nbEltParPage = 1;
             $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
+            $fileName = "../dossier_client/".$dataClient['nom']."_".$dataClient['prenom'];
+            zipper($fileName);
                 if(!isset($_GET['page'])){
                     $_GET['page'] = 0;
                 }
                 $page = $data_page[$_GET["page"]];
-        ?>          
+?>    
+              
             <div  class="row w-75 mr-12-5 ml-12-5"  style="margin-bottom: 70px;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="../sites/index.php">Sites</a></li>
+                    <li class="breadcrumb-item active">Visualisation des données</li>
+                    <li class="breadcrumb-item active"><a href="<?=$fileName?>.zip" download="image_<?=$dataClient["nom"].'-'.$dataClient['prenom']?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-title="Télécharger (.zip)" width="22" height="22" fill="#10aaae" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                    </a></li>
+                </ol>
+            </nav>
                 <div class="col w-50">
                     <h1 class="text-center">Page : "<?=$page['nom']?>"</h1>
                 </div>
@@ -62,13 +79,13 @@ if(isset($_SESSION["role"])){
                 $nom_page = str_replace($array_space, "-", $page["nom"]);
                 $nom_section2 = str_replace($array_space, "-", $section["nom"]);
                 $src_img = strtolower("../img/".$data_modele["nom"]. "_". $nom_page . "_". $nom_section2 . ".png");
-                ?>
+?>
                 <h2 class="text-center"><?=$nom_section?></h2>
                 <div class="w-100 text-center">
                     <img src="<?=$src_img?>"  style="max-width: 40%; height: auto;" alt="Image_section_<?=$section["nom"]?>">
                 </div>
                 <div class="w-50 m-2 col">
-                <?php
+<?php
                 $cpt=uniqid();
                 foreach($data_image as $image){
                     $cpt++;
@@ -83,7 +100,7 @@ if(isset($_SESSION["role"])){
                         $sqlSelectPb = $db->query("SELECT * FROM erreur where id_image='$idImage'")->fetch();
                         $pbRegler = true;
                         if(!empty($sqlSelectPb)){if($sqlSelectPb['finish'] == false){$pbRegler = false;}}
-                ?>
+?>
                 <div class="m-4">
                     <p class="text-center "><label class="form-label fw-bold"><?php echo $description;?></label></p>
                     <img src="<?=$path?>" class="img-thumbnail" alt="<?=$alt?>">
@@ -97,9 +114,9 @@ if(isset($_SESSION["role"])){
                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                         </svg>
                     </a>
-                    <?php
+<?php
                     if($pbRegler == true){
-                    ?>
+?>
                     <button class="open-button openFormPb m-3 bgSeed rounded" idForm="<?=$cpt?>">Signaler un problème</button>
 
                     <!-- The form -->
@@ -112,15 +129,15 @@ if(isset($_SESSION["role"])){
                             <button type="button" class="btn cancel closeForm" idForm="<?=$cpt?>">Fermer</button>
                         </form>
                     </div>
-                    <?php
+<?php
                     }else{
-                    ?>
+?>
 
                     <button class="open-button openFormPb m-3 bgSeed text-body-emphasis rounded" disabled idForm="<?=$cpt?>">Le problème à été signalé au client.</button>
 
-                    <?php
+<?php
                     }
-                    ?>
+?>
                 </div>
 <?php
                     }
@@ -132,6 +149,11 @@ if(isset($_SESSION["role"])){
 <?php
                 
                 foreach($data_texte as $texte){
+                    $cpt2=uniqid();
+                    $idT = $texte["id"];
+                    $dataErr = $db->query("SELECT * FROM erreurt where id_texte = '$idT'")->fetch();
+                    $pbReglerT = true;
+                    if(!empty($dataErr)){if($dataErr['finish'] == false){$pbReglerT = false;}}
                     $contenu = $texte["contenu"];
                     $array_space = array(" ");
                     $nomTxt2 = $texte["nom"];
@@ -148,11 +170,11 @@ if(isset($_SESSION["role"])){
                         </div>
                     </div>
 
-                        <?php
+<?php
                     } else{
                         if(!empty($texte["contenu"])){
                     
-                ?>
+?>
                     <div class="m-2 border rounded">
                         <p class="text-start "><label class="form-label fw-bold"><?php echo $nomTxt2;?></label></p>
                         <div class="badge bg-primary text-wrap">
@@ -160,15 +182,38 @@ if(isset($_SESSION["role"])){
                         </div>
                     </div>
 
-                <?php
+                    <?php
+                    if($pbReglerT == true){
+?>
+                    <button class="open-button openFormPb m-3 bgSeed rounded" idForm="<?=$cpt2?>">Signaler un problème</button>
+
+                    <!-- The form -->
+                    <div class="form-popup" id="<?=$cpt2?>">
+                        <form method="POST" class="form-container text-center mr-25 ml-25">
+                            <label for="psw"><b>Description du problème</b></label>
+                            <input type="text" placeholder="Décrire le problème" name="pb" required>
+
+                            <button type="submit" class="btn" name="send_pbT" value="<?=$texte["id"]?>">Envoyer</button>
+                            <button type="button" class="btn cancel closeForm" idForm="<?=$cpt2?>">Fermer</button>
+                        </form>
+                    </div>
+<?php
+                    }else{
+?>
+
+                    <button class="open-button openFormPb m-3 bgSeed text-body-emphasis rounded" disabled idForm="<?=$cpt?>">Le problème à été signalé au client.</button>
+
+
+<?php
+                            }
                         }
                     }
                 }
                     
-            ?>
+?>
                 </div>
                 
-            <?php
+<?php
         }
     }
 ?>  
@@ -177,15 +222,15 @@ if(isset($_SESSION["role"])){
             <div class="container fixed-bottom opacity-75" id="pagination">
                     <nav aria-label="Page Navigation">
                         <ul class="pagination justify-content-center">
-                    <?php 
+<?php 
                         for ($i=1; $i<=$nbTotalDePage ; $i++) { 
-                    ?>
+?>
                     
                     <li class="page-item"><a class="page-link" href="index.php?site_id=<?=$idSite?>&page=<?=$i-1?>"><?=$data_page[$i-1]["nom"]?></a></li>
 
-                    <?php
+<?php
                         }
-                    ?>
+?>
 
                         </ul>
                     </nav>
@@ -206,19 +251,42 @@ if(isset($_SESSION["role"])){
                 $desc = $_POST["pb"];
                 $verifPbExist = $db->query("SELECT * FROM erreur where id_image = '$idImage'")->rowCount();
                 if($verifPbExist>0){
-                    $sql = $db->query("SELECT * FROM image WHERE ID='$idImage'")->fetch();
+                    $sql = $db->query("SELECT * FROM image WHERE id='$idImage'")->fetch();
                     $idPage = (int)$sql["page_id"];
                     $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
                     $addPb = $db->prepare("UPDATE erreur set description='$desc', finish=0 where id_image='$idImage'")->execute();
                     $reqModifImg = $db->prepare("UPDATE image set facultatif = 0 where id = '$idImage'")->execute();
                 }else{
-                    $sql = $db->query("SELECT * FROM image WHERE ID='$idImage'")->fetch();
+                    $sql = $db->query("SELECT * FROM image WHERE id='$idImage'")->fetch();
                     $idPage = (int)$sql["page_id"];
                     $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
                     $addPb = $db->prepare("INSERT INTO erreur(id_image, description, finish) value ('$idImage', '$desc', 0)")->execute();
                     $reqModifImg = $db->prepare("UPDATE image set facultatif = 0 where id = '$idImage'")->execute();
                 }
                 echo "<script>redi()</script>";
+            }
+        } 
+        if(isset($_POST["send_pbT"])){
+
+            if(isset($_POST["pb"]))
+            {
+                $idTexte = (int)$_POST["send_pbT"];
+                $desc = $_POST["pb"];
+                $verifPbExist = $db->query("SELECT * FROM erreurt where id_texte = '$idTexte'")->rowCount();
+                if($verifPbExist>0){
+                    $sql = $db->query("SELECT * FROM texte WHERE id='$idTexte'")->fetch();
+                    $idPage = (int)$sql["page_id"];
+                    $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
+                    $addPb = $db->prepare("UPDATE erreurt set description='$desc', finish=0 where id_texte='$idTexte'")->execute();
+                    $reqModifImg = $db->prepare("UPDATE texte set facultatif = 0 where id = '$idTexte'")->execute();
+                }else{
+                    $sql = $db->query("SELECT * FROM texte WHERE id='$idTexte'")->fetch();
+                    $idPage = (int)$sql["page_id"];
+                    $sqlUpdatePageFinie = $db->prepare("DELETE from pagevalide WHERE page = '$idPage'")->execute();
+                    $addPb = $db->prepare("INSERT INTO erreurt(id_texte, description, finish) value ('$idTexte', '$desc', 0)")->execute();
+                    $reqModifImg = $db->prepare("UPDATE texte set facultatif = 0 where id = '$idTexte'")->execute();
+                }
+                echo "<script>redi()</script>";    
             }
         }
         
