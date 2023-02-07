@@ -19,6 +19,7 @@ if(!isset($_SESSION['theme'])){
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/modal_flat.css" type="text/css" />
         <link rel="stylesheet" href="../css/modal_rounded.css" type="text/css" />
+        <link rel="icon" href="../img/ico.png" />
         <title>SeedWeb | Clients</title>
     </head>
     <body class="text-center w-100 m-auto">

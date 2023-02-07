@@ -20,6 +20,7 @@ if(!isset($_SESSION['theme'])){
         <link rel="stylesheet" href="../css/modal_flat.css" type="text/css" />
         <link rel="stylesheet" href="../css/modal_rounded.css" type="text/css" />
         <title>SeedWeb | Formulaire</title>
+        <link rel="icon" href="../img/ico.png" />
     </head>
     <body class="text-center w-100 m-auto">
 <?php

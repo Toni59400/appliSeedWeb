@@ -17,6 +17,7 @@ if(!isset($_SESSION['theme'])){
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="../css/style.css">
         <title>SeedWeb | Images Modèles</title>
+        <link rel="icon" href="../img/ico.png" />
     </head>
     <body class="text-center w-100 m-auto">
 <?php
@@ -79,7 +80,7 @@ include("../includes/header.php");
                             
                         </select>
                         <div class="col-auto mb-2 w-75">
-                            <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (25 caractères max, facultatif)" maxlength="25">
+                            <input type="text" id="" class="form-control" name="descImageAjouter" placeholder="Description (35 caractères max, facultatif)" maxlength="35">
                         </div>
                         <select class="form-select mb-2" name="select_facultatif" aria-label="Default select example">
                             <option selected disabled="disabled" value="-1">Facultatif :</option>

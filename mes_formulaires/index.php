@@ -18,6 +18,7 @@ if(!isset($_SESSION['theme'])){
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="../css/style.css">
         <title>SeedWeb | Mes Formulaires</title>
+        <link rel="icon" href="../img/ico.png" />
     </head>
     <body class="text-center w-100 m-auto">
         
@@ -85,12 +86,20 @@ if(isset($_SESSION["role"])){
                 $array_space = array(" ");
                 $nom_page = str_replace($array_space, "-", $page["nom"]);
                 $nom_section2 = str_replace($array_space, "-", $section["nom"]);
+                if($nom_section2 == "Information-générales"){
+                    $src_img = false;
+                }else{
                 $src_img = strtolower("../img/".$data_modele["nom"]. "_". $nom_page . "_". $nom_section2 . ".png");
+                }
+                if($src_img == false){
                 ?>
+                <h2 class="text-center"><?=$nom_section?></h2>
+                <?php } else { ?>
                 <h2 class="text-center"><?=$nom_section?></h2>
                 <div class="w-100 text-center">
                     <img src="<?=$src_img?>"  style="max-width: 40%; height: auto;" alt="Image_section_<?=$section["nom"]?>">
                 </div>
+                <?php } ?>
                 <div class="w-50 m-2 col">
                 <?php
                 foreach($data_image as $image){
