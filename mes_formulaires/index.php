@@ -3,8 +3,6 @@ include("../config/config.php");
 include("../config/dbconnection.php");
 include("../mailBuilder.php");
 session_start();
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
@@ -277,7 +275,7 @@ if(isset($_POST["save_state"])){
         $data_client = $data_client->fetch();
         if(!empty($data_image) or !empty($data_texte)){
             foreach($data_image as $image){
-                $id_img = $image["id"];
+                $id_img = (int)$image["id"];
                 $nom_img = $image["nom"];
                 if(isset($_FILES[$nom_img]) && !empty($_FILES[$nom_img]["name"])){
                     //Pour le client concerner pour upload dans le fichier ensuite : 
@@ -307,7 +305,7 @@ if(isset($_POST["save_state"])){
                             $alt = "";
                             var_dump($_POST);
                             if(isset($_POST[$image['nom'].'-alt'])){
-                                $alt=$_POST[$image['nom'].'-alt'];
+                                $alt=addslashes($_POST[$image['nom'].'-alt']);
                             }
                             $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true, alt = '$alt' where id = '$id_img'");
                             $req_update_img->execute();
@@ -433,7 +431,7 @@ if(isset($_POST['save_page'])){
                             }
                             $alt = "";
                             if(isset($_POST[$image['nom'].'-alt'])){
-                                $alt=$_POST[$image['nom'].'-alt'];
+                                $alt=addslashes($_POST[$image['nom'].'-alt']);
                             }
                             $req_update_img = $db->prepare("UPDATE image SET path = '$path', facultatif = true, alt = '$alt' where id = '$id_img'");
                             $req_update_img->execute();

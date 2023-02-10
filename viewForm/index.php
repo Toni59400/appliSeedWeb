@@ -4,8 +4,6 @@ include("../config/dbconnection.php");
 include("../mailBuilder.php");
 include("../zipper.php");
 session_start();
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 if(!isset($_SESSION['theme'])){
     $_SESSION["theme"] = "light";
     }
@@ -40,7 +38,21 @@ if(isset($_SESSION["role"])){
             $nbEltParPage = 1;
             $nbTotalDePage = $nbPageSiteClient/$nbEltParPage;
             $fileName = "../dossier_client/".$dataClient['nom']."_".$dataClient['prenom'];
+            $fichierTrouve=0;
+            if (is_dir($fileName))
+            {
+                if ($dh = opendir($fileName))
+                {
+                while (($file = readdir($dh)) !== false && $fichierTrouve==0)
+                {
+                if ($file!="." && $file!=".." ) $fichierTrouve=1;
+                }
+                closedir($dh);
+                }
+            }
+            if($fichierTrouve != 0){
             zipper($fileName);
+            }
                 if(!isset($_GET['page'])){
                     $_GET['page'] = 0;
                 }
@@ -53,12 +65,14 @@ if(isset($_SESSION["role"])){
                     <li class="breadcrumb-item"><a href="../accueil/index.php">Accueil</a></li>
                     <li class="breadcrumb-item"><a href="../sites/index.php">Sites</a></li>
                     <li class="breadcrumb-item active">Visualisation des données</li>
+                    <?php if($fichierTrouve != 0){?>
                     <li class="breadcrumb-item active"><a href="<?=$fileName?>.zip" download="image_<?=$dataClient["nom"].'-'.$dataClient['prenom']?>">
                         <svg xmlns="http://www.w3.org/2000/svg" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-title="Télécharger (.zip)" width="22" height="22" fill="#10aaae" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                         </svg>
                     </a></li>
+                    <?php } ?>
                 </ol>
             </nav>
                 <div class="col w-50">
@@ -82,9 +96,15 @@ if(isset($_SESSION["role"])){
                 $src_img = strtolower("../img/".$data_modele["nom"]. "_". $nom_page . "_". $nom_section2 . ".png");
 ?>
                 <h2 class="text-center"><?=$nom_section?></h2>
+                <?php
+                if($nom_section != "Informations générales"){
+                ?>
                 <div class="w-100 text-center">
-                    <img src="<?=$src_img?>"  style="max-width: 40%; height: auto;" alt="Image_section_<?=$section["nom"]?>">
+                    <img src="<?=$src_img?>"  style="max-width: 40%; min-width: 40%; height: auto;" alt="Image_section_<?=$section["nom"]?>">
                 </div>
+                <?php
+                }
+                ?>
                 <div class="w-50 m-2 col">
 <?php
                 $cpt=uniqid();
@@ -249,7 +269,7 @@ if(isset($_SESSION["role"])){
         if(isset($_POST["send_pb"])){
             if(isset($_POST["pb"])){
                 $idImage = (int)$_POST["send_pb"];
-                $desc = $_POST["pb"];
+                $desc = addslashes($_POST["pb"]);
                 $verifPbExist = $db->query("SELECT * FROM erreur where id_image = '$idImage'")->rowCount();
                 if($verifPbExist>0){
                     $sql = $db->query("SELECT * FROM image WHERE id='$idImage'")->fetch();
@@ -272,7 +292,7 @@ if(isset($_SESSION["role"])){
             if(isset($_POST["pb"]))
             {
                 $idTexte = (int)$_POST["send_pbT"];
-                $desc = $_POST["pb"];
+                $desc = addslashes( $_POST["pb"]);
                 $verifPbExist = $db->query("SELECT * FROM erreurt where id_texte = '$idTexte'")->rowCount();
                 if($verifPbExist>0){
                     $sql = $db->query("SELECT * FROM texte WHERE id='$idTexte'")->fetch();
